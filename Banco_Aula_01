@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Aula 01 - Banco de Dados: Conceitos Básicos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f3f6fa; color: #222;}
+    .container {max-width: 960px; margin: auto; background: #fff; border-radius: 10px; padding: 24px 32px 48px 32px; box-shadow: 0 0 32px #0001;}
+    h1 {color: #26547c;}
+    h2 {color: #276a98;}
+    .ex {background: #eaf6ff; border-left: 4px solid #3bb3e6; padding: 10px 16px; margin: 18px 0;}
+    .tabela-exemplo, .tabela-vantagem {border-collapse: collapse; width: 100%; margin-bottom: 24px;}
+    .tabela-exemplo td, .tabela-exemplo th, .tabela-vantagem td, .tabela-vantagem th {border: 1px solid #cce0ee; padding: 8px;}
+    .tabela-exemplo th, .tabela-vantagem th {background: #dbf0fb;}
+
+    .defin {background: #e3f8e1; border-left: 4px solid #48a858; padding: 10px 16px;}
+    .atividade {margin: 28px 0; background: #fef7cc; border-left: 5px solid #f6c600; padding: 14px;}
+    .sigla {color: #fff; background: #276a98; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 1em;}
+    .tag {background: #438d69; color: #fff; border-radius: 4px; padding: 2px 8px; font-size:80%;}
+    .mer-area {margin: 32px 0 8px 0; text-align: center;}
+    .legend {font-size: .97em; color:#555;}
+    .json-demo {background: #f8efe3;border-radius:5px; font-size:.95em;border:1px solid #f4dcc2; padding:12px;max-width:600px;}
+    .table-scroll {overflow-x:auto;}
+    @media (max-width: 600px) {
+      .container {padding: 10px;}
+      .tabela-exemplo, .tabela-vantagem {font-size:90%;}
+    }
+    /* MER draw button */
+    #merBtn {
+      background: #3bb3e6;
+      color: #fff;
+      font-weight: bold;
+      padding: 6px 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      font-size: 1em;
+      transition: box-shadow .14s;
+    }
+    #merBtn:hover {box-shadow:0 0 0 2px #bfeeff;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Bases de Dados - Aula 1: Conceitos Fundamentais</h1>
+  <p>
+    <b>Objetivos desta aula:</b>
+    <ul>
+      <li>Entender o que é um <b>banco de dados</b>.</li>
+      <li>Conhecer exemplos do dia a dia onde bancos de dados são utilizados.</li>
+      <li>Aprender os conceitos de <b>Entidade</b>, <b>Atributo</b>, <b>Chave Primária</b>.</li>
+      <li>Visualizar um <b>Modelo Entidade-Relacionamento (MER)</b> simples com exemplos visuais.</li>
+      <li>Conhecer a função de um <b>SGBD</b> e vantagens de usar bancos de dados.</li>
+    </ul>
+  </p>
+
+  <h2>1. O que é Banco de Dados?</h2>
+  <div class="defin">
+    <b>Banco de dados</b> é uma coleção organizada de dados relacionados, armazenada de forma estruturada, permitindo fácil acesso, gerenciamento e atualização.
+  </div>
+
+  <div class="ex">
+    <b>Analogia:</b> Imagine um armário cheio de pastas, cada pasta com várias folhas. Assim, banco de dados organiza pastas (tabelas) e folhas (registros) - só que tudo digital!
+  </div>
+
+  <b>Exemplos do cotidiano:</b>
+  <ul>
+    <li><b>Escola:</b> guarda informações de alunos, suas notas, turmas, professores e disciplinas.</li>
+    <li><b>App de delivery:</b> armazena dados de clientes, pedidos, endereços, produtos e pagamentos.</li>
+    <li><b>Redes sociais:</b> armazenam milhões de perfis, mensagens, fotos.</li>
+    <li><b>Seu celular:</b> usa banco de dados para agenda de contatos, recados, aplicativos.</li>
+  </ul>
+
+  <h2>2. O que é um SGBD?</h2>
+  <span class="sigla">SGBD</span> significa <b>Sistema Gerenciador de Banco de Dados</b>.<br>
+  É o software que permite criar, armazenar e controlar um banco de dados.
+
+  <div class="ex">
+    <b>Exemplos de SGBD:</b>
+    <ul>
+      <li><b>MySQL</b> (bastante usado em sites)</li>
+      <li><b>SQL Server</b> (Microsoft)</li>
+      <li><b>PostgreSQL</b> (open source, poderoso)</li>
+      <li><b>Oracle</b> (grandes empresas)</li>
+      <li><b>SQLite</b> (usado em milhares de apps do celular!)</li>
+    </ul>
+  </div>
+
+  <h2>3. Por que usar um Banco de Dados?</h2>
+  <div class="table-scroll">
+  <table class="tabela-vantagem">
+    <tr>
+      <th>Vantagem</th>
+      <th>Explicação</th>
+      <th>Exemplo prático</th>
+    </tr>
+    <tr>
+      <td>Armazenamento estruturado</td>
+      <td>Dados organizados em tabelas e colunas com tipos definidos</td>
+      <td>Todos os alunos num único sistema, fácil de consultar</td>
+    </tr>
+    <tr>
+      <td>Consistência</td>
+      <td>Dados seguem regras e formatos (ex: campo CPF só aceita 11 números)</td>
+      <td>Mínimo de erro ao digitar (evita duplicidade)</td>
+    </tr>
+    <tr>
+      <td>Integridade</td>
+      <td>Dados completos e corretos, com ligações garantidas</td>
+      <td>Toda nota precisa estar associada a um aluno existente</td>
+    </tr>
+    <tr>
+      <td>Rapidez nas consultas</td>
+      <td>Pesquisar informações rapidamente</td>
+      <td>Buscar histórico escolar em segundos</td>
+    </tr>
+    <tr>
+      <td>Múltiplos acessos</td>
+      <td>Várias pessoas usando ao mesmo tempo, sem perder/duplicar dados</td>
+      <td>Funcionários de vendas acessando juntos</td>
+    </tr>
+    <tr>
+      <td>Segurança</td>
+      <td>Controle de quem pode ver, alterar, apagar, etc.</td>
+      <td>Aluno só vê suas notas no sistema da escola</td>
+    </tr>
+  </table>
+  </div>
+
+  <div class="ex"><b>Situações, antes e depois do banco de dados:</b>
+    <table class="tabela-exemplo">
+      <tr><th>Situação</th><th>Sem Banco de Dados</th><th>Com Banco de Dados</th></tr>
+      <tr>
+        <td>Cadastro de alunos</td>
+        <td>Planilha manual, fácil de errar, dados desorganizados</td>
+        <td>Campos validados e organizados; controle de acesso</td>
+      </tr>
+      <tr>
+        <td>Controle de vendas</td>
+        <td>Várias planilhas/arquivos, confuso, propenso a erro</td>
+        <td>Pedidos vinculados a clientes, produtos; relatórios rápidos</td>
+      </tr>
+      <tr>
+        <td>Histórico escolar</td>
+        <td>Papeis, difícil de consultar e perder informações</td>
+        <td>Consulta digital, fácil navegação, acesso restrito</td>
+      </tr>
+      <tr>
+        <td>Estoque</td>
+        <td>Fórmulas em planilha, podem ser apagadas por acidente</td>
+        <td>Tabelas ligadas com categorias, entradas e saídas</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>4. Modelagem de Dados - Conceitos Fundamentais</h2>
+  <ul>
+    <li><b>Modelar dados</b>: planejar como serão armazenadas as informações antes de instalar qualquer sistema!</li>
+    <li>Pensar nas <b>entidades</b> (o que?), <b>atributos</b> (quais?), e <b>identificadores</b> (<b>chave primária</b> - quem é único?)</li>
+  </ul>
+  <div class="ex">
+    <b>Exemplo (Sistema de Vendas):</b><br>
+    <ul>
+      <li><b>Entidade</b>: Cliente<br>
+        <b>Atributos:</b> Nome, CPF, Endereço
+      </li>
+      <li><b>Entidade</b>: Produto<br>
+        <b>Atributos:</b> Nome, Preço, Categoria
+      </li>
+      <li><b>Entidade</b>: Venda<br>
+        <b>Atributos:</b> Data, Valor total, Cliente
+      </li>
+    </ul>
+  </div>
+  <div>
+    <b>Antes de criar:</b>
+    <ul>
+      <li>Que informações vou armazenar?</li>
+      <li>Quais entidades existem?</li>
+      <li>Como se relacionam?</li>
+      <li>O que é único? (identificador/chave primária)</li>
+    </ul>
+  </div>
+  <div class="atividade">
+    <b>Atividade rápida:</b>  
+    Pensando em um "site de biblioteca", quais seriam 3 entidades, seus atributos e o identificador de cada uma? <br>Apenas anote ideias - não precisa resposta formal!
+  </div>
+
+  <h2>5. Exemplos de Entidades, Atributos e Identificadores</h2>
+  <div class="table-scroll">
+  <table class="tabela-exemplo">
+    <tr>
+      <th>Entidade</th>
+      <th>Atributos Exemplos</th>
+      <th>Identificador (Chave Primária)</th>
+    </tr>
+    <tr>
+      <td>Aluno</td>
+      <td>Nome, Data de Nascimento, Série</td>
+      <td>RA (Registro Acadêmico)</td>
+    </tr>
+    <tr>
+      <td>Professor</td>
+      <td>Nome, Disciplina, E-mail</td>
+      <td>CPF</td>
+    </tr>
+    <tr>
+      <td>Produto</td>
+      <td>Nome, Preço, Categoria</td>
+      <td>Código</td>
+    </tr>
+    <tr>
+      <td>Venda</td>
+      <td>Data, Quantidade, Valor Total</td>
+      <td>Número da Venda</td>
+    </tr>
+    <tr>
+      <td>Carro</td>
+      <td>Modelo, Marca, Cor, Ano</td>
+      <td>Placa</td>
+    </tr>
+  </table>
+  </div>
+
+  <h2>6. <span class="sigla">MER</span> - Modelo Entidade-Relacionamento</h2>
+  <b>O que é MER?</b>  
+  <span class="sigla">MER</span> significa <b>Modelo Entidade-Relacionamento</b>:  
+  O diagrama visual que mostra:
+  <ul>
+    <li>As entidades do sistema</li>
+    <li>Seus atributos</li>
+    <li>Como se relacionam</li>
+  </ul>
+  <div class="ex">
+    <b>Símbolos MER:</b>
+    <ul>
+      <li>Retângulo = <b>Entidade</b></li>
+      <li>Elipse = <b>Atributo</b></li>
+      <li>Losango = <b>Relacionamento</b></li>
+      <li><u>Sublinhado</u> = <b>Chave Primária</b></li>
+    </ul>
+  </div>
+
+  <div class="mer-area" id="mer-area">
+    <button id="merBtn">Visualizar: Exemplo de MER (Aluno - Turma)</button><br>
+    <span class="legend">(Clique no botão para desenhar o MER!)</span>
+    <div style="margin:16px auto;" id="merSvgDiv"></div>
+  </div>
+
+  <script>
+    document.getElementById('merBtn').onclick = function() {
+      const merDiv = document.getElementById('merSvgDiv');
+      // Limpa antes
+      merDiv.innerHTML = '';
+      // Simples SVG desenhando entidades/atributos/relacionamento
+      merDiv.innerHTML = `<svg viewBox="0 0 600 235" width="100%" height="210">
+        <!-- Entidade Aluno -->
+        <rect x="45" y="30" width="110" height="38" rx="7" style="fill:#cdf0ef;stroke:#277;stroke-width:2"/>
+        <text x="100" y="55" font-family="Verdana" font-size="16" text-anchor="middle" fill="#277">Aluno</text>
+        <!-- Entidade Turma -->
+        <rect x="445" y="30" width="110" height="38" rx="7" style="fill:#cdf0ef;stroke:#277;stroke-width:2"/>
+        <text x="500" y="55" font-family="Verdana" font-size="16" text-anchor="middle" fill="#277">Turma</text>
+        <!-- Atributos Aluno -->
+        <ellipse cx="75" cy="110" rx="50" ry="18" style="fill:#fff;stroke:#999;stroke-width:1"/>
+        <text x="75" y="114" font-size="13" text-anchor="middle">Nome</text>
+        <ellipse cx="143" cy="110" rx="50" ry="18" style="fill:#fff;stroke:#999;stroke-width:1"/>
+        <text x="143" y="114" font-size="13" text-anchor="middle">DataNascimento</text>
+        <ellipse cx="110" cy="175" rx="50" ry="18" style="fill:#fff;stroke:#3bb3e6;stroke-width:2"/>
+        <text x="110" y="179" font-size="13" text-anchor="middle">
+          <tspan style="font-weight:bold;text-decoration:underline;">RA</tspan>
+        </text>
+        <!-- Atributos Turma -->
+        <ellipse cx="505" cy="105" rx="45" ry="16" style="fill:#fff;stroke:#999;stroke-width:1"/>
+        <text x="505" y="109" font-size="13" text-anchor="middle">NomeTurma</text>
+        <ellipse cx="505" cy="155" rx="45" ry="16" style="fill:#fff;stroke:#999;stroke-width:1"/>
+        <text x="505" y="159" font-size="13" text-anchor="middle">AnoLetivo</text>
+        <ellipse cx="500" cy="195" rx="57" ry="18" style="fill:#fff;stroke:#3bb3e6;stroke-width:2"/>
+        <text x="500" y="199" font-size="13" text-anchor="middle">
+          <tspan style="font-weight:bold;text-decoration:underline;">CodigoTurma</tspan>
+        </text>
+        <!-- Relacionamento -->
+        <polygon points="272,65 328,65 300,115" style="fill:#fffbf3;stroke:#cf8417;stroke-width:2"/>
+        <text x="300" y="90" font-size="14" text-anchor="middle" fill="#cf8417">Estuda</text>
+        <!-- Ligando entidades ao relacionamento -->
+        <line x1="155" y1="50" x2="272" y2="67" stroke="#888" stroke-width="2"/>
+        <line x1="445" y1="50" x2="328" y2="67" stroke="#888" stroke-width="2"/>
+        <!-- Ligando atributos -->
+        <line x1="100" y1="68" x2="75"  y2="92"  stroke="#ccc" />
+        <line x1="100" y1="68" x2="143" y2="92"  stroke="#ccc" />
+        <line x1="100" y1="68" x2="110" y2="157" stroke="#ccc" />
+        <line x1="500" y1="68" x2="505" y2="89"  stroke="#ccc" />
+        <line x1="500" y1="68" x2="505" y2="139" stroke="#ccc" />
+        <line x1="500" y1="68" x2="500" y2="177" stroke="#ccc" />
+      </svg>
+      <div class="legend">
+        <b>Legenda:</b> Retângulo: Entidade | Elipse: Atributo <br>
+        <b><span style="text-decoration:underline;">Sublinhado</span></b> = Chave Primária &nbsp;&nbsp;|&nbsp;&nbsp; Losango: Relacionamento
+        <br>
+        <em>Cada Aluno estuda em uma Turma. Cada Turma pode ter vários Alunos.</em>
+      </div>
+      `;
+    };
+  </script>
+
+  <div class="atividade">
+    <b>Praticando:</b>  
+    Descreva verbalmente, ou desenhe num papel:
+    <ul>
+      <li>1 entidade real do seu dia a dia</li>
+      <li>Quais atributos ela teria?</li>
+      <li>Qual campo seria único/identificador?</li>
+    </ul>
+    <span style="font-style:italic;color:#888;">Exemplo extra: "Filme" (atributos: título, ano, gênero, código do filme)</span>
+  </div>
+
+  <h2>7. O que é Dicionário de Dados?</h2>
+  <div class="defin">
+    O <b>Dicionário de Dados</b> descreve como cada campo das tabelas será armazenado: nome, tipo, restrições (tamanho, obrigatório, único, etc.).
+  </div>
+  <div class="ex">
+    <b>Exemplo (tabela Aluno):</b>
+    <table class="tabela-exemplo">
+      <tr><th>Campo</th><th>Tipo</th><th>Restrição</th></tr>
+      <tr><td>RA</td><td>INT</td><td>PRIMARY KEY</td></tr>
+      <tr><td>Nome</td><td>VARCHAR(100)</td><td>NOT NULL</td></tr>
+      <tr><td>DataNascimento</td><td>DATE</td><td></td></tr>
+    </table>
+  </div>
+  <div>
+    <b>Principais tipos de dados:</b>
+    <ul>
+      <li><b>INT, BIGINT, SMALLINT</b> - números inteiros</li>
+      <li><b>DECIMAL(p,s), FLOAT, DOUBLE</b> - números decimais</li>
+      <li><b>CHAR(n), VARCHAR(n)</b> - textos curtos</li>
+      <li><b>DATE, DATETIME, TIMESTAMP</b> - datas e horários</li>
+      <li><b>BOOLEAN</b> - verdadeiro/falso</li>
+    </ul>
+  </div>
+
+  <div class="atividade">
+    <b>Desafio rápido:</b>
+    <br>
+    Monte um pequeno dicionário de dados (tabela) para:
+    <ul>
+      <li>Professor</li>
+      <li>Turma</li>
+      <li>Disciplina</li>
+    </ul>
+    Inclua: nome do campo, tipo (ex: VARCHAR, INT), se é obrigatório ou chave primária.
+    <br><span style="color:#7ca;font-size:.95em;">Sugestão: tente fazer em papel, ou numa nota do celular!</span>
+  </div>
+
+  <hr>
+  <h3>Quer saber mais?</h3>
+  <p>
+    Na próxima aula, vamos explorar como conectar tabelas (relacionamentos), integridade referencial e começar a praticar com SQL!
+  </p>
+
+  <p style="font-size:.92em;color:#999;">
+    Página criada para ensino, por [Seu Nome]. Pode compartilhar livremente!
+  </p>
+</div>
+</body>
+</html>
