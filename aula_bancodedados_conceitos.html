@@ -692,23 +692,24 @@
 <section id="tab6">
   <h2>Tabelas Associativas</h2>
 
-  <p>Em bancos de dados relacionais, as <strong>tabelas associativas</strong> são usadas para resolver <strong>relacionamentos muitos-para-muitos (N:N)</strong>. Elas funcionam como "ponte", conectando as entidades envolvidas e permitindo armazenar associações entre registros dessas entidades.</p>
+  <p>Em bancos de dados relacionais, as <strong>tabelas associativas</strong> resolvem <strong>relacionamentos muitos-para-muitos (N:N)</strong>. Servem como ponte entre entidades e permitem armazenar associações entre registros dessas entidades.</p>
 
   <h3>Por que usar tabelas associativas?</h3>
-  <p>Imagine que um aluno pode se matricular em vários cursos, e cada curso pode ter vários alunos. Não é possível representar isso diretamente com apenas duas tabelas; precisamos de uma tabela intermediária que registre essas associações — essa é a tabela associativa (ex: Matrícula).</p>
+  <p>Se um aluno pode se matricular em vários cursos, e cada curso pode ter vários alunos, não basta só duas tabelas. Precisamos de uma tabela intermediária (ex: Matrícula).</p>
 
   <h3>Exemplos práticos</h3>
   <ul>
-    <li><strong>Escola:</strong> Aluno, Curso, <em>Matrícula</em> (tabela associativa entre Aluno e Curso)</li>
+    <li><strong>Escola:</strong> Aluno, Curso, <em>Matrícula</em> (entre Aluno e Curso)</li>
     <li><strong>E-commerce:</strong> Pedido, Produto, <em>ItensPedido</em> (produtos em cada pedido)</li>
     <li><strong>Biblioteca:</strong> Livro, Autor, <em>LivroAutor</em> (vários autores por livro)</li>
-    <li><strong>Academia:</strong> Aluno, Treino, <em>PlanoTreino</em> (vários alunos em treinos diferentes)</li>
-    <li><strong>Cinema:</strong> Filme, Sessão, <em>Exibição</em> (vários filmes em sessões diferentes)</li>
+    <li><strong>Academia:</strong> Aluno, Treino, <em>PlanoTreino</em></li>
+    <li><strong>Cinema:</strong> Filme, Sessão, <em>Exibição</em></li>
   </ul>
 
   <hr>
 
-  <!-- Exercícios originais mantidos -->
+  <!-- Exercícios básicos mantidos -->
+  <!-- ... todos os EXERCÍCIOS de 1 a 6 exatamente como você já tinha ... -->
   <div class="activity" id="atividade1_tabela_associativa">
     <p><b>Exercício 1 - O que é uma tabela associativa?</b></p>
     <label><input type="radio" name="qta1" value="correct"> Uma tabela que resolve relacionamento N:N entre duas entidades</label>
@@ -721,8 +722,8 @@
   <div class="activity" id="atividade2_tabela_associativa">
     <p><b>Exercício 2 - Nomeie a tabela associativa para o cenário:</b></p>
     <p>Em um sistema escolar, as entidades são: Aluno e Curso. Qual o nome e as chaves primárias da tabela que relaciona alunos com cursos?</p>
-    <input type="text" id="input_ta2_nome" placeholder="Nome da tabela associativa (ex: matricula)" style="width: 60%; padding:0.4rem;" />
-    <input type="text" id="input_ta2_chaves" placeholder="Chaves primárias separadas por vírgula (ex: id_aluno, id_curso)" style="width: 60%; padding:0.4rem; margin-top:0.5rem;" />
+    <input type="text" id="input_ta2_nome" placeholder="Nome (ex: matricula)" style="width: 60%; padding:0.4rem;" />
+    <input type="text" id="input_ta2_chaves" placeholder="Chaves primárias (ex: id_aluno, id_curso)" style="width: 60%; padding:0.4rem; margin-top:0.5rem;" />
     <button onclick="checkExercicio2()">Verificar</button>
     <div class="feedback" id="feedback-ta2"></div>
   </div>
@@ -789,16 +790,16 @@
     <div class="feedback" id="feedback-ta6"></div>
   </div>
 
-  <!-- NOVOS EXERCÍCIOS AVANÇADOS -->
+  <!-- EXERCÍCIOS AVANÇADOS ADICIONADOS -->
   <hr>
   <h3>Exercícios Avançados de Tabelas Associativas</h3>
 
   <div class="activity">
     <p><b>Desafio 7 - Análise de modelo escolar completo:</b></p>
     <p>
-      No modelo: <br>
+      No modelo:<br>
       Entidades: Aluno, Turma, Curso, Professor, Matéria, Matrícula<br>
-      Pergunta: Como ficaria a tabela associativa que registra qual aluno está em qual turma, de qual curso? (nome e chaves)
+      <span style="font-size: .97em">Como ficaria a tabela associativa que registra qual aluno está em qual turma, de qual curso? (nome e chaves)</span>
     </p>
     <input type="text" id="desafio7_nome" placeholder="Nome da tabela associativa" style="width: 50%; padding: 0.4rem;">
     <input type="text" id="desafio7_keys" placeholder="Chaves primárias" style="width: 45%; padding: 0.4rem;">
@@ -861,6 +862,7 @@
     <img id="img-d10" class="diagram" style="margin-top: 1rem; display:none;" alt="MER_ta4.png" src="MER_ta4.png">
   </div>
 </section>
+
 
 
 
@@ -1448,6 +1450,70 @@ function checkDesafio10() {
   }
 }
 
+function checkDesafio7() {
+  const nome = document.getElementById('desafio7_nome').value.trim().toLowerCase();
+  const chaves = document.getElementById('desafio7_keys').value.trim().toLowerCase();
+  const feedback = document.getElementById('feedback-d7');
+  const img = document.getElementById('img-d7');
+  const chavesCorretas = ['id_aluno', 'id_curso', 'id_turma'];
+  if(nome === 'matricula' && chavesCorretas.every(c => chaves.includes(c))) {
+    feedback.textContent = "Correto! Matrícula (id_aluno + id_curso + id_turma) é a tabela associativa e sua PK composta.";
+    feedback.className = "feedback correct";
+    if(img) img.style.display = "block";
+  } else {
+    feedback.textContent = "Reveja o nome da tabela associativa escolar e as três chaves de ligação.";
+    feedback.className = "feedback incorrect";
+    if(img) img.style.display = "none";
+  }
+}
+function checkDesafio8() {
+  const feedback = document.getElementById('feedback-d8');
+  const img = document.getElementById('img-d8');
+  const esperado = {
+    'drop-d8-cliente': ['attr-d8-clienteid', 'attr-d8-clientenome'],
+    'drop-d8-pedido': ['attr-d8-pedidoid', 'attr-d8-pedidodata'],
+    'drop-d8-prato': ['attr-d8-pratoid', 'attr-d8-pratonome'],
+    'drop-d8-ingrediente': ['attr-d8-ingredienteid', 'attr-d8-ingredientenome'],
+    'drop-d8-pedidoprato': ['attr-d8-pedidoprato_pedido', 'attr-d8-pedidoprato_prato'],
+    'drop-d8-pratoingrediente': ['attr-d8-pratoingrediente_prato', 'attr-d8-pratoingrediente_ing']
+  };
+  for(const dz in esperado) {
+    let box = document.getElementById(dz);
+    if(!box || box.children.length !== esperado[dz].length) {
+      feedback.textContent = "Revise sua distribuição. Deve haver apenas os atributos certos em cada bloco!";
+      feedback.className = "feedback incorrect";
+      if(img) img.style.display = "none";
+      return;
+    }
+    for(const id of esperado[dz]) {
+      if(!box.querySelector(`#${id}`)) {
+        feedback.textContent = "Verifique os atributos, algum está fora do lugar certo!";
+        feedback.className = "feedback incorrect";
+        if(img) img.style.display = "none";
+        return;
+      }
+    }
+  }
+  feedback.textContent = "Tudo certo! Veja o MER do restaurante abaixo.";
+  feedback.className = "feedback correct";
+  if(img) img.style.display = "block";
+}
+function checkDesafio10() {
+  const nome = document.getElementById('d10_nome').value.trim().toLowerCase();
+  const chaves = document.getElementById('d10_keys').value.trim().toLowerCase();
+  const feedback = document.getElementById('feedback-d10');
+  const img = document.getElementById('img-d10');
+  const chavesCorretas = ['id_encomenda', 'id_motorista', 'id_veiculo'];
+  if((nome === 'entrega' || nome === 'entregas') && chavesCorretas.every(c => chaves.includes(c))) {
+    feedback.textContent = "Muito bem! 'Entrega', PK composta por id_encomenda, id_motorista, id_veiculo.";
+    feedback.className = "feedback correct";
+    if(img) img.style.display = "block";
+  } else {
+    feedback.textContent = "Dica: é o nome da tabela de operação logística e as três chaves associativas.";
+    feedback.className = "feedback incorrect";
+    if(img) img.style.display = "none";
+  }
+}
 
 
 
