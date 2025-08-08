@@ -490,7 +490,12 @@
                 <li><strong>PK Simples (id_entrega)</strong>: Facilita a identificação única da entrega e permite adicionar dados exclusivos à entrega, como data, status, ou outras informações específicas.</li>
                 <li><strong>PK Composta (id_encomenda + id_motorista)</strong>: Garante que cada combinação entrega-motorista seja única. É útil quando esse conjunto representa diretamente a chave de identificação da entrega.</li>
             </ul>
-            <p>Ambas as abordagens são válidas e usados dependendo da necessidade do sistema e da complexidade do projeto. É importante entender essas opções para projetar bancos de dados eficientes e claros.</p>
+            <p><strong>Quando usar cada abordagem?</strong></p>
+            <ul>
+                <li>Utilize uma <em>chave primária simples</em> quando a entidade precisa de um identificador único simples, especialmente se tiver atributos próprios além dos relacionamentos, e para facilitar a manutenção e consultas.</li>
+                <li>Opte por uma <em>chave primária composta</em> quando a própria combinação das chaves estrangeiras define unicamente o registro e a entidade não possui atributos exclusivos. Ideal para tabelas associativas ou relações onde a composição é natural e desejada.</li>
+            </ul>
+            <p>Entender essas opções permite projetar bancos de dados eficientes e claros, adequados ao contexto e às necessidades do sistema.</p>
 
             <h3>Exercícios Complementares</h3>
 
@@ -501,7 +506,7 @@
                 <label><input type="radio" name="q7" value="incorrect"> 1:N (Um para muitos)</label>
                 <label><input type="radio" name="q7" value="correct"> 1:1 (Um para um)</label>
                 <label><input type="radio" name="q7" value="incorrect"> N:N (Muitos para muitos)</label>
-                <button onclick="checkAnswer('q7', 'atividade7')">Responder</button>
+                <button onclick="checkAnswer('q7', 'q7')">Responder</button>
                 <div class="feedback" id="feedback-q7"></div>
             </div>
 
@@ -512,7 +517,7 @@
                 <label><input type="radio" name="q8" value="correct"> Chave composta: id_aluno + id_aula</label>
                 <label><input type="radio" name="q8" value="incorrect"> Um campo id_presenca único</label>
                 <label><input type="radio" name="q8" value="incorrect"> id_aluno</label>
-                <button onclick="checkAnswer('q8', 'atividade8')">Responder</button>
+                <button onclick="checkAnswer('q8', 'q8')">Responder</button>
                 <div class="feedback" id="feedback-q8"></div>
             </div>
 
@@ -562,7 +567,7 @@
                 <label><input type="radio" name="q11" value="correct"> DATE</label>
                 <label><input type="radio" name="q11" value="incorrect"> VARCHAR</label>
                 <label><input type="radio" name="q11" value="incorrect"> INTEGER</label>
-                <button onclick="checkAnswer('q11', 'atividade11')">Responder</button>
+                <button onclick="checkAnswer('q11', 'q11')">Responder</button>
                 <div class="feedback" id="feedback-q11"></div>
             </div>
 
@@ -573,7 +578,7 @@
                 <label><input type="radio" name="q12" value="correct"> Uma tabela associativa</label>
                 <label><input type="radio" name="q12" value="incorrect"> Uma chave primária simples</label>
                 <label><input type="radio" name="q12" value="incorrect"> Uma única tabela</label>
-                <button onclick="checkAnswer('q12', 'atividade12')">Responder</button>
+                <button onclick="checkAnswer('q12', 'q12')">Responder</button>
                 <div class="feedback" id="feedback-q12"></div>
             </div>
 
@@ -802,12 +807,10 @@
             const feedback = document.getElementById('feedback-atividade9');
 
             const nomeCorreto = 'matricula';
-            // Permitir vírgula e espaço na entrada
             const chavesCorretas = ['id_aluno','id_curso'];
 
             const chaves = chavesStr.split(',').map(s => s.trim());
 
-            // Verificar nome da tabela e chaves
             if(nomeTabela === nomeCorreto &&
                 chavesCorretas.every(c => chaves.includes(c)) &&
                 chaves.length === chavesCorretas.length) {
@@ -827,5 +830,6 @@
     </script>
 </body>
 </html>
+
 
 
