@@ -495,6 +495,11 @@
                 <li>Utilize uma <em>chave primária simples</em> quando a entidade precisa de um identificador único simples, especialmente se tiver atributos próprios além dos relacionamentos, e para facilitar a manutenção e consultas.</li>
                 <li>Opte por uma <em>chave primária composta</em> quando a própria combinação das chaves estrangeiras define unicamente o registro e a entidade não possui atributos exclusivos. Ideal para tabelas associativas ou relações onde a composição é natural e desejada.</li>
             </ul>
+            <p><strong>Exemplo prático complementar:</strong></p>
+            <ul>
+                <li>Uma tabela <em>Pagamento</em> pode ter um <em>id_pagamento</em> simples como PK, útil se cada pagamento tem dados próprios como valor, data e status.</li>
+                <li>Uma tabela <em>AlunoCurso</em> que registra inscrições geralmente usa chave composta <em>id_aluno + id_curso</em> se não precisar de um ID exclusivo.</li>
+            </ul>
             <p>Entender essas opções permite projetar bancos de dados eficientes e claros, adequados ao contexto e às necessidades do sistema.</p>
 
             <h3>Exercícios Complementares</h3>
