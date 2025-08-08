@@ -205,49 +205,76 @@
     </nav>
 
     <main>
-        <!-- Aba 1 - Modelagem de Dados -->
-        <section id="tab1" class="active">
-            <h2>Modelagem de Dados</h2>
-            <p>Vamos aprender o que são <strong>Entidades</strong>, <strong>Atributos</strong> e <strong>Relacionamentos</strong>.</p>
-            <ul>
-                <li><b>Entidade</b>: Representa um objeto ou conceito do mundo real (ex: Aluno, Produto, Cliente).</li>
-                <li><b>Atributo</b>: Informação que descreve a entidade (ex: nome, idade, preço).</li>
-                <li><b>Relacionamento</b>: Associação entre entidades (ex: Aluno <em>matricula</em> Curso).</li>
-            </ul>
+       <!-- Aba 1 - Modelagem de Dados -->
+<section id="tab1" class="active">
+    <h2>Modelagem de Dados</h2>
+    <p>Vamos aprender o que são <strong>Entidades</strong>, <strong>Atributos</strong> e <strong>Relacionamentos</strong>.</p>
 
-            <h3>Exemplo prático: Instituição Escolar</h3>
-            <p>Temos as entidades <b>Aluno</b>, <b>Curso</b> e <b>Matrícula</b>. Um aluno pode se matricular em vários cursos.</p>
-            <img class="diagram" src="https://www.estrategiaconcursos.com.br/wp-content/uploads/2020/10/Modelo-Entidade-Relacionamento-MER-2.png" alt="Modelo entidade relacionamento exemplo" />
+    <h3>Exemplo prático: Instituição Escolar — Entidade Aluno</h3>
+    <p>A entidade <b>Aluno</b> possui os seguintes atributos:</p>
+    <ul>
+        <li>id_aluno (chave primária)</li>
+        <li>nome</li>
+        <li>data_nascimento</li>
+        <li>cpf</li>
+        <li>telefone</li>
+        <li>email</li>
+    </ul>
 
-            <div class="activity" id="activity1">
-                <p><b>Atividade 1 - Quiz: </b>Qual das alternativas é um exemplo de entidade?</p>
-                <label><input type="radio" name="q1" value="incorrect" /> Matrícula de cursos</label>
-                <label><input type="radio" name="q1" value="correct" /> Aluno</label>
-                <label><input type="radio" name="q1" value="incorrect" /> Matéria</label>
-                <button onclick="checkAnswer('q1', 'activity1')">Responder</button>
-                <div class="feedback" id="feedback-q1"></div>
-            </div>
+    <h3>Exercício Interativo</h3>
+    <p>Distribua os atributos abaixo entre as entidades <b>Curso</b> e <b>Matrícula</b>. Arraste cada atributo para a entidade correta.</p>
 
-            <h3>Exemplo prático: Comércio de Bairro</h3>
-            <p>Entidades como <b>Produto</b>, <b>Estoque</b> e <b>Venda</b> são essenciais para controlar as operações.</p>
-            <img class="diagram" src="https://upload.wikimedia.org/wikipedia/commons/7/74/Database-Entity-Relationship-Model.png" alt="Diagrama entidade relacionamento" />
+    <div style="display: flex; gap: 2rem; margin-bottom: 1rem;">
+        <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 180px;">
+            <h4>Curso</h4>
+            <div id="drop-curso" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        </div>
+        <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 180px;">
+            <h4>Matrícula</h4>
+            <div id="drop-matricula" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        </div>
+    </div>
 
-            <div class="activity" id="activity2">
-                <p><b>Atividade 2 - Arrastar e soltar: </b>Associe a entidade ao seu atributo correto.</p>
-                <div class="drag-container">
-                    <div id="drag-Produto" class="draggable-item" draggable="true">Produto</div>
-                    <div id="drag-Estoque" class="draggable-item" draggable="true">Estoque</div>
-                    <div id="drag-Venda" class="draggable-item" draggable="true">Venda</div>
-                </div>
-                <div style="margin-top:1rem; display:flex; gap:1rem;">
-                    <div class="drop-target" data-accepts="Produto">Nome, Preço, Categoria</div>
-                    <div class="drop-target" data-accepts="Estoque">Quantidade, Localização</div>
-                    <div class="drop-target" data-accepts="Venda">Data, Valor Total</div>
-                </div>
-                <button onclick="checkDragDropAnswers('activity2')">Verificar</button>
-                <div class="feedback" id="feedback-activity2"></div>
-            </div>
-        </section>
+    <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px;">
+        <h4>Atributos para distribuir</h4>
+        <div id="drag-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <div id="attr-id_curso" class="draggable-item" draggable="true" ondragstart="drag(event)">id_curso</div>
+            <div id="attr-nome_curso" class="draggable-item" draggable="true" ondragstart="drag(event)">nome_curso</div>
+            <div id="attr-duracao_meses" class="draggable-item" draggable="true" ondragstart="drag(event)">duracao_meses</div>
+            <div id="attr-categoria" class="draggable-item" draggable="true" ondragstart="drag(event)">categoria</div>
+            <div id="attr-id_matricula" class="draggable-item" draggable="true" ondragstart="drag(event)">id_matricula</div>
+            <div id="attr-id_aluno_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_aluno (FK)</div>
+            <div id="attr-id_curso_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_curso (FK)</div>
+            <div id="attr-data_matricula" class="draggable-item" draggable="true" ondragstart="drag(event)">data_matricula</div>
+            <div id="attr-situacao" class="draggable-item" draggable="true" ondragstart="drag(event)">situacao</div>
+        </div>
+    </div>
+
+    <button style="margin-top: 1rem;" onclick="checkModelagemDados()">Verificar Resposta</button>
+    <div class="feedback" id="feedback-modelagem"></div>
+
+    <h3>Mais exemplos práticos para ensino da modelagem de dados</h3>
+    <ul>
+        <li><b>Comércio de Bairro</b><br>
+            Produto (id_produto, nome, preco, categoria, fornecedor), Estoque (id_estoque, id_produto (FK), quantidade, localizacao), Venda (id_venda, id_produto (FK), data_venda, quantidade, valor_total)</li>
+        <li><b>E-commerce</b><br>
+            Usuário (id_usuario, nome, email, telefone, endereco), Produto (id_produto, nome, preco, descricao, estoque), Pedido (id_pedido, id_usuario (FK), data_pedido, status)</li>
+        <li><b>Clínica de Saúde</b><br>
+            Paciente (id_paciente, nome, cpf, telefone, endereco), Médico (id_medico, nome, especialidade, crm), Consulta (id_consulta, id_paciente (FK), id_medico (FK), data, hora)</li>
+        <li><b>Biblioteca</b><br>
+            Livro (id_livro, titulo, autor, editora, ano), Usuário (id_usuario, nome, telefone, endereco), Empréstimo (id_emprestimo, id_livro (FK), id_usuario (FK), data_emprestimo, data_devolucao)</li>
+        <li><b>Logística/Transportadora</b><br>
+            Encomenda (id_encomenda, descricao, peso, destino), Cliente (id_cliente, nome, telefone, endereco), Motorista (id_motorista, nome, telefone, placa_veiculo), Entrega (id_entrega, id_encomenda (FK), id_motorista (FK), data_entrega)</li>
+    </ul>
+
+    <img class="diagram" src="MER_01.png" alt="Diagrama MER exemplo 1 - Instituição Escolar" />
+    <img class="diagram" src="MER_02.png" alt="Diagrama MER exemplo 2 - Comércio de Bairro" />
+    <img class="diagram" src="MER_03.png" alt="Diagrama MER exemplo 3 - E-commerce" />
+    <img class="diagram" src="MER_04.png" alt="Diagrama MER exemplo 4 - Clínica de Saúde" />
+    <img class="diagram" src="MER_05.png" alt="Diagrama MER exemplo 5 - Biblioteca" />
+    <img class="diagram" src="MER_06.png" alt="Diagrama MER exemplo 6 - Logística/Transportadora" />
+</section>
+
 
         <!-- Aba 2 - PK / FK -->
         <section id="tab2">
