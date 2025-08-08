@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aula Interativa de Banco de Dados - Senac SP</title>
+    <style>
+        /* Cores do Senac SP (azul, laranja, neutros) */
+        :root {
+            --senac-blue: #005BAC;
+            --senac-orange: #f58220;
+            --senac-gray-dark: #333333;
+            --senac-gray-light: #f0f0f0;
+            --senac-white: #ffffff;
+            --senac-border: #cccccc;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: var(--senac-gray-light);
+            color: var(--senac-gray-dark);
+        }
+
+        header {
+            background-color: var(--senac-blue);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        nav {
+            display: flex;
+            background-color: var(--senac-white);
+            border-bottom: 2px solid var(--senac-border);
+        }
+
+        nav button {
+            flex-grow: 1;
+            padding: 1rem;
+            border: none;
+            background: var(--senac-white);
+            color: var(--senac-gray-dark);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            border-bottom: 3px solid transparent;
+            user-select: none;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background-color: var(--senac-orange);
+            color: var(--senac-white);
+            border-bottom: 3px solid var(--senac-blue);
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: auto;
+            background-color: var(--senac-white);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-height: 600px;
+        }
+
+        section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        h2 {
+            color: var(--senac-blue);
+            border-bottom: 2px solid var(--senac-orange);
+            padding-bottom: 0.3rem;
+        }
+
+        p, li {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity {
+            margin: 1rem 0 2rem 0;
+            padding: 1rem;
+            border: 2px solid var(--senac-border);
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+
+        .feedback {
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        img.diagram {
+            max-width: 100%;
+            height: auto;
+            margin-top: 1rem;
+            border: 1px solid var(--senac-border);
+            border-radius: 4px;
+        }
+
+        video {
+            max-width: 100%;
+            margin-top: 1rem;
+            border-radius: 6px;
+        }
+
+        label {
+            display: block;
+            margin: 0.3rem 0;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        /* Drag and drop styles */
+        .drag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .draggable-item {
+            padding: 0.5rem 1rem;
+            background-color: var(--senac-blue);
+            color: white;
+            border-radius: 5px;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .drop-target {
+            min-width: 150px;
+            min-height: 40px;
+            border: 2px dashed var(--senac-blue);
+            border-radius: 5px;
+            padding: 0.5rem;
+            text-align: center;
+            font-style: italic;
+            color: var(--senac-gray-dark);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--senac-blue);
+            color: white;
+            margin-top: 2rem;
+            border-radius: 0 0 8px 8px;
+            user-select: none;
+        }
+
+        input[type="text"] {
+            padding: 0.4rem;
+            font-size: 1rem;
+            border: 1px solid var(--senac-border);
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>Aula Interativa: Banco de Dados - Senac SP</header>
+
+    <nav id="tabs">
+        <button class="tab-button active" data-tab="tab1">Modelagem de Dados</button>
+        <button class="tab-button" data-tab="tab2">PK / FK</button>
+        <button class="tab-button" data-tab="tab3">MER</button>
+        <button class="tab-button" data-tab="tab4">Dicionário de Dados</button>
+        <button class="tab-button" data-tab="tab5">Tipos de Dados</button>
+        <button class="tab-button" data-tab="tab6">Tabelas Associativas</button>
+        <button class="tab-button" data-tab="tab7">Revisão & Projeto</button>
+    </nav>
+
+    <main>
+        <!-- Aba 1 - Modelagem de Dados -->
+        <section id="tab1" class="active">
+            <h2>Modelagem de Dados</h2>
+            <p>Vamos aprender o que são <strong>Entidades</strong>, <strong>Atributos</strong> e <strong>Relacionamentos</strong>.</p>
+            <ul>
+                <li><b>Entidade</b>: Representa um objeto ou conceito do mundo real (ex: Aluno, Produto, Cliente).</li>
+                <li><b>Atributo</b>: Informação que descreve a entidade (ex: nome, idade, preço).</li>
+                <li><b>Relacionamento</b>: Associação entre entidades (ex: Aluno <em>matricula</em> Curso).</li>
+            </ul>
+
+            <h3>Exemplo prático: Instituição Escolar</h3>
+            <p>Temos as entidades <b>Aluno</b>, <b>Curso</b> e <b>Matrícula</b>. Um aluno pode se matricular em vários cursos.</p>
+            <img class="diagram" src="https://www.estrategiaconcursos.com.br/wp-content/uploads/2020/10/Modelo-Entidade-Relacionamento-MER-2.png" alt="Modelo entidade relacionamento exemplo" />
+
+            <div class="activity" id="activity1">
+                <p><b>Atividade 1 - Quiz: </b>Qual das alternativas é um exemplo de entidade?</p>
+                <label><input type="radio" name="q1" value="incorrect" /> Matrícula de cursos</label>
+                <label><input type="radio" name="q1" value="correct" /> Aluno</label>
+                <label><input type="radio" name="q1" value="incorrect" /> Matéria</label>
+                <button onclick="checkAnswer('q1', 'activity1')">Responder</button>
+                <div class="feedback" id="feedback-q1"></div>
+            </div>
+
+            <h3>Exemplo prático: Comércio de Bairro</h3>
+            <p>Entidades como <b>Produto</b>, <b>Estoque</b> e <b>Venda</b> são essenciais para controlar as operações.</p>
+            <img class="diagram" src="https://upload.wikimedia.org/wikipedia/commons/7/74/Database-Entity-Relationship-Model.png" alt="Diagrama entidade relacionamento" />
+
+            <div class="activity" id="activity2">
+                <p><b>Atividade 2 - Arrastar e soltar: </b>Associe a entidade ao seu atributo correto.</p>
+                <div class="drag-container">
+                    <div id="drag-Produto" class="draggable-item" draggable="true">Produto</div>
+                    <div id="drag-Estoque" class="draggable-item" draggable="true">Estoque</div>
+                    <div id="drag-Venda" class="draggable-item" draggable="true">Venda</div>
+                </div>
+                <div style="margin-top:1rem; display:flex; gap:1rem;">
+                    <div class="drop-target" data-accepts="Produto">Nome, Preço, Categoria</div>
+                    <div class="drop-target" data-accepts="Estoque">Quantidade, Localização</div>
+                    <div class="drop-target" data-accepts="Venda">Data, Valor Total</div>
+                </div>
+                <button onclick="checkDragDropAnswers('activity2')">Verificar</button>
+                <div class="feedback" id="feedback-activity2"></div>
+            </div>
+        </section>
+
+        <!-- Aba 2 - PK / FK -->
+        <section id="tab2">
+            <h2>Chave Primária (PK) e Chave Estrangeira (FK)</h2>
+            <p>Entenda a importância das chaves para identificar unicamente registros e fazer relacionamentos entre tabelas.</p>
+
+            <h3>Conceitos</h3>
+            <ul>
+                <li><b>Chave Primária (PK)</b>: Identificador único de uma entidade (ex: CPF do aluno).</li>
+                <li><b>Chave Estrangeira (FK)</b>: Campo que referencia a PK em outra tabela para associar dados.</li>
+            </ul>
+
+            <h3>Exemplo prático: E-commerce</h3>
+            <p>Usuário (PK: id_usuario) realiza Venda (FK: id_usuario) de Produtos.</p>
+
+            <img class="diagram" src="https://www.guj.com.br/uploads/default/original/3X/c/c/cc4eb31aa26533ad2ce9adfc6d5f15d65e51a0cb.png" alt="MER E-commerce chave PK e FK" />
+
+            <div class="activity" id="activity3">
+                <p><b>Atividade 3 - Quiz: </b>Qual desses campos seria uma chave primária?</p>
+                <label><input type="radio" name="q3" value="correct" /> CPF</label>
+                <label><input type="radio" name="q3" value="incorrect" /> Nome</label>
+                <label><input type="radio" name="q3" value="incorrect" /> Endereço</label>
+                <button onclick="checkAnswer('q3', 'activity3')">Responder</button>
+                <div class="feedback" id="feedback-q3"></div>
+            </div>
+
+            <div class="activity" id="activity4">
+                <p><b>Atividade 4 - Arrastar e soltar: </b>Associe as PKs às FKs corretas.</p>
+                <div class="drag-container">
+                    <div id="drag-cpf" class="draggable-item" draggable="true">CPF (Usuário)</div>
+                    <div id="drag-id_venda" class="draggable-item" draggable="true">id_venda (Venda)</div>
+                    <div id="drag-id_produto" class="draggable-item" draggable="true">id_produto (Produto)</div>
+                </div>
+
+                <div style="margin-top:1rem; display:flex; gap:1rem;">
+                    <div class="drop-target" data-accepts="CPF">FK Usuário</div>
+                    <div class="drop-target" data-accepts="id_venda">FK Venda</div>
+                    <div class="drop-target" data-accepts="id_produto">FK Produto</div>
+                </div>
+
+                <button onclick="checkDragDropAnswers('activity4')">Verificar</button>
+                <div class="feedback" id="feedback-activity4"></div>
+            </div>
+        </section>
+
+        <!-- Aba 3 - MER -->
+        <section id="tab3">
+            <h2>Modelo Entidade-Relacionamento (MER)</h2>
+            <p>Aprenda a construir e interpretar diagramas MER para representar o banco de dados.</p>
+
+            <img class="diagram" src="https://www.estrategiaconcursos.com.br/wp-content/uploads/2020/10/modelo-entidade-relacionamento-MER-exemplo.png" alt="Diagrama MER exemplo" />
+
+            <div class="activity" id="activity5">
+                <p><b>Atividade 5 - Verdadeiro ou falso: </b>Relacionamentos N:N precisam usar tabela associativa.</p>
+                <label><input type="radio" name="q5" value="correct" /> Verdadeiro</label>
+                <label><input type="radio" name="q5" value="incorrect" /> Falso</label>
+                <button onclick="checkAnswer('q5', 'activity5')">Responder</button>
+                <div class="feedback" id="feedback-q5"></div>
+            </div>
+
+            <div class="activity" id="activity6">
+                <p><b>Atividade 6 - Preenchimento: </b>Qual a tabela que representa uma associação N:N?</p>
+                <input type="text" id="input6" placeholder="Digite sua resposta aqui" style="width: 60%; padding:0.4rem;" />
+                <button onclick="checkTextAnswer('input6', 'atividade6')">Verificar</button>
+                <div class="feedback" id="feedback-atividade6"></div>
+            </div>
+        </section>
+
+        <!-- Aba 4 - Dicionário de Dados -->
+        <section id="tab4">
+            <h2>Dicionário de Dados</h2>
+            <p>O dicionário de dados serve para documentar cada tabela, campo e tipo no banco de dados.</p>
+
+            <h3>Exemplo</h3>
+            <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr style="background-color: var(--senac-blue); color: white;">
+                        <th>Tabela</th>
+                        <th>Campo</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Aluno</td>
+                        <td>id_aluno</td>
+                        <td>INTEGER</td>
+                        <td>Identificador do aluno (PK)</td>
+                    </tr>
+                    <tr>
+                        <td>Aluno</td>
+                        <td>nome</td>
+                        <td>VARCHAR(100)</td>
+                        <td>Nome completo</td>
+                    </tr>
+                    <tr>
+                        <td>Curso</td>
+                        <td>id_curso</td>
+                        <td>INTEGER</td>
+                        <td>Identificador do curso (PK)</td>
+                    </tr>
+                    <tr>
+                        <td>Curso</td>
+                        <td>descricao</td>
+                        <td>VARCHAR(100)</td>
+                        <td>Descrição do curso</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="activity" id="activity7">
+                <p><b>Atividade 7 - Quiz: </b>Qual tipo de dado é mais apropriado para o campo "nome"?</p>
+                <label><input type="radio" name="q7" value="correct" /> VARCHAR</label>
+                <label><input type="radio" name="q7" value="incorrect" /> INTEGER</label>
+                <label><input type="radio" name="q7" value="incorrect" /> DATE</label>
+                <button onclick="checkAnswer('q7', 'activity7')">Responder</button>
+                <div class="feedback" id="feedback-q7"></div>
+            </div>
+
+            <div class="activity" id="activity8">
+                <p><b>Atividade 8 - Associação: </b>Associe a tabela ao seu campo correto.</p>
+                <div class="drag-container">
+                    <div id="drag-Aluno" class="draggable-item" draggable="true">Aluno</div>
+                    <div id="drag-Curso" class="draggable-item" draggable="true">Curso</div>
+                    <div id="drag-id_aluno" class="draggable-item" draggable="true">id_aluno</div>
+                    <div id="drag-descricao" class="draggable-item" draggable="true">descricao</div>
+                </div>
+                <div style="margin-top:1rem; display:flex; gap:1rem;">
+                    <div class="drop-target" data-accepts="Aluno">Campos da tabela Aluno</div>
+                    <div class="drop-target" data-accepts="Curso">Campos da tabela Curso</div>
+                </div>
+                <button onclick="checkDragDropAnswers('activity8')">Verificar</button>
+                <div class="feedback" id="feedback-activity8"></div>
+            </div>
+        </section>
+
+        <!-- Aba 5 - Tipos de Dados -->
+        <section id="tab5">
+            <h2>Tipos de Dados</h2>
+            <p>Descubra os tipos mais comuns que usados para armazenar informações diferentes no banco.</p>
+
+            <ul>
+                <li>VARCHAR: texto de tamanho variável</li>
+                <li>INTEGER: número inteiro</li>
+                <li>DECIMAL: número com casas decimais</li>
+                <li>DATE: data</li>
+                <li>BOOLEAN: verdadeiro ou falso</li>
+            </ul>
+
+            <div class="activity" id="activity9">
+                <p><b>Atividade 9 - Preenchimento de lacunas:</b> Qual tipo de dado usar para armazenar a idade de uma pessoa?</p>
+                <input type="text" id="input9" placeholder="Digite o tipo de dado correto" style="width: 60%; padding:0.4rem;" />
+                <button onclick="checkTextAnswer('input9', 'atividade9')">Verificar</button>
+                <div class="feedback" id="feedback-atividade9"></div>
+            </div>
+        </section>
+
+        <!-- Aba 6 - Tabelas Associativas -->
+        <section id="tab6">
+            <h2>Tabelas Associativas</h2>
+            <p>Essas tabelas são usadas para resolver relacionamentos muitos-para-muitos (N:N).</p>
+
+            <h3>Exemplo</h3>
+            <p>Na biblioteca, uma tabela associativa "Empréstimo" liga Usuário e Livro.</p>
+            <img class="diagram" src="https://www.estrategiaconcursos.com.br/wp-content/uploads/2017/02/Modelo-Entidade-Relacionamento-Empréstimo.png" alt="MER tabela associativa" />
+
+            <div class="activity" id="activity10">
+                <p><b>Atividade 10 - Verdadeiro ou falso:</b> Uma tabela associativa resolve relacionamentos N:N.</p>
+                <label><input type="radio" name="q10" value="correct" /> Verdadeiro</label>
+                <label><input type="radio" name="q10" value="incorrect" /> Falso</label>
+                <button onclick="checkAnswer('q10', 'activity10')">Responder</button>
+                <div class="feedback" id="feedback-q10"></div>
+            </div>
+        </section>
+
+        <!-- Aba 7 - Revisão Geral e Mini-Projeto -->
+        <section id="tab7">
+            <h2>Revisão Geral & Mini-Projeto</h2>
+            <p>Vamos revisar tudo que aprendemos.</p>
+
+            <div class="activity" id="activity11">
+                <p><b>Atividade 11 - Múltipla escolha:</b> Qual entidade não é comum em um sistema de e-commerce?</p>
+                <label><input type="radio" name="q11" value="correct" /> Motorista</label>
+                <label><input type="radio" name="q11" value="incorrect" /> Produto</label>
+                <label><input type="radio" name="q11" value="incorrect" /> Usuário</label>
+                <button onclick="checkAnswer('q11', 'activity11')">Responder</button>
+                <div class="feedback" id="feedback-q11"></div>
+            </div>
+
+            <div class="activity" id="activity12">
+                <p><b>Atividade 12 - Montagem MER simplificada:</b> Monte a tabala associativa que liga Aluno e Curso.</p>
+                <p><em>Dica: a tabela associativa deve conter as chaves primárias das duas tabelas relacionadas.</em></p>
+                <input type="text" id="input12" placeholder="Nome da tabela associativa" style="width: 60%; padding:0.4rem; margin-bottom:0.5rem;" />
+                <input type="text" id="input12-keys" placeholder="Chaves primárias separadas por vírgula" style="width: 60%; padding:0.4rem;" />
+                <button onclick="checkAssociateTable()">Verificar</button>
+                <div class="feedback" id="feedback-atividade12"></div>
+            </div>
+
+            <h3>Mini Projeto</h3>
+            <p>Crie um modelo MER completo para um sistema que você escolher (exemplos: academia, loja, clínica). Documente os campos no dicionário de dados e indique os tipos apropriados.</p>
+        </section>
+    </main>
+
+    <footer>
+        Desenvolvido para Senac SP - Aula Interativa de Banco de Dados
+    </footer>
+
+    <script>
+        // Navegação das abas
+        const tabs = document.querySelectorAll('.tab-button');
+        const sections = document.querySelectorAll('section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+                localStorage.setItem('activeTab', tab.dataset.tab);
+            });
+        });
+
+        // Carregar aba ativa do localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeTab = localStorage.getItem('activeTab');
+            if(activeTab) {
+                const btn = document.querySelector(`button[data-tab="${activeTab}"]`);
+                if(btn) btn.click();
+            }
+        });
+
+        // Função para checar resposta de múltipla escolha
+        function checkAnswer(questionName, activityId) {
+            const options = document.getElementsByName(questionName);
+            let feedback = document.getElementById('feedback-' + questionName);
+            let activityFeedback = document.getElementById('feedback-' + activityId);
+            let selected = false;
+            let correct = false;
+            for (const option of options) {
+                if(option.checked) {
+                    selected = true;
+                    if(option.value === 'correct') {
+                        correct = true;
+                    }
+                    break;
+                }
+            }
+            if(!selected) {
+                feedback.textContent = 'Por favor, selecione uma opção.';
+                feedback.className = 'feedback incorrect';
+                if(activityFeedback) {
+                    activityFeedback.textContent = '';
+                }
+                return;
+            }
+            if(correct) {
+                feedback.textContent = 'Resposta correta!';
+                feedback.className = 'feedback correct';
+                if(activityFeedback) {
+                    activityFeedback.textContent = '';
+                }
+            } else {
+                feedback.textContent = 'Resposta incorreta, tente novamente.';
+                feedback.className = 'feedback incorrect';
+                if(activityFeedback) {
+                    activityFeedback.textContent = '';
+                }
+            }
+        }
+
+        // Função para checar preenchimento de texto
+        function checkTextAnswer(inputId, feedbackId) {
+            const input = document.getElementById(inputId);
+            const feedback = document.getElementById('feedback-' + feedbackId);
+            if(!input.value.trim()) {
+                feedback.textContent = 'Por favor, preencha o campo.';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+            // Respostas esperadas simplificadas para exemplo
+            let respostaCorreta = {
+                'atividade6': 'empréstimo',
+                'atividade9': 'integer'
+            };
+            let userAnswer = input.value.trim().toLowerCase();
+            let correctAnswer = respostaCorreta[feedbackId].toLowerCase();
+            if(userAnswer === correctAnswer) {
+                feedback.textContent = 'Resposta correta!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Resposta incorreta, tente novamente.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        // Drag & drop funcionando para atividades
+        let dragSrcEl = null;
+
+        document.querySelectorAll('.draggable-item').forEach(item => {
+            item.addEventListener('dragstart', function(e) {
+                dragSrcEl = this;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', this.id);
+            });
+        });
+
+        document.querySelectorAll('.drop-target').forEach(target => {
+            target.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '#ddd';
+            });
+            target.addEventListener('dragleave', function(e) {
+                this.style.backgroundColor = '';
+            });
+            target.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const id = e.dataTransfer.getData('text/plain');
+                const dragged = document.getElementById(id);
+                if(this.children.length === 0) {
+                    this.appendChild(dragged);
+                    this.style.backgroundColor = '';
+                }
+            });
+        });
+
+        // Verificação das respostas das atividades drag&drop
+        function checkDragDropAnswers(activityId) {
+            let feedback = document.getElementById('feedback-' + activityId);
+            let correct = true;
+
+            if(activityId === 'activity2') {
+                const drops = document.querySelectorAll('#activity2 .drop-target');
+                const correctMatches = {
+                    'Produto': 'Produto',
+                    'Estoque': 'Estoque',
+                    'Venda': 'Venda'
+                };
+                drops.forEach(drop => {
+                    if(drop.children.length === 0) {
+                        correct = false;
+                        return;
+                    }
+                    let draggedId = drop.children[0].id.replace('drag-', '');
+                    if(correctMatches[drop.dataset.accepts] !== draggedId) {
+                        correct = false;
+                    }
+                });
+            }
+
+            if(activityId === 'activity4') {
+                const drops = document.querySelectorAll('#activity4 .drop-target');
+                const correctMatches = {
+                    'CPF': 'cpf',
+                    'id_venda': 'id_venda',
+                    'id_produto': 'id_produto'
+                };
+                drops.forEach(drop => {
+                    if(drop.children.length === 0) {
+                        correct = false;
+                        return;
+                    }
+                    let draggedId = drop.children[0].id.replace('drag-', '');
+                    if(correctMatches[drop.dataset.accepts] !== draggedId) {
+                        correct = false;
+                    }
+                });
+            }
+
+            if(activityId === 'activity8') {
+                // activity 8 associação tabela-campo
+                const drops = document.querySelectorAll('#activity8 .drop-target');
+                const correctMatches = {
+                    'Aluno': ['Aluno', 'id_aluno'],
+                    'Curso': ['Curso', 'descricao']
+                };
+
+                drops.forEach(drop => {
+                    if(drop.children.length < 1) {
+                        correct = false;
+                        return;
+                    }
+                    let draggedItems = Array.from(drop.children).map(c => c.id.replace('drag-', ''));
+                    let allowed = correctMatches[drop.dataset.accepts];
+                    // Todos os filhos precisam estar permitidos
+                    draggedItems.forEach(item => {
+                        if(!allowed.includes(item)) {
+                            correct = false;
+                        }
+                    });
+                });
+            }
+
+            feedback.textContent = correct ? 'Parabéns! Resposta correta.' : 'Há erros na associação, tente novamente.';
+            feedback.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+        }
+
+        // Atividade 12 verifica tabela associativa
+        function checkAssociateTable() {
+            const nomeTabela = document.getElementById('input12').value.trim().toLowerCase();
+            const chaves = document.getElementById('input12-keys').value.trim().toLowerCase();
+            const feedback = document.getElementById('feedback-atividade12');
+
+            const nomeCorreto = 'matricula';
+            const chavesCorretas = ['id_aluno', 'id_curso'];
+
+            let chavesLista = chaves.split(',').map(e => e.trim());
+
+            let nomeOk = nomeTabela === nomeCorreto;
+            let chavesOk = chavesCorretas.every(c => chavesLista.includes(c));
+
+            if(nomeOk && chavesOk) {
+                feedback.textContent = 'Muito bem! Você identificou corretamente a tabela associativa.';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Resposta incorreta, tente novamente.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+    </script>
+</body>
+</html>
