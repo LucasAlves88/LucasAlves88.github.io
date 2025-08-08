@@ -161,6 +161,8 @@
     <button class="tab-button active" data-tab="tab1">Modelagem de Dados</button>
     <button class="tab-button" data-tab="tab2">PK / FK</button>
     <button class="tab-button" data-tab="tab6">Tabelas Associativas</button>
+    <button class="tab-button" data-tab="tabDD">Dicionário de Dados</button>
+
 </nav>
 <main>
 <!-- ===== ABA 1: Modelagem de Dados ===== -->
@@ -833,6 +835,182 @@
     <img id="img-ta10" src="MER_ta4.png" style="display:none; margin-top:1rem; width:100%;" alt="Diagrama"/>
   </div>
 </section>
+
+    <!-- ===== ABA: Dicionário de Dados ===== -->
+<section id="tabDD">
+    <h2>Dicionário de Dados</h2>
+    <p>
+        O <strong>Dicionário de Dados</strong> é um repositório que descreve a estrutura, conteúdo e formato dos dados armazenados no banco. 
+        Ele documenta tabelas, colunas, tipos de dados, restrições e relacionamentos.
+    </p>
+
+    <!-- Exercício 1 -->
+    <div class="activity">
+        <p><b>Exercício 1:</b> Qual o propósito principal do dicionário de dados?</p>
+        <label><input type="radio" name="dd1" value="correct"> Documentar e padronizar informações sobre os dados</label>
+        <label><input type="radio" name="dd1" value="incorrect"> Executar consultas SQL</label>
+        <label><input type="radio" name="dd1" value="incorrect"> Armazenar registros temporários</label>
+        <button onclick="checkAnswer('dd1','feedback-dd1')">Responder</button>
+        <div id="feedback-dd1" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 2 -->
+    <div class="activity">
+        <p><b>Exercício 2:</b> Arraste os elementos para a categoria correta: <b>Nome da coluna</b>, <b>Tipo de dado</b>, <b>Descrição</b>.</p>
+        <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+            <div style="flex:1;">
+                <h4>Nome da Coluna</h4>
+                <div id="drop-dd2-nome" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+            <div style="flex:1;">
+                <h4>Tipo de Dado</h4>
+                <div id="drop-dd2-tipo" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+            <div style="flex:1;">
+                <h4>Descrição</h4>
+                <div id="drop-dd2-desc" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+        </div>
+        <div class="drag-container" id="drag-dd2">
+            <div id="attr-dd2-idcliente" class="draggable-item" draggable="true" ondragstart="drag(event)">id_cliente</div>
+            <div id="attr-dd2-varchar50" class="draggable-item" draggable="true" ondragstart="drag(event)">VARCHAR(50)</div>
+            <div id="attr-dd2-identificadorunico" class="draggable-item" draggable="true" ondragstart="drag(event)">Identificador único do cliente</div>
+        </div>
+        <button onclick="checkDD2()">Verificar</button>
+        <div id="feedback-dd2" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 3 -->
+    <div class="activity">
+        <p><b>Exercício 3:</b> Qual opção descreve corretamente um atributo do dicionário de dados?</p>
+        <label><input type="radio" name="dd3" value="correct"> Contém informação sobre o significado e uso do campo</label>
+        <label><input type="radio" name="dd3" value="incorrect"> Armazena dados executáveis</label>
+        <label><input type="radio" name="dd3" value="incorrect"> É usado apenas para testes</label>
+        <button onclick="checkAnswer('dd3','feedback-dd3')">Responder</button>
+        <div id="feedback-dd3" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 4 -->
+    <div class="activity">
+        <p><b>Exercício 4:</b> Complete: O campo "cpf" deve ter o tipo de dado ______ e tamanho ______.</p>
+        <input type="text" id="dd4-tipo" placeholder="Tipo (ex: CHAR)" style="width:40%">
+        <input type="text" id="dd4-tam" placeholder="Tamanho (ex: 11)" style="width:20%">
+        <button onclick="checkDD4()">Verificar</button>
+        <div id="feedback-dd4" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 5 -->
+    <div class="activity">
+        <p><b>Exercício 5:</b> Verdadeiro ou falso? O dicionário de dados pode conter informações sobre índices de tabelas.</p>
+        <label><input type="radio" name="dd5" value="correct"> Verdadeiro</label>
+        <label><input type="radio" name="dd5" value="incorrect"> Falso</label>
+        <button onclick="checkAnswer('dd5','feedback-dd5')">Responder</button>
+        <div id="feedback-dd5" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 6 -->
+    <div class="activity">
+        <p><b>Exercício 6:</b> Arraste para montar o registro correto no dicionário.</p>
+        <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+            <div style="flex:1;">
+                <h4>Tabela</h4>
+                <div id="drop-dd6-tab" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+            <div style="flex:1;">
+                <h4>Coluna</h4>
+                <div id="drop-dd6-col" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+            <div style="flex:1;">
+                <h4>Tipo</h4>
+                <div id="drop-dd6-tip" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+        </div>
+        <div class="drag-container" id="drag-dd6">
+            <div id="attr-dd6-tabela" class="draggable-item" draggable="true" ondragstart="drag(event)">Cliente</div>
+            <div id="attr-dd6-coluna" class="draggable-item" draggable="true" ondragstart="drag(event)">email</div>
+            <div id="attr-dd6-tipo" class="draggable-item" draggable="true" ondragstart="drag(event)">VARCHAR(100)</div>
+        </div>
+        <button onclick="checkDD6()">Verificar</button>
+        <div id="feedback-dd6" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 7 -->
+    <div class="activity">
+        <p><b>Exercício 7:</b> Quais informações não pertencem ao dicionário de dados?</p>
+        <label><input type="radio" name="dd7" value="correct"> Previsão do tempo</label>
+        <label><input type="radio" name="dd7" value="incorrect"> Tipo de dado da coluna</label>
+        <label><input type="radio" name="dd7" value="incorrect"> Restrições de chave primária</label>
+        <button onclick="checkAnswer('dd7','feedback-dd7')">Responder</button>
+        <div id="feedback-dd7" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 8 -->
+    <div class="activity">
+        <p><b>Exercício 8:</b> Complete: A coluna "valor_total" deve ter tipo ______ e aceitar ______ casas decimais.</p>
+        <input type="text" id="dd8-tipo" placeholder="Tipo (ex: DECIMAL)" style="width:40%">
+        <input type="text" id="dd8-dec" placeholder="Casas decimais (ex: 2)" style="width:20%">
+        <button onclick="checkDD8()">Verificar</button>
+        <div id="feedback-dd8" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 9 -->
+    <div class="activity">
+        <p><b>Exercício 9:</b> Verdadeiro ou falso? O dicionário de dados pode ser mantido automaticamente pelo SGDB.</p>
+        <label><input type="radio" name="dd9" value="correct"> Verdadeiro</label>
+        <label><input type="radio" name="dd9" value="incorrect"> Falso</label>
+        <button onclick="checkAnswer('dd9','feedback-dd9')">Responder</button>
+        <div id="feedback-dd9" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- Exercício 10 -->
+    <div class="activity">
+        <p><b>Exercício 10:</b> Arraste os elementos para compor um campo do dicionário de dados.</p>
+        <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+            <div style="flex:1;">
+                <h4>Nome</h4>
+                <div id="drop-dd10-nome" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+            <div style="flex:1;">
+                <h4>Tipo</h4>
+                <div id="drop-dd10-tipo" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+            <div style="flex:1;">
+                <h4>Descrição</h4>
+                <div id="drop-dd10-desc" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            </div>
+        </div>
+        <div class="drag-container" id="drag-dd10">
+            <div id="attr-dd10-nome" class="draggable-item" draggable="true" ondragstart="drag(event)">telefone</div>
+            <div id="attr-dd10-tipo" class="draggable-item" draggable="true" ondragstart="drag(event)">VARCHAR(15)</div>
+            <div id="attr-dd10-desc" class="draggable-item" draggable="true" ondragstart="drag(event)">Número de contato do cliente</div>
+        </div>
+        <button onclick="checkDD10()">Verificar</button>
+        <div id="feedback-dd10" class="feedback"></div>
+    </div>
+</section>
+
+
+
+
+    
 </main>
 <footer>Desenvolvido para Senac SP - Aula Interativa Banco de Dados</footer>
 
@@ -1272,6 +1450,57 @@ function checkExemplologistica() {
     }
 }
 
+function checkDD2(){
+    const ok =
+        checkContainerIds(document.getElementById('drop-dd2-nome'), ['attr-dd2-idcliente']) &&
+        checkContainerIds(document.getElementById('drop-dd2-tipo'), ['attr-dd2-varchar50']) &&
+        checkContainerIds(document.getElementById('drop-dd2-desc'), ['attr-dd2-identificadorunico']);
+    const fb = document.getElementById('feedback-dd2');
+    if(ok){fb.textContent='Perfeito!'; fb.className='feedback correct';}
+    else {fb.textContent='Algum item está em local incorreto.'; fb.className='feedback incorrect';}
+}
+
+function checkDD4(){
+    const tipo = document.getElementById('dd4-tipo').value.trim().toUpperCase();
+    const tam = document.getElementById('dd4-tam').value.trim();
+    const fb = document.getElementById('feedback-dd4');
+    if(tipo==='CHAR' && tam==='11'){
+        fb.textContent='Correto!'; fb.className='feedback correct';
+    } else {
+        fb.textContent='Revise tipo e tamanho. Ex: CHAR e 11.'; fb.className='feedback incorrect';
+    }
+}
+
+function checkDD6(){
+    const ok =
+        checkContainerIds(document.getElementById('drop-dd6-tab'), ['attr-dd6-tabela']) &&
+        checkContainerIds(document.getElementById('drop-dd6-col'), ['attr-dd6-coluna']) &&
+        checkContainerIds(document.getElementById('drop-dd6-tip'), ['attr-dd6-tipo']);
+    const fb = document.getElementById('feedback-dd6');
+    if(ok){fb.textContent='Registro montado corretamente.'; fb.className='feedback correct';}
+    else {fb.textContent='Algum item não está no lugar correto.'; fb.className='feedback incorrect';}
+}
+
+function checkDD8(){
+    const tipo = document.getElementById('dd8-tipo').value.trim().toUpperCase();
+    const dec = document.getElementById('dd8-dec').value.trim();
+    const fb = document.getElementById('feedback-dd8');
+    if(tipo==='DECIMAL' && dec==='2'){
+        fb.textContent='Correto!'; fb.className='feedback correct';
+    } else {
+        fb.textContent='Revise. Ex: DECIMAL e 2.'; fb.className='feedback incorrect';
+    }
+}
+
+function checkDD10(){
+    const ok =
+        checkContainerIds(document.getElementById('drop-dd10-nome'), ['attr-dd10-nome']) &&
+        checkContainerIds(document.getElementById('drop-dd10-tipo'), ['attr-dd10-tipo']) &&
+        checkContainerIds(document.getElementById('drop-dd10-desc'), ['attr-dd10-desc']);
+    const fb = document.getElementById('feedback-dd10');
+    if(ok){fb.textContent='Tudo certo!'; fb.className='feedback correct';}
+    else {fb.textContent='Algum item está no local errado.'; fb.className='feedback incorrect';}
+}
 
 
 </script>
