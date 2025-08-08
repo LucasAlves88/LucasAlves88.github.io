@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aula Interativa de Banco de Dados - Senac SP</title>
+    <style>
+        /* Cores do Senac SP (azul, laranja, neutros) */
+        :root {
+            --senac-blue: #005BAC;
+            --senac-orange: #f58220;
+            --senac-gray-dark: #333333;
+            --senac-gray-light: #f0f0f0;
+            --senac-white: #ffffff;
+            --senac-border: #cccccc;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: var(--senac-gray-light);
+            color: var(--senac-gray-dark);
+        }
+
+        header {
+            background-color: var(--senac-blue);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        nav {
+            display: flex;
+            background-color: var(--senac-white);
+            border-bottom: 2px solid var(--senac-border);
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            flex-grow: 1;
+            padding: 1rem;
+            border: none;
+            background: var(--senac-white);
+            color: var(--senac-gray-dark);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            border-bottom: 3px solid transparent;
+            user-select: none;
+            min-width: 120px;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background-color: var(--senac-orange);
+            color: var(--senac-white);
+            border-bottom: 3px solid var(--senac-blue);
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: auto;
+            background-color: var(--senac-white);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-height: 600px;
+        }
+
+        section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        h2 {
+            color: var(--senac-blue);
+            border-bottom: 2px solid var(--senac-orange);
+            padding-bottom: 0.3rem;
+        }
+
+        h3 {
+            margin-top: 1.5rem;
+            color: var(--senac-blue);
+        }
+
+        p, li {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity {
+            margin: 1rem 0 2rem 0;
+            padding: 1rem;
+            border: 2px solid var(--senac-border);
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+
+        .feedback {
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        img.diagram {
+            max-width: 100%;
+            height: auto;
+            margin-top: 1rem;
+            border: 1px solid var(--senac-border);
+            border-radius: 4px;
+        }
+
+        video {
+            max-width: 100%;
+            margin-top: 1rem;
+            border-radius: 6px;
+        }
+
+        label {
+            display: block;
+            margin: 0.3rem 0;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        /* Drag and drop styles */
+        .drag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .draggable-item {
+            padding: 0.5rem 1rem;
+            background-color: var(--senac-blue);
+            color: white;
+            border-radius: 5px;
+            cursor: grab;
+            user-select: none;
+            margin-bottom: 5px;
+        }
+
+        .drop-target {
+            min-width: 150px;
+            min-height: 80px;
+            border: 2px dashed var(--senac-blue);
+            border-radius: 5px;
+            padding: 0.5rem;
+            text-align: center;
+            font-style: italic;
+            color: var(--senac-gray-dark);
+            overflow-y: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--senac-blue);
+            color: white;
+            margin-top: 2rem;
+            border-radius: 0 0 8px 8px;
+            user-select: none;
+        }
+
+        input[type="text"] {
+            padding: 0.4rem;
+            font-size: 1rem;
+            border: 1px solid var(--senac-border);
+            border-radius: 4px;
+        }
+
+        hr {
+            border: 1px solid var(--senac-border);
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>Aula Interativa: Banco de Dados - Senac SP</header>
+
+    <nav id="tabs">
+        <button class="tab-button active" data-tab="tab1">Modelagem de Dados</button>
+        <button class="tab-button" data-tab="tab2">PK / FK</button>
+        <button class="tab-button" data-tab="tab3">MER</button>
+        <button class="tab-button" data-tab="tab4">Dicionário de Dados</button>
+        <button class="tab-button" data-tab="tab5">Tipos de Dados</button>
+        <button class="tab-button" data-tab="tab6">Tabelas Associativas</button>
+        <button class="tab-button" data-tab="tab7">Revisão & Projeto</button>
+    </nav>
+
+    <main>
+        <!-- Aba 1 - Modelagem de Dados -->
+        <section id="tab1" class="active">
+            <h2>Modelagem de Dados</h2>
+            <p>Vamos aprender o que são <strong>Entidades</strong>, <strong>Atributos</strong> e <strong>Relacionamentos</strong>.</p>
+
+            <h3>Exemplo prático: Instituição Escolar — Entidade Aluno</h3>
+            <p>A entidade <b>Aluno</b> possui os seguintes atributos:</p>
+            <ul>
+                <li>id_aluno (chave primária)</li>
+                <li>nome</li>
+                <li>data_nascimento</li>
+                <li>cpf</li>
+                <li>telefone</li>
+                <li>email</li>
+            </ul>
+
+            <h3>Exercício Interativo - Instituição Escolar</h3>
+            <p>Distribua os atributos abaixo entre as entidades <b>Curso</b> e <b>Matrícula</b>. Arraste cada atributo para a entidade correta.</p>
+
+            <div style="display: flex; gap: 2rem; margin-bottom: 1rem;">
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 180px;">
+                    <h4>Curso</h4>
+                    <div id="drop-curso" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 180px;">
+                    <h4>Matrícula</h4>
+                    <div id="drop-matricula" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+            </div>
+
+            <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px; max-height: 200px; overflow-y: auto;">
+                <h4>Atributos para distribuir</h4>
+                <div id="drag-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div id="attr-id_curso" class="draggable-item" draggable="true" ondragstart="drag(event)">id_curso</div>
+                    <div id="attr-nome_curso" class="draggable-item" draggable="true" ondragstart="drag(event)">nome_curso</div>
+                    <div id="attr-duracao_meses" class="draggable-item" draggable="true" ondragstart="drag(event)">duracao_meses</div>
+                    <div id="attr-categoria" class="draggable-item" draggable="true" ondragstart="drag(event)">categoria</div>
+                    <div id="attr-id_matricula" class="draggable-item" draggable="true" ondragstart="drag(event)">id_matricula</div>
+                    <div id="attr-id_aluno_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_aluno (FK)</div>
+                    <div id="attr-id_curso_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_curso (FK)</div>
+                    <div id="attr-data_matricula" class="draggable-item" draggable="true" ondragstart="drag(event)">data_matricula</div>
+                    <div id="attr-situacao" class="draggable-item" draggable="true" ondragstart="drag(event)">situacao</div>
+                </div>
+            </div>
+
+            <button style="margin-top: 1rem;" onclick="checkModelagemDados()">Verificar Resposta</button>
+            <div class="feedback" id="feedback-modelagem"></div>
+            <img id="img-modelagem" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Instituição Escolar" src="MER_01.png" />
+
+            <hr>
+
+            <!-- Outros exemplos seguem o mesmo padrão -->
+
+            <h3>Exemplo prático: Comércio de Bairro</h3>
+            <p>Distribua os atributos entre as entidades <b>Produto</b>, <b>Estoque</b> e <b>Venda</b>.</p>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Produto</h4>
+                    <div id="drop-produto" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Estoque</h4>
+                    <div id="drop-estoque" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Venda</h4>
+                    <div id="drop-venda" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+            </div>
+            <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px; max-height: 200px; overflow-y: auto;">
+                <h4>Atributos para distribuir</h4>
+                <div id="drag-container-comercio" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div id="attr-id_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto</div>
+                    <div id="attr-nome_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-preco" class="draggable-item" draggable="true" ondragstart="drag(event)">preco</div>
+                    <div id="attr-categoria_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">categoria</div>
+                    <div id="attr-fornecedor" class="draggable-item" draggable="true" ondragstart="drag(event)">fornecedor</div>
+                    <div id="attr-id_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">id_estoque</div>
+                    <div id="attr-id_produto_fk_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto (FK)</div>
+                    <div id="attr-quantidade_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade</div>
+                    <div id="attr-localizacao" class="draggable-item" draggable="true" ondragstart="drag(event)">localizacao</div>
+                    <div id="attr-id_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">id_venda</div>
+                    <div id="attr-id_produto_fk_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto (FK)</div>
+                    <div id="attr-data_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">data_venda</div>
+                    <div id="attr-quantidade_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade</div>
+                    <div id="attr-valor_total" class="draggable-item" draggable="true" ondragstart="drag(event)">valor_total</div>
+                </div>
+            </div>
+            <button style="margin-top: 1rem;" onclick="checkExemplo('comercio')">Verificar Resposta</button>
+            <div class="feedback" id="feedback-comercio"></div>
+            <img id="img-comercio" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Comércio de Bairro" src="MER_02.png" />
+
+            <hr>
+
+            <h3>Exemplo prático: E-commerce</h3>
+            <p>Distribua os atributos entre as entidades <b>Usuário</b>, <b>Produto</b> e <b>Pedido</b>.</p>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Usuário</h4>
+                    <div id="drop-usuario" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Produto</h4>
+                    <div id="drop-produto-ecom" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Pedido</h4>
+                    <div id="drop-pedido" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+            </div>
+            <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px; max-height: 200px; overflow-y: auto;">
+                <h4>Atributos para distribuir</h4>
+                <div id="drag-container-ecom" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div id="attr-id_usuario" class="draggable-item" draggable="true" ondragstart="drag(event)">id_usuario</div>
+                    <div id="attr-nome_usuario" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-email_usuario" class="draggable-item" draggable="true" ondragstart="drag(event)">email</div>
+                    <div id="attr-telefone_usuario" class="draggable-item" draggable="true" ondragstart="drag(event)">telefone</div>
+                    <div id="attr-endereco_usuario" class="draggable-item" draggable="true" ondragstart="drag(event)">endereco</div>
+                    <div id="attr-id_produto_ecom" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto</div>
+                    <div id="attr-nome_produto_ecom" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-preco_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">preco</div>
+                    <div id="attr-descricao_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">descricao</div>
+                    <div id="attr-estoque_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">estoque</div>
+                    <div id="attr-id_pedido" class="draggable-item" draggable="true" ondragstart="drag(event)">id_pedido</div>
+                    <div id="attr-id_usuario_fk_pedido" class="draggable-item" draggable="true" ondragstart="drag(event)">id_usuario (FK)</div>
+                    <div id="attr-data_pedido" class="draggable-item" draggable="true" ondragstart="drag(event)">data_pedido</div>
+                    <div id="attr-status_pedido" class="draggable-item" draggable="true" ondragstart="drag(event)">status</div>
+                </div>
+            </div>
+            <button style="margin-top: 1rem;" onclick="checkExemplo('ecom')">Verificar Resposta</button>
+            <div class="feedback" id="feedback-ecom"></div>
+            <img id="img-ecom" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER E-commerce" src="MER_03.png" />
+
+            <hr>
+
+            <h3>Exemplo prático: Clínica de Saúde</h3>
+            <p>Distribua os atributos entre as entidades <b>Paciente</b>, <b>Médico</b> e <b>Consulta</b>.</p>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Paciente</h4>
+                    <div id="drop-paciente" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Médico</h4>
+                    <div id="drop-medico" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Consulta</h4>
+                    <div id="drop-consulta" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+            </div>
+            <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px; max-height: 200px; overflow-y: auto;">
+                <h4>Atributos para distribuir</h4>
+                <div id="drag-container-clinica" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div id="attr-id_paciente" class="draggable-item" draggable="true" ondragstart="drag(event)">id_paciente</div>
+                    <div id="attr-nome_paciente" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-cpf_paciente" class="draggable-item" draggable="true" ondragstart="drag(event)">cpf</div>
+                    <div id="attr-telefone_paciente" class="draggable-item" draggable="true" ondragstart="drag(event)">telefone</div>
+                    <div id="attr-endereco_paciente" class="draggable-item" draggable="true" ondragstart="drag(event)">endereco</div>
+                    <div id="attr-id_medico" class="draggable-item" draggable="true" ondragstart="drag(event)">id_medico</div>
+                    <div id="attr-nome_medico" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-especialidade_medico" class="draggable-item" draggable="true" ondragstart="drag(event)">especialidade</div>
+                    <div id="attr-crm_medico" class="draggable-item" draggable="true" ondragstart="drag(event)">crm</div>
+                    <div id="attr-id_consulta" class="draggable-item" draggable="true" ondragstart="drag(event)">id_consulta</div>
+                    <div id="attr-id_paciente_fk_consulta" class="draggable-item" draggable="true" ondragstart="drag(event)">id_paciente (FK)</div>
+                    <div id="attr-id_medico_fk_consulta" class="draggable-item" draggable="true" ondragstart="drag(event)">id_medico (FK)</div>
+                    <div id="attr-data_consulta" class="draggable-item" draggable="true" ondragstart="drag(event)">data</div>
+                    <div id="attr-hora_consulta" class="draggable-item" draggable="true" ondragstart="drag(event)">hora</div>
+                </div>
+            </div>
+            <button style="margin-top: 1rem;" onclick="checkExemplo('clinica')">Verificar Resposta</button>
+            <div class="feedback" id="feedback-clinica"></div>
+            <img id="img-clinica" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Clínica de Saúde" src="MER_04.png" />
+
+            <hr>
+
+            <h3>Exemplo prático: Biblioteca</h3>
+            <p>Distribua os atributos entre as entidades <b>Livro</b>, <b>Usuário</b> e <b>Empréstimo</b>.</p>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Livro</h4>
+                    <div id="drop-livro" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Usuário</h4>
+                    <div id="drop-usuario-biblio" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Empréstimo</h4>
+                    <div id="drop-emprestimo" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+            </div>
+            <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px; max-height: 200px; overflow-y: auto;">
+                <h4>Atributos para distribuir</h4>
+                <div id="drag-container-biblio" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div id="attr-id_livro" class="draggable-item" draggable="true" ondragstart="drag(event)">id_livro</div>
+                    <div id="attr-titulo_livro" class="draggable-item" draggable="true" ondragstart="drag(event)">titulo</div>
+                    <div id="attr-autor_livro" class="draggable-item" draggable="true" ondragstart="drag(event)">autor</div>
+                    <div id="attr-editora_livro" class="draggable-item" draggable="true" ondragstart="drag(event)">editora</div>
+                    <div id="attr-ano_livro" class="draggable-item" draggable="true" ondragstart="drag(event)">ano</div>
+                    <div id="attr-id_usuario_biblio" class="draggable-item" draggable="true" ondragstart="drag(event)">id_usuario</div>
+                    <div id="attr-nome_usuario_biblio" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-telefone_usuario_biblio" class="draggable-item" draggable="true" ondragstart="drag(event)">telefone</div>
+                    <div id="attr-endereco_usuario_biblio" class="draggable-item" draggable="true" ondragstart="drag(event)">endereco</div>
+                    <div id="attr-id_emprestimo" class="draggable-item" draggable="true" ondragstart="drag(event)">id_emprestimo</div>
+                    <div id="attr-id_livro_fk_emprestimo" class="draggable-item" draggable="true" ondragstart="drag(event)">id_livro (FK)</div>
+                    <div id="attr-id_usuario_fk_emprestimo" class="draggable-item" draggable="true" ondragstart="drag(event)">id_usuario (FK)</div>
+                    <div id="attr-data_emprestimo" class="draggable-item" draggable="true" ondragstart="drag(event)">data_emprestimo</div>
+                    <div id="attr-data_devolucao" class="draggable-item" draggable="true" ondragstart="drag(event)">data_devolucao</div>
+                </div>
+            </div>
+            <button style="margin-top: 1rem;" onclick="checkExemplo('biblio')">Verificar Resposta</button>
+            <div class="feedback" id="feedback-biblio"></div>
+            <img id="img-biblio" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Biblioteca" src="MER_05.png" />
+
+            <hr>
+
+            <h3>Exemplo prático: Logística / Transportadora</h3>
+            <p>Distribua os atributos entre as entidades <b>Encomenda</b>, <b>Cliente</b>, <b>Motorista</b> e <b>Entrega</b>.</p>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <div style="flex: 1 1 200px; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Encomenda</h4>
+                    <div id="drop-encomenda" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1 1 200px; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Cliente</h4>
+                    <div id="drop-cliente" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1 1 200px; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Motorista</h4>
+                    <div id="drop-motorista" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+                <div style="flex: 1 1 200px; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 150px;">
+                    <h4>Entrega</h4>
+                    <div id="drop-entrega" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                </div>
+            </div>
+            <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 120px; max-height: 220px; overflow-y: auto;">
+                <h4>Atributos para distribuir</h4>
+                <div id="drag-container-logistica" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <div id="attr-id_encomenda" class="draggable-item" draggable="true" ondragstart="drag(event)">id_encomenda</div>
+                    <div id="attr-descricao_encomenda" class="draggable-item" draggable="true" ondragstart="drag(event)">descricao</div>
+                    <div id="attr-peso_encomenda" class="draggable-item" draggable="true" ondragstart="drag(event)">peso</div>
+                    <div id="attr-destino_encomenda" class="draggable-item" draggable="true" ondragstart="drag(event)">destino</div>
+                    <div id="attr-id_cliente" class="draggable-item" draggable="true" ondragstart="drag(event)">id_cliente</div>
+                    <div id="attr-nome_cliente" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-telefone_cliente" class="draggable-item" draggable="true" ondragstart="drag(event)">telefone</div>
+                    <div id="attr-endereco_cliente" class="draggable-item" draggable="true" ondragstart="drag(event)">endereco</div>
+                    <div id="attr-id_motorista" class="draggable-item" draggable="true" ondragstart="drag(event)">id_motorista</div>
+                    <div id="attr-nome_motorista" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                    <div id="attr-telefone_motorista" class="draggable-item" draggable="true" ondragstart="drag(event)">telefone</div>
+                    <div id="attr-placa_veiculo" class="draggable-item" draggable="true" ondragstart="drag(event)">placa_veiculo</div>
+                    <div id="attr-id_entrega" class="draggable-item" draggable="true" ondragstart="drag(event)">id_entrega</div>
+                    <div id="attr-id_encomenda_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_encomenda (FK)</div>
+                    <div id="attr-id_motorista_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_motorista (FK)</div>
+                    <div id="attr-data_entrega" class="draggable-item" draggable="true" ondragstart="drag(event)">data_entrega</div>
+                </div>
+            </div>
+            <button style="margin-top: 1rem;" onclick="checkExemplo('logistica')">Verificar Resposta</button>
+            <div class="feedback" id="feedback-logistica"></div>
+            <img id="img-logistica" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Logística" src="MER_06.png" />
+
+            <hr>
+
+            <!-- Bloco Explicativo complementando modelo Logística -->
+            <h3>Observações Importantes sobre o Modelo da Transportadora</h3>
+            <p><strong>Relação Implícita do Cliente</strong>: O cliente, embora não apareça explicitamente ligado no diagrama simplificado, está associado às encomendas que ele solicita. Na prática, há uma relação entre Cliente e Encomenda via chave estrangeira que indica essa ligação.</p>
+            <p><strong>Chave Primária Simples x Chave Primária Composta na Entidade Entrega</strong>:</p>
+            <ul>
+                <li><strong>PK Simples (id_entrega)</strong>: Facilita a identificação única da entrega e permite adicionar dados exclusivos à entrega, como data, status, ou outras informações específicas.</li>
+                <li><strong>PK Composta (id_encomenda + id_motorista)</strong>: Garante que cada combinação entrega-motorista seja única. É útil quando esse conjunto representa diretamente a chave de identificação da entrega.</li>
+            </ul>
+            <p><strong>Quando usar cada abordagem?</strong></p>
+            <ul>
+                <li>Utilize uma <em>chave primária simples</em> quando a entidade precisa de um identificador único simples, especialmente se tiver atributos próprios além dos relacionamentos, e para facilitar a manutenção e consultas.</li>
+                <li>Opte por uma <em>chave primária composta</em> quando a própria combinação das chaves estrangeiras define unicamente o registro e a entidade não possui atributos exclusivos. Ideal para tabelas associativas ou relações onde a composição é natural e desejada.</li>
+            </ul>
+            <p><strong>Exemplo prático complementar:</strong></p>
+            <ul>
+                <li>Uma tabela <em>Pagamento</em> pode ter um <em>id_pagamento</em> simples como PK, útil se cada pagamento tem dados próprios como valor, data e status.</li>
+                <li>Uma tabela <em>AlunoCurso</em> que registra inscrições geralmente usa chave composta <em>id_aluno + id_curso</em> se não precisar de um ID exclusivo.</li>
+            </ul>
+            <p>Entender essas opções permite projetar bancos de dados eficientes e claros, adequados ao contexto e às necessidades do sistema.</p>
+
+            <h3>Exercícios Complementares</h3>
+
+            <!-- Exercício 7 -->
+            <div class="activity" id="atividade7">
+                <p><b>Exercício 7 - Identifique o relacionamento correto:</b></p>
+                <p>Em um cenário onde um funcionário gerencia apenas um departamento, e um departamento é gerenciado por apenas um funcionário, qual tipo de relacionamento isso representa?</p>
+                <label><input type="radio" name="q7" value="incorrect"> 1:N (Um para muitos)</label>
+                <label><input type="radio" name="q7" value="correct"> 1:1 (Um para um)</label>
+                <label><input type="radio" name="q7" value="incorrect"> N:N (Muitos para muitos)</label>
+                <button onclick="checkAnswer('q7', 'q7')">Responder</button>
+                <div class="feedback" id="feedback-q7"></div>
+            </div>
+
+            <!-- Exercício 8 -->
+            <div class="activity" id="atividade8">
+                <p><b>Exercício 8 - Escolha a chave primária ideal:</b></p>
+                <p>Para uma tabela que registra a presença dos alunos nas aulas, onde um aluno pode estar em várias aulas e cada aula tem vários alunos, qual é a melhor opção para a chave primária?</p>
+                <label><input type="radio" name="q8" value="correct"> Chave composta: id_aluno + id_aula</label>
+                <label><input type="radio" name="q8" value="incorrect"> Um campo id_presenca único</label>
+                <label><input type="radio" name="q8" value="incorrect"> id_aluno</label>
+                <button onclick="checkAnswer('q8', 'q8')">Responder</button>
+                <div class="feedback" id="feedback-q8"></div>
+            </div>
+
+            <!-- Exercício 9 -->
+            <div class="activity" id="atividade9">
+                <p><b>Exercício 9 - Montagem de tabela associativa:</b></p>
+                <p>Considere as entidades <em>Aluno</em> e <em>Curso</em>. Monte o nome da tabela associativa e suas chaves primárias.</p>
+                <input type="text" id="input9_nome" placeholder="Nome da tabela associativa" style="width: 60%; padding:0.4rem;" />
+                <input type="text" id="input9_chaves" placeholder="Chaves primárias separadas por vírgula" style="width: 60%; padding:0.4rem; margin-top:0.5rem;" />
+                <button onclick="checkExercicio9()">Verificar</button>
+                <div class="feedback" id="feedback-atividade9"></div>
+            </div>
+
+            <!-- Exercício 10 -->
+            <div class="activity" id="atividade10">
+    <p><b>Exercício 10 - Associe os atributos à entidade correta:</b></p>
+    <p>Arraste e solte os atributos para as entidades <b>Pedido</b> e <b>Cliente</b>.</p>
+    <div style="display: flex; gap: 2rem; margin-bottom: 1rem;">
+        <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 120px;">
+            <h4>Pedido</h4>
+            <div id="drop-pedido10" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        </div>
+        <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 120px;">
+            <h4>Cliente</h4>
+            <div id="drop-cliente10" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        </div>
+    </div>
+    <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem;">
+        <div id="drag-container10" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <div id="attr-id_pedido10" class="draggable-item" draggable="true" ondragstart="drag(event)">id_pedido</div>
+            <div id="attr-data_pedido10" class="draggable-item" draggable="true" ondragstart="drag(event)">data_pedido</div>
+            <div id="attr-status_pedido10" class="draggable-item" draggable="true" ondragstart="drag(event)">status</div>
+            <div id="attr-id_cliente_fk10" class="draggable-item" draggable="true" ondragstart="drag(event)">id_cliente (FK)</div>
+            <div id="attr-id_cliente10" class="draggable-item" draggable="true" ondragstart="drag(event)">id_cliente</div>
+            <div id="attr-nome_cliente10" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+            <div id="attr-email_cliente10" class="draggable-item" draggable="true" ondragstart="drag(event)">email</div>
+        </div>
+    </div>
+    <button style="margin-top: 1rem;" onclick="checkExemplo10()">Verificar Resposta</button>
+    <div class="feedback" id="feedback-atividade10"></div>
+</div>
+
+
+            <!-- Exercício 11 -->
+            <div class="activity" id="atividade11">
+                <p><b>Exercício 11 - Tipos de dados:</b></p>
+                <p>Qual o tipo de dado mais adequado para armazenar a data de nascimento em um banco de dados?</p>
+                <label><input type="radio" name="q11" value="correct"> DATE</label>
+                <label><input type="radio" name="q11" value="incorrect"> VARCHAR</label>
+                <label><input type="radio" name="q11" value="incorrect"> INTEGER</label>
+                <button onclick="checkAnswer('q11', 'q11')">Responder</button>
+                <div class="feedback" id="feedback-q11"></div>
+            </div>
+
+            <!-- Exercício 12 -->
+            <div class="activity" id="atividade12">
+                <p><b>Exercício 12 - Relacionamentos N:N e tabelas associativas:</b></p>
+                <p>Uma relação muitos para muitos (N:N) em bancos de dados é resolvida geralmente através de:</p>
+                <label><input type="radio" name="q12" value="correct"> Uma tabela associativa</label>
+                <label><input type="radio" name="q12" value="incorrect"> Uma chave primária simples</label>
+                <label><input type="radio" name="q12" value="incorrect"> Uma única tabela</label>
+                <button onclick="checkAnswer('q12', 'q12')">Responder</button>
+                <div class="feedback" id="feedback-q12"></div>
+            </div>
+
+        </section>
+
+        <!-- Outras abas permanecem vazias ou com seu conteúdo padrão por enquanto -->
+        <!-- Aba 2 - Chave Primária e Chave Estrangeira -->
+<section id="tab2">
+  <h2>Chave Primária e Chave Estrangeira</h2>
+
+  <p><strong>Chave Primária (PK)</strong> é um atributo ou conjunto de atributos que identificam única e exclusivamente um registro em uma tabela.</p>
+
+  <p><strong>Chave Estrangeira (FK)</strong> é um atributo em uma tabela que referencia a chave primária de outra tabela, estabelecendo um vínculo entre as duas.</p>
+
+  <h3>Por que PK e FK são importantes?</h3>
+  <ul>
+    <li>Garantem a unicidade dos dados e a integridade referencial;</li>
+    <li>Permitem modelar relacionamentos entre tabelas de forma precisa;</li>
+    <li>Facilitam consultas e atualizações no banco de dados.</li>
+  </ul>
+
+  <h3>Exemplo prático: Sistema E-commerce</h3>
+  <p>Veja as tabelas principais e seus campos de chave:</p>
+  <ul>
+    <li><strong>Pedido</strong>: id_pedido (PK), data, total</li>
+    <li><strong>Cliente</strong>: id_cliente (PK), nome, email</li>
+    <li><strong>ItemPedido</strong>: id_pedido (FK), id_produto (FK), quantidade</li>
+  </ul>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 1:</b> Qual campo seria uma boa Chave Primária para a tabela "Cliente"?</p>
+    <label><input type="radio" name="pk1" value="correct"> CPF</label>
+    <label><input type="radio" name="pk1" value="incorrect"> Nome</label>
+    <label><input type="radio" name="pk1" value="incorrect"> Endereço</label>
+    <button onclick="checkAnswer('pk1', 'pk1')">Responder</button>
+    <div id="pk1" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 2:</b> Para que serve uma Chave Estrangeira?</p>
+    <label><input type="radio" name="fk1" value="correct"> Relacionar dados entre duas tabelas</label>
+    <label><input type="radio" name="fk1" value="incorrect"> Identificar registros unicamente</label>
+    <label><input type="radio" name="fk1" value="incorrect"> Armazenar dados duplicados</label>
+    <button onclick="checkAnswer('fk1', 'fk1')">Responder</button>
+    <div id="fk1" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 3:</b> Associe os campos aos seus tipos corretos:</p>
+    <div style="display: flex; gap: 20px; margin-bottom: 10px;">
+      <div class="drop-zone" id="drop-pedido" ondragover="allowDrop(event)" ondrop="drop(event)"><strong>Pedido (PK)</strong></div>
+      <div class="drop-zone" id="drop-produto" ondragover="allowDrop(event)" ondrop="drop(event)"><strong>Produto (PK)</strong></div>
+      <div class="drop-zone" id="drop-pedido-fk" ondragover="allowDrop(event)" ondrop="drop(event)"><strong>Pedido (FK)</strong></div>
+    </div>
+    <div class="drag-container">
+      <div class="draggable-item" draggable="true" id="id_pedido" ondragstart="drag(event)">id_pedido</div>
+      <div class="draggable-item" draggable="true" id="nome_produto" ondragstart="drag(event)">nome_produto</div>
+      <div class="draggable-item" draggable="true" id="id_produto" ondragstart="drag(event)">id_produto</div>
+      <div class="draggable-item" draggable="true" id="id_pedido_fk" ondragstart="drag(event)">id_pedido (FK)</div>
+    </div>
+    <button onclick="validateActivity3()">Verificar</button>
+    <div id="activity3_feedback" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 4:</b> Complete a frase:</p>
+    <p>A <input type="text" id="atividade4_text" placeholder="Palavra" /> identifica registros únicos em uma tabela, e a <input type="text" id="atividade4_text2" placeholder="Palavra" /> referencia uma chave em outra tabela.</p>
+    <button onclick="checkActivity4()">Verificar</button>
+    <div id="atividade4_feedback" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 5:</b> Verdadeiro ou Falso:</p>
+    <label><input type="radio" name="atividade5" value="correct" /> A chave estrangeira deve sempre apontar para a chave primária da outra tabela.</label><br />
+    <label><input type="radio" name="atividade5" value="incorrect" /> A chave primária pode ser nula e ainda assim ser usada como referência.</label><br />
+    <button onclick="checkAnswer('atividade5', 'atividade5')">Responder</button>
+    <div id="atividade5_feedback" class="feedback"></div>
+  </div>
+</section>
+
+        <section id="tab3">
+            <h2>Modelo Entidade-Relacionamento (MER)</h2>
+            <p>Conteúdo a implementar.</p>
+        </section>
+        <section id="tab4">
+            <h2>Dicionário de Dados</h2>
+            <p>Conteúdo a implementar.</p>
+        </section>
+        <section id="tab5">
+            <h2>Tipos de Dados</h2>
+            <p>Conteúdo a implementar.</p>
+        </section>
+        <!-- Aba 6 - Tabelas Associativas -->
+<!-- Aba 6 - Tabelas Associativas -->
+<section id="tab6">
+  <h2>Tabelas Associativas</h2>
+
+  <p>Em bancos de dados relacionais, as <strong>tabelas associativas</strong> são essenciais para resolver relacionamentos <strong>muitos-para-muitos (N:N)</strong>. Elas conectam múltiplas entidades, permitindo múltiplas associações sem redundância.</p>
+
+  <h3>Por que usamos tabelas associativas?</h3>
+  <p>Quando duas entidades se relacionam de modo que uma instância de uma pode se relacionar com diversas instâncias da outra, e vice-versa, usamos tabelas associativas para representar essa ligação.</p>
+
+  <h3>Exemplos Reais e Completos</h3>
+  <ul>
+    <li>
+      <strong>Escola Completa<br/></strong>
+      <em>Entidades:</em> Aluno, Curso, Professor, Turma, Matéria, Matrícula.<br/>
+      <em>Tabelas associativas:</em> Matrícula (Aluno-Curso-Turma), Ensino (Professor-Turma-Matéria).
+    </li>
+    <li>
+      <strong>E-commerce Estendido<br/></strong>
+      <em>Entidades:</em> Usuário, Produto, Pedido, Categoria, Pagamento, Entrega.<br/>
+      <em>Tabelas associativas:</em> ItemPedido (Pedido-Produto), PagamentoPedido (Pagamento-Pedido).
+    </li>
+    <li>
+      <strong>Biblioteca Avançada<br/></strong>
+      <em>Entidades:</em> Livro, Autor, Usuário, Empréstimo, Reserva, Multa.<br/>
+      <em>Tabelas associativas:</em> LivroAutor (Livro-Autor), Empréstimo (Usuário-Livro).
+    </li>
+    <li>
+      <strong>Logística Complexa<br/></strong>
+      <em>Entidades:</em> Cliente, Encomenda, Motorista, Veículo, Rota, Entrega.<br/>
+      <em>Tabelas associativas:</em> Entrega (Encomenda-Motorista-Veículo), RotaCliente (Rota-Cliente).
+    </li>
+    <li>
+      <strong>Restaurante Dinâmico<br/></strong>
+      <em>Entidades:</em> Cliente, Pedido, Garçom, Prato, Ingrediente, Fornecedor.<br/>
+      <em>Tabelas associativas:</em> PedidoPrato (Pedido-Prato), PratoIngrediente (Prato-Ingrediente).
+    </li>
+  </ul>
+
+  <hr />
+
+  <!-- Exercício 1 -->
+  <div class="activity">
+    <p><b>Exercício 1 - O que é uma tabela associativa?</b></p>
+    <label><input type="radio" name="ta_q1" value="correct" /> Tabela que resolve relacionamentos muitos-para-muitos.</label><br />
+    <label><input type="radio" name="ta_q1" value="incorrect" /> Tabela com chave primária simples.</label><br />
+    <label><input type="radio" name="ta_q1" value="incorrect" /> Tabela que armazena dados únicos sem ligações.</label><br />
+    <button onclick="checkAnswer('ta_q1','ta_q1')">Responder</button>
+    <div id="ta_q1" class="feedback"></div>
+  </div>
+
+  <hr />
+
+  <!-- Exercício 2 -->
+  <div class="activity">
+    <p><b>Exercício 2 - Nomeie a tabela associativa e defina suas chaves primárias:</b></p>
+    <p>Em um sistema escolar, temos as entidades: Aluno, Curso, Professor, Turma, Matéria e Matrícula. Como você nomearia a tabela associativa que liga Aluno, Curso e Turma? Quais colunas compõem sua chave primária?</p>
+    <input type="text" id="ta_inp2_nome" placeholder="Nome da tabela associativa (ex: matricula)" style="width: 60%; padding: 0.4rem;" /><br />
+    <input type="text" id="ta_inp2_chaves" placeholder="Chaves primárias separadas por vírgula" style="width: 60%; padding: 0.4rem; margin-top: 0.5rem;" /><br />
+    <button onclick="checkTAAssociativa2()">Verificar</button>
+    <div id="ta_q2_feedback" class="feedback"></div>
+  </div>
+
+  <hr />
+
+  <!-- Exercício 3 -->
+  <div class="activity">
+    <p><b>Exercício 3 - Arraste os atributos para as entidades e tabela associativa corretas:</b></p>
+    <p>Considerando o sistema E-commerce: Usuário, Produto, Pedido, Categoria, Pagamento e Entrega. Organize os atributos para cada entidade e a tabela associativa ItemPedido.</p>
+    <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+      <div class="dropzone" id="drop_ta_usuario">Usuário</div>
+      <div class="dropzone" id="drop_ta_produto">Produto</div>
+      <div class="dropzone" id="drop_ta_pedido">Pedido</div>
+      <div class="dropzone" id="drop_ta_categoria">Categoria</div>
+      <div class="dropzone" id="drop_ta_pagamento">Pagamento</div>
+      <div class="dropzone" id="drop_ta_entrega">Entrega</div>
+      <div class="dropzone" id="drop_ta_itempedido">ItemPedido (Associativa)</div>
+    </div>
+    <div class="drag-container" id="drag_ta3">
+      <div class="draggable" id="attr_ta_usuario_id" draggable="true">id_usuario (PK)</div>
+      <div class="draggable" id="attr_ta_usuario_nome" draggable="true">nome</div>
+      <div class="draggable" id="attr_ta_produto_id" draggable="true">id_produto (PK)</div>
+      <div class="draggable" id="attr_ta_produto_nome" draggable="true">nome</div>
+      <div class="draggable" id="attr_ta_produto_categoria" draggable="true">categoria</div>
+      <div class="draggable" id="attr_ta_pedido_id" draggable="true">id_pedido (PK)</div>
+      <div class="draggable" id="attr_ta_pedido_data" draggable="true">data</div>
+      <div class="draggable" id="attr_ta_categoria_id" draggable="true">id_categoria (PK)</div>
+      <div class="draggable" id="attr_ta_categoria_nome" draggable="true">nome</div>
+      <div class="draggable" id="attr_ta_pagamento_id" draggable="true">id_pagamento (PK)</div>
+      <div class="draggable" id="attr_ta_pagamento_metodo" draggable="true">metodo</div>
+      <div class="draggable" id="attr_ta_entrega_id" draggable="true">id_entrega (PK)</div>
+      <div class="draggable" id="attr_ta_entrega_data" draggable="true">data_entrega</div>
+      <div class="draggable" id="attr_ta_itempedido_pedido_id" draggable="true">id_pedido (FK)</div>
+      <div class="draggable" id="attr_ta_itempedido_produto_id" draggable="true">id_produto (FK)</div>
+      <div class="draggable" id="attr_ta_itempedido_quantidade" draggable="true">quantidade</div>
+    </div>
+    <button onclick="checkTAAssociativa3()">Verificar</button>
+    <div id="ta_q3_feedback" class="feedback"></div>
+    <img id="ta_q3_img" class="diagram" style="display:none; margin-top:1rem" src="MER_ta3.png" alt="Diagrama MER ItemPedido" />
+  </div>
+
+  <hr />
+
+  <!-- Exercício 4 -->
+  <div class="activity">
+    <p><b>Exercício 4 - Verdadeiro ou falso:</b></p>
+    <p>Uma tabela associativa sempre possui chave primária composta pelas chaves estrangeiras das entidades relacionadas.</p>
+    <label><input type="radio" name="ta_q4" value="correct" /> Verdadeiro</label><br />
+    <label><input type="radio" name="ta_q4" value="incorrect" /> Falso</label><br />
+    <button onclick="checkAnswer('ta_q4', 'ta_q4')">Responder</button>
+    <div id="ta_q4" class="feedback"></div>
+  </div>
+
+  <hr />
+
+  <!-- Exercício 5 -->
+  <div class="activity">
+    <p><b>Exercício 5 - Qual é a principal função de uma tabela associativa?</b></p>
+    <label><input type="radio" name="ta_q5" value="incorrect" /> Armazenar dados duplicados entre tabelas.</label><br />
+    <label><input type="radio" name="ta_q5" value="correct" /> Resolver relacionamentos muitos-para-muitos entre entidades.</label><br />
+    <label><input type="radio" name="ta_q5" value="incorrect" /> Substituir tabelas base em um banco de dados.</label><br />
+    <button onclick="checkAnswer('ta_q5', 'ta_q5')">Responder</button>
+    <div id="ta_q5" class="feedback"></div>
+  </div>
+
+</section>
+
+
+        <section id="tab7">
+            <h2>Revisão Geral & Mini-Projeto</h2>
+            <p>Conteúdo a implementar.</p>
+        </section>
+    </main>
+
+    <footer>
+        Desenvolvido para Senac SP - Aula Interativa de Banco de Dados
+    </footer>
+
+    <script>
+        // Navegação das abas
+        const tabs = document.querySelectorAll('.tab-button');
+        const sections = document.querySelectorAll('section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+                localStorage.setItem('activeTab', tab.dataset.tab);
+            });
+        });
+
+        // Carregar aba ativa do localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeTab = localStorage.getItem('activeTab');
+            if(activeTab) {
+                const btn = document.querySelector(`button[data-tab="${activeTab}"]`);
+                if(btn) btn.click();
+            }
+        });
+
+        // Funções para drag and drop (permite vários itens em drop-target)
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var draggedElement = document.getElementById(data);
+            // Somente adiciona se o target for drop-target e o item não estiver lá ainda
+            if(ev.target.classList.contains('drop-target')) {
+                if(!ev.target.contains(draggedElement)) {
+                    ev.target.appendChild(draggedElement);
+                }
+            } else if (ev.target.parentElement && ev.target.parentElement.classList.contains('drop-target')) {
+                // Suporta o drop em filho do drop-target
+                if(!ev.target.parentElement.contains(draggedElement)) {
+                    ev.target.parentElement.appendChild(draggedElement);
+                }
+            }
+        }
+
+        // Função auxiliar para verificar se um container tem exatamente os IDs corretos e nada mais
+        function checkEntityAttributes(container, correctIds) {
+            if(container.children.length !== correctIds.length) return false;
+            for(let id of correctIds) {
+                let el = container.querySelector(`#${id}`);
+                if(!el) return false;
+            }
+            return true;
+        }
+
+        // Função para verificar o exercício da aba Modelagem de Dados (exemplo Instituição Escolar)
+        function checkModelagemDados() {
+            const feedback = document.getElementById('feedback-modelagem');
+            const cursoDrop = document.getElementById('drop-curso');
+            const matriculaDrop = document.getElementById('drop-matricula');
+
+            const cursoAttrs = ['attr-id_curso', 'attr-nome_curso', 'attr-duracao_meses', 'attr-categoria'];
+            const matriculaAttrs = ['attr-id_matricula', 'attr-id_aluno_fk', 'attr-id_curso_fk', 'attr-data_matricula', 'attr-situacao'];
+
+            const cursoOk = checkEntityAttributes(cursoDrop, cursoAttrs);
+            const matriculaOk = checkEntityAttributes(matriculaDrop, matriculaAttrs);
+
+            const img = document.getElementById('img-modelagem');
+
+            if(cursoOk && matriculaOk) {
+                feedback.textContent = "Parabéns! Você distribuiu todos os atributos corretamente.";
+                feedback.className = 'feedback correct';
+                img.style.display = 'block';
+            } else {
+                feedback.textContent = "Há atributos fora do lugar. Verifique as entidades Curso e Matrícula.";
+                feedback.className = 'feedback incorrect';
+                img.style.display = 'none';
+            }
+        }
+
+        // Função genérica para verificar os demais exemplos
+        function checkExemplo(exemplo) {
+            let feedback = document.getElementById('feedback-' + exemplo);
+            let img = document.getElementById('img-' + exemplo);
+
+            // Mapas dos atributos corretos para cada entidade de cada exemplo
+            const exemplosMap = {
+                'comercio': {
+                    'drop-produto': ['attr-id_produto', 'attr-nome_produto', 'attr-preco', 'attr-categoria_produto', 'attr-fornecedor'],
+                    'drop-estoque': ['attr-id_estoque', 'attr-id_produto_fk_estoque', 'attr-quantidade_estoque', 'attr-localizacao'],
+                    'drop-venda': ['attr-id_venda', 'attr-id_produto_fk_venda', 'attr-data_venda', 'attr-quantidade_venda', 'attr-valor_total']
+                },
+                'ecom': {
+                    'drop-usuario': ['attr-id_usuario', 'attr-nome_usuario', 'attr-email_usuario', 'attr-telefone_usuario', 'attr-endereco_usuario'],
+                    'drop-produto-ecom': ['attr-id_produto_ecom', 'attr-nome_produto_ecom', 'attr-preco_produto', 'attr-descricao_produto', 'attr-estoque_produto'],
+                    'drop-pedido': ['attr-id_pedido', 'attr-id_usuario_fk_pedido', 'attr-data_pedido', 'attr-status_pedido']
+                },
+                'clinica': {
+                    'drop-paciente': ['attr-id_paciente', 'attr-nome_paciente', 'attr-cpf_paciente', 'attr-telefone_paciente', 'attr-endereco_paciente'],
+                    'drop-medico': ['attr-id_medico', 'attr-nome_medico', 'attr-especialidade_medico', 'attr-crm_medico'],
+                    'drop-consulta': ['attr-id_consulta', 'attr-id_paciente_fk_consulta', 'attr-id_medico_fk_consulta', 'attr-data_consulta', 'attr-hora_consulta']
+                },
+                'biblio': {
+                    'drop-livro': ['attr-id_livro', 'attr-titulo_livro', 'attr-autor_livro', 'attr-editora_livro', 'attr-ano_livro'],
+                    'drop-usuario-biblio': ['attr-id_usuario_biblio', 'attr-nome_usuario_biblio', 'attr-telefone_usuario_biblio', 'attr-endereco_usuario_biblio'],
+                    'drop-emprestimo': ['attr-id_emprestimo', 'attr-id_livro_fk_emprestimo', 'attr-id_usuario_fk_emprestimo', 'attr-data_emprestimo', 'attr-data_devolucao']
+                },
+                'logistica': {
+                    'drop-encomenda': ['attr-id_encomenda', 'attr-descricao_encomenda', 'attr-peso_encomenda', 'attr-destino_encomenda'],
+                    'drop-cliente': ['attr-id_cliente', 'attr-nome_cliente', 'attr-telefone_cliente', 'attr-endereco_cliente'],
+                    'drop-motorista': ['attr-id_motorista', 'attr-nome_motorista', 'attr-telefone_motorista', 'attr-placa_veiculo'],
+                    'drop-entrega': ['attr-id_entrega', 'attr-id_encomenda_fk', 'attr-id_motorista_fk', 'attr-data_entrega']
+                },
+                // Exercícios complementares:
+                'ex10': {
+                    'drop-pedido10': ['attr-id_pedido10', 'attr-data_pedido10', 'attr-status_pedido10', 'attr-id_cliente_fk10'],
+                    'drop-cliente10': ['attr-id_cliente10', 'attr-nome_cliente10', 'attr-email_cliente10']
+                }
+            };
+
+            const mapThis = exemplosMap[exemplo];
+            let allOk = true;
+
+            if (!mapThis) {
+                feedback.textContent = "Exercício não configurado corretamente.";
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+
+            for(let entityId in mapThis) {
+                let container = document.getElementById(entityId);
+                if(!checkEntityAttributes(container, mapThis[entityId])) {
+                    allOk = false;
+                    break;
+                }
+            }
+
+            if(allOk) {
+                feedback.textContent = "Parabéns! Você distribuiu todos os atributos corretamente.";
+                feedback.className = 'feedback correct';
+                if(img) img.style.display = 'block';
+            } else {
+                feedback.textContent = "Há atributos fora do lugar. Verifique novamente as entidades.";
+                feedback.className = 'feedback incorrect';
+                if(img) img.style.display = 'none';
+            }
+        }
+
+        // Função para validar exercícios de alternativa (7,8,11,12)
+        function checkAnswer(name, activityId) {
+            const options = document.getElementsByName(name);
+            const feedback = document.getElementById('feedback-' + activityId);
+            let selected = false;
+            let correct = false;
+
+            for (const opt of options) {
+                if(opt.checked) {
+                    selected = true;
+                    if(opt.value === 'correct') {
+                        correct = true;
+                    }
+                    break;
+                }
+            }
+
+            if(!selected) {
+                feedback.textContent = 'Por favor, selecione uma opção.';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+
+            if(correct) {
+                feedback.textContent = 'Resposta correta!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Resposta incorreta, tente novamente.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function checkExemplo10() {
+    let feedback = document.getElementById('feedback-atividade10');
+    const drops = {
+        'drop-pedido10': ['attr-id_pedido10', 'attr-data_pedido10', 'attr-status_pedido10', 'attr-id_cliente_fk10'],
+        'drop-cliente10': ['attr-id_cliente10', 'attr-nome_cliente10', 'attr-email_cliente10']
+    };
+    let allOk = true;
+    for (let entityId in drops) {
+        let container = document.getElementById(entityId);
+        if(!checkEntityAttributes(container, drops[entityId])) {
+            allOk = false;
+            break;
+        }
+    }
+    if(allOk) {
+        feedback.textContent = "Parabéns! Você distribuiu todos os atributos corretamente.";
+        feedback.className = 'feedback correct';
+    } else {
+        feedback.textContent = "Há atributos fora do lugar. Verifique novamente as entidades.";
+        feedback.className = 'feedback incorrect';
+    }
+}
+
+        // Exercício 9: montar tabela associativa
+        function checkExercicio9() {
+            const nomeTabela = document.getElementById('input9_nome').value.trim().toLowerCase();
+            const chavesStr = document.getElementById('input9_chaves').value.trim().toLowerCase();
+            const feedback = document.getElementById('feedback-atividade9');
+
+            const nomeCorreto = 'matricula';
+            const chavesCorretas = ['id_aluno','id_curso'];
+
+            const chaves = chavesStr.split(',').map(s => s.trim());
+
+            if(nomeTabela === nomeCorreto &&
+                chavesCorretas.every(c => chaves.includes(c)) &&
+                chaves.length === chavesCorretas.length) {
+                feedback.textContent = 'Muito bem! Você identificou corretamente a tabela associativa e suas chaves.';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Resposta incorreta. Lembre-se que a tabela associativa deve conter os dois IDs como chave composta.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        // Exercício 10: associar atributos às entidades Pedido e Cliente (ex10)
+        function checkExercicio10() {
+            checkExemplo('ex10');
+        }
+// Reuso das funções allowDrop, drag, drop e checkEntityAttributes definidas globalmente
+
+// Verificação múltipla escolha e texto
+function checkAnswer(name, activityId) {
+    const options = document.getElementsByName(name);
+    const feedback = document.getElementById('feedback-' + activityId);
+    let selected = false;
+    let correct = false;
+
+    for (const opt of options) {
+        if (opt.checked) {
+            selected = true;
+            if (opt.value === 'correct') {
+                correct = true;
+            }
+            break;
+        }
+    }
+
+    if (!selected) {
+        feedback.textContent = 'Por favor, selecione uma opção.';
+        feedback.className = 'feedback incorrect';
+        return;
+    }
+
+    if (correct) {
+        feedback.textContent = 'Resposta correta!';
+        feedback.className = 'feedback correct';
+    } else {
+        feedback.textContent = 'Resposta incorreta, tente novamente.';
+        feedback.className = 'feedback incorrect';
+    }
+}
+
+// Exercício 2: validação nome e chaves da tabela associativa
+function checkExercicio2() {
+    const nomeTabela = document.getElementById('input_ta2_nome').value.trim().toLowerCase();
+    const chavesStr = document.getElementById('input_ta2_chaves').value.trim().toLowerCase();
+    const feedback = document.getElementById('feedback-ta2');
+
+    const nomeCorreto = 'matricula';
+    const chavesCorretas = ['id_aluno', 'id_curso'];
+
+    const chaves = chavesStr.split(',').map(s => s.trim());
+
+    if (
+        nomeTabela === nomeCorreto &&
+        chavesCorretas.every(c => chaves.includes(c)) &&
+        chaves.length === chavesCorretas.length
+    ) {
+        feedback.textContent = 'Muito bem! Você identificou corretamente a tabela associativa e suas chaves.';
+        feedback.className = 'feedback correct';
+    } else {
+        feedback.textContent = 'Resposta incorreta. Lembre-se que a tabela associativa deve conter os dois IDs como chave composta.';
+        feedback.className = 'feedback incorrect';
+    }
+}
+
+// Exercício 3: validar arrastar e soltar para tabela associativa de Pedido, Produto e ItensPedido
+function checkExercicio3() {
+    const feedback = document.getElementById('feedback-ta3');
+    const img = document.getElementById('img-ta3');
+
+    const map = {
+        'drop-pedido-ta3': ['attr-id_pedido', 'attr-data_pedido'],
+        'drop-produto-ta3': ['attr-id_produto', 'attr-nome_produto'],
+        'drop-itenspedido-ta3': ['attr-id_pedido_fk', 'attr-id_produto_fk', 'attr-quantidade']
+    };
+
+    let allOk = true;
+    for (let containerId in map) {
+        const container = document.getElementById(containerId);
+        if (!checkEntityAttributes(container, map[containerId])) {
+            allOk = false;
+            break;
+        }
+    }
+
+    if (allOk) {
+        feedback.textContent = 'Parabéns! Você associou corretamente os atributos às tabelas.';
+        feedback.className = 'feedback correct';
+        img.style.display = 'block';
+    } else {
+        feedback.textContent = 'Há algum atributo fora do lugar. Tente novamente.';
+        feedback.className = 'feedback incorrect';
+        img.style.display = 'none';
+    }
+}
+
+// Exercício 6: validar preenchimento de frase com nome e chaves da tabela associativa
+function checkExercicio6() {
+    const nomeTabela = document.getElementById('input-ta6').value.trim().toLowerCase();
+    const chavesStr = document.getElementById('input-ta6-keys').value.trim().toLowerCase();
+    const feedback = document.getElementById('feedback-ta6');
+
+    const nomeCorreto = 'itenspedido';
+    const chavesCorretas = ['id_pedido', 'id_produto'];
+
+    const chaves = chavesStr.split(',').map(s => s.trim());
+
+    if (
+        nomeTabela === nomeCorreto &&
+        chavesCorretas.every(c => chaves.includes(c)) &&
+        chaves.length === chavesCorretas.length
+    ) {
+        feedback.textContent = 'Resposta correta! Você entende bem as tabelas associativas.';
+        feedback.className = 'feedback correct';
+    } else {
+        feedback.textContent = 'Resposta incorreta. Verifique o nome da tabela e as chaves primárias.';
+        feedback.className = 'feedback incorrect';
+    }
+}
+// Reutiliza allowDrop, drag, drop e checkAnswer globais
+
+function validateActivity3() {
+  const pedidoContainer = document.getElementById('drop-pedido');
+  const produtoContainer = document.getElementById('drop-produto');
+  const pedidoFkContainer = document.getElementById('drop-pedido-fk');
+  const feedback = document.getElementById('activity3_feedback');
+
+  const pedidoItems = ['id_pedido'];
+  const produtoItems = ['id_produto', 'nome_produto'];
+  const pedidoFkItems = ['id_pedido_fk'];
+
+  function arrayMatch(container, arr) {
+    if(container.children.length !== arr.length) return false;
+    for(let id of arr) {
+      if(!container.querySelector(`#${id}`)) return false;
+    }
+    return true;
+  }
+
+  if(arrayMatch(pedidoContainer, pedidoItems) && arrayMatch(produtoContainer, produtoItems) && arrayMatch(pedidoFkContainer, pedidoFkItems)) {
+    feedback.textContent = "Parabéns! Você associou os campos corretamente.";
+    feedback.className = "feedback correct";
+  } else {
+    feedback.textContent = "Alguns campos estão no lugar errado. Tente novamente.";
+    feedback.className = "feedback incorrect";
+  }
+}
+
+function checkActivity4() {
+  const input1 = document.getElementById('atividade4_text').value.trim().toLowerCase();
+  const input2 = document.getElementById('atividade4_text2').value.trim().toLowerCase();
+  const feedback = document.getElementById('atividade4_feedback');
+
+  if(input1 === 'chave primária' && input2 === 'chave estrangeira') {
+    feedback.textContent = "Muito bem! Frase completada corretamente.";
+    feedback.className = "feedback correct";
+  } else {
+    feedback.textContent = "Resposta incorreta, tente novamente.";
+    feedback.className = "feedback incorrect";
+  }
+}
+
+
+
+
+
+
+// Permite o Drop em elementos com a classe dropzone
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+// Inicia o arrasto do item
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+// Permite o drop e adiciona o item ao container, evitando duplicatas
+function drop(ev) {
+  ev.preventDefault();
+  let data = ev.dataTransfer.getData("text");
+  let dragged = document.getElementById(data);
+
+  if (ev.target.classList.contains("dropzone") || ev.target.classList.contains("dropzone-text")) {
+    let container = ev.target.classList.contains("dropzone") ? ev.target : ev.target.parentElement;
+    if (!container.contains(dragged)) {
+      container.appendChild(dragged);
+    }
+  }
+}
+
+// Verifica respostas em opções de múltipla escolha
+function checkAnswer(name, id) {
+  let options = document.getElementsByName(name);
+  let feedback = document.getElementById(id);
+  let selected = false;
+  let correct = false;
+  for (let opt of options) {
+    if(opt.checked) {
+      selected = true;
+      correct = (opt.value === "correct");
+      break;
+    }
+  }
+  if (!selected) {
+    feedback.textContent = "Por favor, selecione uma opção.";
+    feedback.className = "feedback incorrect";
+  } else if (correct) {
+    feedback.textContent = "Resposta correta!";
+    feedback.className = "feedback correct";
+  } else {
+    feedback.textContent = "Resposta incorreta. Tente novamente.";
+    feedback.className = "feedback incorrect";
+  }
+}
+
+// Verifica exercício 2 (nome da tabela associativa e chaves)
+function checkTAAssociativa2() {
+  let nome = document.getElementById("ta_inp2_nome").value.trim().toLowerCase();
+  let chavesInput = document.getElementById("ta_inp2_chaves").value.trim().toLowerCase();
+  let chaves = chavesInput.split(",").map(k => k.trim());
+  let feedback = document.getElementById("ta_q2_feedback");
+
+  let nomeCorreto = "matricula";
+  let chavesCorretas = ["id_aluno", "id_curso", "id_turma"];
+
+  if (nome === nomeCorreto && chavesCorretas.every(c => chaves.includes(c)) && chaves.length === chavesCorretas.length) {
+    feedback.textContent = "Muito bem! Nome e chaves estão corretos.";
+    feedback.className = "feedback correct";
+  } else {
+    feedback.textContent = "Dados incorretos. Revise o nome e as chaves primárias da tabela associativa.";
+    feedback.className = "feedback incorrect";
+  }
+}
+
+// Verifica exercício 3 (arrastar e soltar atributos para múltiplas entidades)
+function checkTAAssociativa3() {
+  let feedback = document.getElementById("ta_q3_feedback");
+  let img = document.getElementById("ta_q3_img");
+
+  // Mapa esperado: ids dos atributos para cada entidade/tabela
+  const expected = {
+    drop_ta_usuario: ["attr_ta_usuario_id", "attr_ta_usuario_nome"],
+    drop_ta_produto: ["attr_ta_produto_id", "attr_ta_produto_nome", "attr_ta_produto_categoria"],
+    drop_ta_pedido: ["attr_ta_pedido_id", "attr_ta_pedido_data"],
+    drop_ta_categoria: ["attr_ta_categoria_id", "attr_ta_categoria_nome"],
+    drop_ta_pagamento: ["attr_ta_pagamento_id", "attr_ta_pagamento_metodo"],
+    drop_ta_entrega: ["attr_ta_entrega_id", "attr_ta_entrega_data"],
+    drop_ta_itempedido: ["attr_ta_itempedido_pedido_id", "attr_ta_itempedido_produto_id", "attr_ta_itempedido_quantidade"]
+  };
+
+  // Checa se as entidades têm os atributos corretos e nem mais nem menos
+  for (const [containerId, attrIds] of Object.entries(expected)) {
+    let container = document.getElementById(containerId);
+    if (!checkContainerAttributes(container, attrIds)) {
+      feedback.textContent = "Alguns atributos estão fora do lugar. Tente novamente.";
+      feedback.className = "feedback incorrect";
+      if (img) img.style.display = "none";
+      return;
+    }
+  }
+
+  feedback.textContent = "Parabéns! Todos os atributos estão corretamente organizados.";
+  feedback.className = "feedback correct";
+  if (img) img.style.display = "block";
+}
+
+// Função auxiliadora para verificar conteúdos do container (a exata lista dos IDs)
+function checkContainerAttributes(container, expectedIds) {
+  if (!container) return false;
+  if (container.children.length !== expectedIds.length) return false;
+  for (const id of expectedIds) {
+    if (!container.querySelector(`#${id}`)) return false;
+  }
+  return true;
+}   
+    </script>
+</body>
+</html>
