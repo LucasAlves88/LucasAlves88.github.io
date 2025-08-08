@@ -91,6 +91,11 @@
             padding-bottom: 0.3rem;
         }
 
+        h3 {
+            margin-top: 1.5rem;
+            color: var(--senac-blue);
+        }
+
         p, li {
             font-size: 1rem;
             line-height: 1.5;
@@ -192,6 +197,11 @@
             border: 1px solid var(--senac-border);
             border-radius: 4px;
         }
+
+        hr {
+            border: 1px solid var(--senac-border);
+            margin: 2rem 0;
+        }
     </style>
 </head>
 <body>
@@ -257,7 +267,7 @@
             <div class="feedback" id="feedback-modelagem"></div>
             <img id="img-modelagem" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Instituição Escolar" src="MER_01.png" />
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <!-- Outros exemplos seguem o mesmo padrão -->
 
@@ -286,13 +296,13 @@
                     <div id="attr-categoria_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">categoria</div>
                     <div id="attr-fornecedor" class="draggable-item" draggable="true" ondragstart="drag(event)">fornecedor</div>
                     <div id="attr-id_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">id_estoque</div>
-                    <div id="attr-id_produto_fk_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto est (FK)</div>
-                    <div id="attr-quantidade_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade est</div>
+                    <div id="attr-id_produto_fk_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto (FK)</div>
+                    <div id="attr-quantidade_estoque" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade</div>
                     <div id="attr-localizacao" class="draggable-item" draggable="true" ondragstart="drag(event)">localizacao</div>
                     <div id="attr-id_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">id_venda</div>
-                    <div id="attr-id_produto_fk_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto ven (FK)</div>
+                    <div id="attr-id_produto_fk_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto (FK)</div>
                     <div id="attr-data_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">data_venda</div>
-                    <div id="attr-quantidade_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade ven</div>
+                    <div id="attr-quantidade_venda" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade</div>
                     <div id="attr-valor_total" class="draggable-item" draggable="true" ondragstart="drag(event)">valor_total</div>
                 </div>
             </div>
@@ -300,7 +310,7 @@
             <div class="feedback" id="feedback-comercio"></div>
             <img id="img-comercio" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Comércio de Bairro" src="MER_02.png" />
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <h3>Exemplo prático: E-commerce</h3>
             <p>Distribua os atributos entre as entidades <b>Usuário</b>, <b>Produto</b> e <b>Pedido</b>.</p>
@@ -341,7 +351,7 @@
             <div class="feedback" id="feedback-ecom"></div>
             <img id="img-ecom" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER E-commerce" src="MER_03.png" />
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <h3>Exemplo prático: Clínica de Saúde</h3>
             <p>Distribua os atributos entre as entidades <b>Paciente</b>, <b>Médico</b> e <b>Consulta</b>.</p>
@@ -382,7 +392,7 @@
             <div class="feedback" id="feedback-clinica"></div>
             <img id="img-clinica" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Clínica de Saúde" src="MER_04.png" />
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <h3>Exemplo prático: Biblioteca</h3>
             <p>Distribua os atributos entre as entidades <b>Livro</b>, <b>Usuário</b> e <b>Empréstimo</b>.</p>
@@ -423,7 +433,7 @@
             <div class="feedback" id="feedback-biblio"></div>
             <img id="img-biblio" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Biblioteca" src="MER_05.png" />
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <h3>Exemplo prático: Logística / Transportadora</h3>
             <p>Distribua os atributos entre as entidades <b>Encomenda</b>, <b>Cliente</b>, <b>Motorista</b> e <b>Entrega</b>.</p>
@@ -469,6 +479,104 @@
             <button style="margin-top: 1rem;" onclick="checkExemplo('logistica')">Verificar Resposta</button>
             <div class="feedback" id="feedback-logistica"></div>
             <img id="img-logistica" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER Logística" src="MER_06.png" />
+
+            <hr>
+
+            <!-- Bloco Explicativo complementando modelo Logística -->
+            <h3>Observações Importantes sobre o Modelo da Transportadora</h3>
+            <p><strong>Relação Implícita do Cliente</strong>: O cliente, embora não apareça explicitamente ligado no diagrama simplificado, está associado às encomendas que ele solicita. Na prática, há uma relação entre Cliente e Encomenda via chave estrangeira que indica essa ligação.</p>
+            <p><strong>Chave Primária Simples x Chave Primária Composta na Entidade Entrega</strong>:</p>
+            <ul>
+                <li><strong>PK Simples (id_entrega)</strong>: Facilita a identificação única da entrega e permite adicionar dados exclusivos à entrega, como data, status, ou outras informações específicas.</li>
+                <li><strong>PK Composta (id_encomenda + id_motorista)</strong>: Garante que cada combinação entrega-motorista seja única. É útil quando esse conjunto representa diretamente a chave de identificação da entrega.</li>
+            </ul>
+            <p>Ambas as abordagens são válidas e usados dependendo da necessidade do sistema e da complexidade do projeto. É importante entender essas opções para projetar bancos de dados eficientes e claros.</p>
+
+            <h3>Exercícios Complementares</h3>
+
+            <!-- Exercício 7 -->
+            <div class="activity" id="atividade7">
+                <p><b>Exercício 7 - Identifique o relacionamento correto:</b></p>
+                <p>Em um cenário onde um funcionário gerencia apenas um departamento, e um departamento é gerenciado por apenas um funcionário, qual tipo de relacionamento isso representa?</p>
+                <label><input type="radio" name="q7" value="incorrect"> 1:N (Um para muitos)</label>
+                <label><input type="radio" name="q7" value="correct"> 1:1 (Um para um)</label>
+                <label><input type="radio" name="q7" value="incorrect"> N:N (Muitos para muitos)</label>
+                <button onclick="checkAnswer('q7', 'atividade7')">Responder</button>
+                <div class="feedback" id="feedback-q7"></div>
+            </div>
+
+            <!-- Exercício 8 -->
+            <div class="activity" id="atividade8">
+                <p><b>Exercício 8 - Escolha a chave primária ideal:</b></p>
+                <p>Para uma tabela que registra a presença dos alunos nas aulas, onde um aluno pode estar em várias aulas e cada aula tem vários alunos, qual é a melhor opção para a chave primária?</p>
+                <label><input type="radio" name="q8" value="correct"> Chave composta: id_aluno + id_aula</label>
+                <label><input type="radio" name="q8" value="incorrect"> Um campo id_presenca único</label>
+                <label><input type="radio" name="q8" value="incorrect"> id_aluno</label>
+                <button onclick="checkAnswer('q8', 'atividade8')">Responder</button>
+                <div class="feedback" id="feedback-q8"></div>
+            </div>
+
+            <!-- Exercício 9 -->
+            <div class="activity" id="atividade9">
+                <p><b>Exercício 9 - Montagem de tabela associativa:</b></p>
+                <p>Considere as entidades <em>Aluno</em> e <em>Curso</em>. Monte o nome da tabela associativa e suas chaves primárias.</p>
+                <input type="text" id="input9_nome" placeholder="Nome da tabela associativa" style="width: 60%; padding:0.4rem;" />
+                <input type="text" id="input9_chaves" placeholder="Chaves primárias separadas por vírgula" style="width: 60%; padding:0.4rem; margin-top:0.5rem;" />
+                <button onclick="checkExercicio9()">Verificar</button>
+                <div class="feedback" id="feedback-atividade9"></div>
+            </div>
+
+            <!-- Exercício 10 -->
+            <div class="activity" id="atividade10">
+                <p><b>Exercício 10 - Associe os atributos à entidade correta:</b></p>
+                <p>Arraste e solte os atributos para as entidades <b>Pedido</b> e <b>Cliente</b>.</p>
+                <div style="display: flex; gap: 2rem; margin-bottom: 1rem;">
+                    <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 120px;">
+                        <h4>Pedido</h4>
+                        <div id="drop-pedido10" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                    </div>
+                    <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 120px;">
+                        <h4>Cliente</h4>
+                        <div id="drop-cliente10" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                    </div>
+                </div>
+                <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem;">
+                    <div id="drag-container10" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <div id="attr-id_pedido10" class="draggable-item" draggable="true" ondragstart="drag(event)">id_pedido</div>
+                        <div id="attr-data_pedido10" class="draggable-item" draggable="true" ondragstart="drag(event)">data_pedido</div>
+                        <div id="attr-status_pedido10" class="draggable-item" draggable="true" ondragstart="drag(event)">status</div>
+                        <div id="attr-id_cliente_fk10" class="draggable-item" draggable="true" ondragstart="drag(event)">id_cliente (FK)</div>
+                        <div id="attr-id_cliente10" class="draggable-item" draggable="true" ondragstart="drag(event)">id_cliente</div>
+                        <div id="attr-nome_cliente10" class="draggable-item" draggable="true" ondragstart="drag(event)">nome</div>
+                        <div id="attr-email_cliente10" class="draggable-item" draggable="true" ondragstart="drag(event)">email</div>
+                    </div>
+                </div>
+                <button style="margin-top: 1rem;" onclick="checkExercicio10()">Verificar Resposta</button>
+                <div class="feedback" id="feedback-atividade10"></div>
+            </div>
+
+            <!-- Exercício 11 -->
+            <div class="activity" id="atividade11">
+                <p><b>Exercício 11 - Tipos de dados:</b></p>
+                <p>Qual o tipo de dado mais adequado para armazenar a data de nascimento em um banco de dados?</p>
+                <label><input type="radio" name="q11" value="correct"> DATE</label>
+                <label><input type="radio" name="q11" value="incorrect"> VARCHAR</label>
+                <label><input type="radio" name="q11" value="incorrect"> INTEGER</label>
+                <button onclick="checkAnswer('q11', 'atividade11')">Responder</button>
+                <div class="feedback" id="feedback-q11"></div>
+            </div>
+
+            <!-- Exercício 12 -->
+            <div class="activity" id="atividade12">
+                <p><b>Exercício 12 - Relacionamentos N:N e tabelas associativas:</b></p>
+                <p>Uma relação muitos para muitos (N:N) em bancos de dados é resolvida geralmente através de:</p>
+                <label><input type="radio" name="q12" value="correct"> Uma tabela associativa</label>
+                <label><input type="radio" name="q12" value="incorrect"> Uma chave primária simples</label>
+                <label><input type="radio" name="q12" value="incorrect"> Uma única tabela</label>
+                <button onclick="checkAnswer('q12', 'atividade12')">Responder</button>
+                <div class="feedback" id="feedback-q12"></div>
+            </div>
+
         </section>
 
         <!-- Outras abas permanecem vazias ou com seu conteúdo padrão por enquanto -->
@@ -619,11 +727,22 @@
                     'drop-cliente': ['attr-id_cliente', 'attr-nome_cliente', 'attr-telefone_cliente', 'attr-endereco_cliente'],
                     'drop-motorista': ['attr-id_motorista', 'attr-nome_motorista', 'attr-telefone_motorista', 'attr-placa_veiculo'],
                     'drop-entrega': ['attr-id_entrega', 'attr-id_encomenda_fk', 'attr-id_motorista_fk', 'attr-data_entrega']
+                },
+                // Exercícios complementares:
+                'ex10': {
+                    'drop-pedido10': ['attr-id_pedido10', 'attr-data_pedido10', 'attr-status_pedido10', 'attr-id_cliente_fk10'],
+                    'drop-cliente10': ['attr-id_cliente10', 'attr-nome_cliente10', 'attr-email_cliente10']
                 }
             };
 
             const mapThis = exemplosMap[exemplo];
             let allOk = true;
+
+            if (!mapThis) {
+                feedback.textContent = "Exercício não configurado corretamente.";
+                feedback.className = 'feedback incorrect';
+                return;
+            }
 
             for(let entityId in mapThis) {
                 let container = document.getElementById(entityId);
@@ -636,14 +755,77 @@
             if(allOk) {
                 feedback.textContent = "Parabéns! Você distribuiu todos os atributos corretamente.";
                 feedback.className = 'feedback correct';
-                img.style.display = 'block';
+                if(img) img.style.display = 'block';
             } else {
                 feedback.textContent = "Há atributos fora do lugar. Verifique novamente as entidades.";
                 feedback.className = 'feedback incorrect';
-                img.style.display = 'none';
+                if(img) img.style.display = 'none';
             }
         }
+
+        // Função para validar exercícios de alternativa (7,8,11,12)
+        function checkAnswer(name, activityId) {
+            const options = document.getElementsByName(name);
+            const feedback = document.getElementById('feedback-' + activityId);
+            let selected = false;
+            let correct = false;
+
+            for (const opt of options) {
+                if(opt.checked) {
+                    selected = true;
+                    if(opt.value === 'correct') {
+                        correct = true;
+                    }
+                    break;
+                }
+            }
+
+            if(!selected) {
+                feedback.textContent = 'Por favor, selecione uma opção.';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+
+            if(correct) {
+                feedback.textContent = 'Resposta correta!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Resposta incorreta, tente novamente.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        // Exercício 9: montar tabela associativa
+        function checkExercicio9() {
+            const nomeTabela = document.getElementById('input9_nome').value.trim().toLowerCase();
+            const chavesStr = document.getElementById('input9_chaves').value.trim().toLowerCase();
+            const feedback = document.getElementById('feedback-atividade9');
+
+            const nomeCorreto = 'matricula';
+            // Permitir vírgula e espaço na entrada
+            const chavesCorretas = ['id_aluno','id_curso'];
+
+            const chaves = chavesStr.split(',').map(s => s.trim());
+
+            // Verificar nome da tabela e chaves
+            if(nomeTabela === nomeCorreto &&
+                chavesCorretas.every(c => chaves.includes(c)) &&
+                chaves.length === chavesCorretas.length) {
+                feedback.textContent = 'Muito bem! Você identificou corretamente a tabela associativa e suas chaves.';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = 'Resposta incorreta. Lembre-se que a tabela associativa deve conter os dois IDs como chave composta.';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        // Exercício 10: associar atributos às entidades Pedido e Cliente (ex10)
+        function checkExercicio10() {
+            checkExemplo('ex10');
+        }
+
     </script>
 </body>
 </html>
+
 
