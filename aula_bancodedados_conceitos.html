@@ -692,127 +692,176 @@
 <section id="tab6">
   <h2>Tabelas Associativas</h2>
 
-  <p>Em bancos de dados relacionais, as <strong>tabelas associativas</strong> são essenciais para resolver relacionamentos <strong>muitos-para-muitos (N:N)</strong>. Elas conectam múltiplas entidades, permitindo múltiplas associações sem redundância.</p>
+  <p>Em bancos de dados relacionais, as <strong>tabelas associativas</strong> são usadas para resolver <strong>relacionamentos muitos-para-muitos (N:N)</strong>. Elas funcionam como "ponte", conectando as entidades envolvidas e permitindo armazenar associações entre registros dessas entidades.</p>
 
-  <h3>Por que usamos tabelas associativas?</h3>
-  <p>Quando duas entidades se relacionam de modo que uma instância de uma pode se relacionar com diversas instâncias da outra, e vice-versa, usamos tabelas associativas para representar essa ligação.</p>
+  <h3>Por que usar tabelas associativas?</h3>
+  <p>Imagine que um aluno pode se matricular em vários cursos, e cada curso pode ter vários alunos. Não é possível representar isso diretamente com apenas duas tabelas; precisamos de uma tabela intermediária que registre essas associações — essa é a tabela associativa (ex: Matrícula).</p>
 
-  <h3>Exemplos Reais e Completos</h3>
+  <h3>Exemplos práticos</h3>
   <ul>
-    <li>
-      <strong>Escola Completa<br/></strong>
-      <em>Entidades:</em> Aluno, Curso, Professor, Turma, Matéria, Matrícula.<br/>
-      <em>Tabelas associativas:</em> Matrícula (Aluno-Curso-Turma), Ensino (Professor-Turma-Matéria).
-    </li>
-    <li>
-      <strong>E-commerce Estendido<br/></strong>
-      <em>Entidades:</em> Usuário, Produto, Pedido, Categoria, Pagamento, Entrega.<br/>
-      <em>Tabelas associativas:</em> ItemPedido (Pedido-Produto), PagamentoPedido (Pagamento-Pedido).
-    </li>
-    <li>
-      <strong>Biblioteca Avançada<br/></strong>
-      <em>Entidades:</em> Livro, Autor, Usuário, Empréstimo, Reserva, Multa.<br/>
-      <em>Tabelas associativas:</em> LivroAutor (Livro-Autor), Empréstimo (Usuário-Livro).
-    </li>
-    <li>
-      <strong>Logística Complexa<br/></strong>
-      <em>Entidades:</em> Cliente, Encomenda, Motorista, Veículo, Rota, Entrega.<br/>
-      <em>Tabelas associativas:</em> Entrega (Encomenda-Motorista-Veículo), RotaCliente (Rota-Cliente).
-    </li>
-    <li>
-      <strong>Restaurante Dinâmico<br/></strong>
-      <em>Entidades:</em> Cliente, Pedido, Garçom, Prato, Ingrediente, Fornecedor.<br/>
-      <em>Tabelas associativas:</em> PedidoPrato (Pedido-Prato), PratoIngrediente (Prato-Ingrediente).
-    </li>
+    <li><strong>Escola:</strong> Aluno, Curso, <em>Matrícula</em> (tabela associativa entre Aluno e Curso)</li>
+    <li><strong>E-commerce:</strong> Pedido, Produto, <em>ItensPedido</em> (produtos em cada pedido)</li>
+    <li><strong>Biblioteca:</strong> Livro, Autor, <em>LivroAutor</em> (vários autores por livro)</li>
+    <li><strong>Academia:</strong> Aluno, Treino, <em>PlanoTreino</em> (vários alunos em treinos diferentes)</li>
+    <li><strong>Cinema:</strong> Filme, Sessão, <em>Exibição</em> (vários filmes em sessões diferentes)</li>
   </ul>
 
-  <hr />
+  <hr>
 
-  <!-- Exercício 1 -->
-  <div class="activity">
+  <!-- Exercícios originais mantidos -->
+  <div class="activity" id="atividade1_tabela_associativa">
     <p><b>Exercício 1 - O que é uma tabela associativa?</b></p>
-    <label><input type="radio" name="ta_q1" value="correct" /> Tabela que resolve relacionamentos muitos-para-muitos.</label><br />
-    <label><input type="radio" name="ta_q1" value="incorrect" /> Tabela com chave primária simples.</label><br />
-    <label><input type="radio" name="ta_q1" value="incorrect" /> Tabela que armazena dados únicos sem ligações.</label><br />
-    <button onclick="checkAnswer('ta_q1','ta_q1')">Responder</button>
-    <div id="ta_q1" class="feedback"></div>
+    <label><input type="radio" name="qta1" value="correct"> Uma tabela que resolve relacionamento N:N entre duas entidades</label>
+    <label><input type="radio" name="qta1" value="incorrect"> Uma tabela que tem apenas chave primária simples</label>
+    <label><input type="radio" name="qta1" value="incorrect"> Uma tabela que só armazena dados de um único registro</label>
+    <button onclick="checkAnswer('qta1', 'qta1')">Responder</button>
+    <div class="feedback" id="feedback-qta1"></div>
   </div>
-
-  <hr />
-
-  <!-- Exercício 2 -->
-  <div class="activity">
-    <p><b>Exercício 2 - Nomeie a tabela associativa e defina suas chaves primárias:</b></p>
-    <p>Em um sistema escolar, temos as entidades: Aluno, Curso, Professor, Turma, Matéria e Matrícula. Como você nomearia a tabela associativa que liga Aluno, Curso e Turma? Quais colunas compõem sua chave primária?</p>
-    <input type="text" id="ta_inp2_nome" placeholder="Nome da tabela associativa (ex: matricula)" style="width: 60%; padding: 0.4rem;" /><br />
-    <input type="text" id="ta_inp2_chaves" placeholder="Chaves primárias separadas por vírgula" style="width: 60%; padding: 0.4rem; margin-top: 0.5rem;" /><br />
-    <button onclick="checkTAAssociativa2()">Verificar</button>
-    <div id="ta_q2_feedback" class="feedback"></div>
+  <hr>
+  <div class="activity" id="atividade2_tabela_associativa">
+    <p><b>Exercício 2 - Nomeie a tabela associativa para o cenário:</b></p>
+    <p>Em um sistema escolar, as entidades são: Aluno e Curso. Qual o nome e as chaves primárias da tabela que relaciona alunos com cursos?</p>
+    <input type="text" id="input_ta2_nome" placeholder="Nome da tabela associativa (ex: matricula)" style="width: 60%; padding:0.4rem;" />
+    <input type="text" id="input_ta2_chaves" placeholder="Chaves primárias separadas por vírgula (ex: id_aluno, id_curso)" style="width: 60%; padding:0.4rem; margin-top:0.5rem;" />
+    <button onclick="checkExercicio2()">Verificar</button>
+    <div class="feedback" id="feedback-ta2"></div>
   </div>
-
-  <hr />
-
-  <!-- Exercício 3 -->
-  <div class="activity">
-    <p><b>Exercício 3 - Arraste os atributos para as entidades e tabela associativa corretas:</b></p>
-    <p>Considerando o sistema E-commerce: Usuário, Produto, Pedido, Categoria, Pagamento e Entrega. Organize os atributos para cada entidade e a tabela associativa ItemPedido.</p>
-    <div style="display: flex; gap: 15px; margin-bottom: 10px;">
-      <div class="dropzone" id="drop_ta_usuario">Usuário</div>
-      <div class="dropzone" id="drop_ta_produto">Produto</div>
-      <div class="dropzone" id="drop_ta_pedido">Pedido</div>
-      <div class="dropzone" id="drop_ta_categoria">Categoria</div>
-      <div class="dropzone" id="drop_ta_pagamento">Pagamento</div>
-      <div class="dropzone" id="drop_ta_entrega">Entrega</div>
-      <div class="dropzone" id="drop_ta_itempedido">ItemPedido (Associativa)</div>
+  <hr>
+  <div class="activity" id="atividade3_tabela_associativa">
+    <p><b>Exercício 3 - Arraste os atributos para as tabelas corretas:</b></p>
+    <p>Entidades: Pedido, Produto e tabela associativa ItensPedido</p>
+    <div style="display: flex; gap: 2rem; margin-bottom: 1rem;">
+      <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 160px;">
+        <h4>Pedido</h4>
+        <div id="drop-pedido-ta3" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+      </div>
+      <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 160px;">
+        <h4>Produto</h4>
+        <div id="drop-produto-ta3" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+      </div>
+      <div style="flex: 1; border: 2px solid var(--senac-border); border-radius:6px; padding: 1rem; min-height: 160px;">
+        <h4>ItensPedido (Tabela Associativa)</h4>
+        <div id="drop-itenspedido-ta3" class="drop-target" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+      </div>
     </div>
-    <div class="drag-container" id="drag_ta3">
-      <div class="draggable" id="attr_ta_usuario_id" draggable="true">id_usuario (PK)</div>
-      <div class="draggable" id="attr_ta_usuario_nome" draggable="true">nome</div>
-      <div class="draggable" id="attr_ta_produto_id" draggable="true">id_produto (PK)</div>
-      <div class="draggable" id="attr_ta_produto_nome" draggable="true">nome</div>
-      <div class="draggable" id="attr_ta_produto_categoria" draggable="true">categoria</div>
-      <div class="draggable" id="attr_ta_pedido_id" draggable="true">id_pedido (PK)</div>
-      <div class="draggable" id="attr_ta_pedido_data" draggable="true">data</div>
-      <div class="draggable" id="attr_ta_categoria_id" draggable="true">id_categoria (PK)</div>
-      <div class="draggable" id="attr_ta_categoria_nome" draggable="true">nome</div>
-      <div class="draggable" id="attr_ta_pagamento_id" draggable="true">id_pagamento (PK)</div>
-      <div class="draggable" id="attr_ta_pagamento_metodo" draggable="true">metodo</div>
-      <div class="draggable" id="attr_ta_entrega_id" draggable="true">id_entrega (PK)</div>
-      <div class="draggable" id="attr_ta_entrega_data" draggable="true">data_entrega</div>
-      <div class="draggable" id="attr_ta_itempedido_pedido_id" draggable="true">id_pedido (FK)</div>
-      <div class="draggable" id="attr_ta_itempedido_produto_id" draggable="true">id_produto (FK)</div>
-      <div class="draggable" id="attr_ta_itempedido_quantidade" draggable="true">quantidade</div>
+    <div style="border: 2px dashed var(--senac-blue); border-radius:6px; padding: 1rem; min-height: 140px; max-height: 180px; overflow-y: auto;">
+      <h4>Atributos para distribuir</h4>
+      <div id="drag-container-ta3" class="drag-container">
+        <div id="attr-id_pedido" class="draggable-item" draggable="true" ondragstart="drag(event)">id_pedido</div>
+        <div id="attr-data_pedido" class="draggable-item" draggable="true" ondragstart="drag(event)">data_pedido</div>
+        <div id="attr-id_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto</div>
+        <div id="attr-nome_produto" class="draggable-item" draggable="true" ondragstart="drag(event)">nome_produto</div>
+        <div id="attr-id_pedido_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_pedido (FK)</div>
+        <div id="attr-id_produto_fk" class="draggable-item" draggable="true" ondragstart="drag(event)">id_produto (FK)</div>
+        <div id="attr-quantidade" class="draggable-item" draggable="true" ondragstart="drag(event)">quantidade</div>
+      </div>
     </div>
-    <button onclick="checkTAAssociativa3()">Verificar</button>
-    <div id="ta_q3_feedback" class="feedback"></div>
-    <img id="ta_q3_img" class="diagram" style="display:none; margin-top:1rem" src="MER_ta3.png" alt="Diagrama MER ItemPedido" />
+    <button style="margin-top: 1rem;" onclick="checkExercicio3()">Verificar Resposta</button>
+    <div class="feedback" id="feedback-ta3"></div>
+    <img id="img-ta3" class="diagram" style="margin-top: 1rem; display:none;" alt="Diagrama MER ItensPedido" src="MER_ta3.png" />
   </div>
-
-  <hr />
-
-  <!-- Exercício 4 -->
-  <div class="activity">
-    <p><b>Exercício 4 - Verdadeiro ou falso:</b></p>
+  <hr>
+  <div class="activity" id="atividade4_tabela_associativa">
+    <p><b>Exercício 4 - Verdadeiro ou Falso:</b></p>
     <p>Uma tabela associativa sempre possui chave primária composta pelas chaves estrangeiras das entidades relacionadas.</p>
-    <label><input type="radio" name="ta_q4" value="correct" /> Verdadeiro</label><br />
-    <label><input type="radio" name="ta_q4" value="incorrect" /> Falso</label><br />
-    <button onclick="checkAnswer('ta_q4', 'ta_q4')">Responder</button>
-    <div id="ta_q4" class="feedback"></div>
+    <label><input type="radio" name="qta4" value="correct"> Verdadeiro</label>
+    <label><input type="radio" name="qta4" value="incorrect"> Falso</label>
+    <button onclick="checkAnswer('qta4', 'qta4')">Responder</button>
+    <div class="feedback" id="feedback-qta4"></div>
+  </div>
+  <hr>
+  <div class="activity" id="atividade5_tabela_associativa">
+    <p><b>Exercício 5 - Qual das opções abaixo representa melhor o propósito das tabelas associativas?</b></p>
+    <label><input type="radio" name="qta5" value="incorrect"> Armazenar dados redundantes entre entidades</label>
+    <label><input type="radio" name="qta5" value="correct"> Resolver relacionamentos muitos-para-muitos</label>
+    <label><input type="radio" name="qta5" value="incorrect"> Substituir as tabelas principais do banco</label>
+    <button onclick="checkAnswer('qta5', 'qta5')">Responder</button>
+    <div class="feedback" id="feedback-qta5"></div>
+  </div>
+  <hr>
+  <div class="activity" id="atividade6_tabela_associativa">
+    <p><b>Exercício 6 - Complete a frase:</b></p>
+    <p>
+      A tabela associativa <input type="text" id="input-ta6" placeholder="Digite aqui o nome da tabela associativa" style="width: 40%; padding: 0.4rem;" />
+      tem como chave primária composta as colunas <input type="text" id="input-ta6-keys" placeholder="Digite as chaves primárias" style="width: 50%; padding: 0.4rem; margin-top: 0.5rem;" />
+    </p>
+    <button onclick="checkExercicio6()">Verificar</button>
+    <div class="feedback" id="feedback-ta6"></div>
   </div>
 
-  <hr />
+  <!-- NOVOS EXERCÍCIOS AVANÇADOS -->
+  <hr>
+  <h3>Exercícios Avançados de Tabelas Associativas</h3>
 
-  <!-- Exercício 5 -->
   <div class="activity">
-    <p><b>Exercício 5 - Qual é a principal função de uma tabela associativa?</b></p>
-    <label><input type="radio" name="ta_q5" value="incorrect" /> Armazenar dados duplicados entre tabelas.</label><br />
-    <label><input type="radio" name="ta_q5" value="correct" /> Resolver relacionamentos muitos-para-muitos entre entidades.</label><br />
-    <label><input type="radio" name="ta_q5" value="incorrect" /> Substituir tabelas base em um banco de dados.</label><br />
-    <button onclick="checkAnswer('ta_q5', 'ta_q5')">Responder</button>
-    <div id="ta_q5" class="feedback"></div>
+    <p><b>Desafio 7 - Análise de modelo escolar completo:</b></p>
+    <p>
+      No modelo: <br>
+      Entidades: Aluno, Turma, Curso, Professor, Matéria, Matrícula<br>
+      Pergunta: Como ficaria a tabela associativa que registra qual aluno está em qual turma, de qual curso? (nome e chaves)
+    </p>
+    <input type="text" id="desafio7_nome" placeholder="Nome da tabela associativa" style="width: 50%; padding: 0.4rem;">
+    <input type="text" id="desafio7_keys" placeholder="Chaves primárias" style="width: 45%; padding: 0.4rem;">
+    <button onclick="checkDesafio7()">Verificar</button>
+    <div class="feedback" id="feedback-d7"></div>
+    <img id="img-d7" class="diagram" style="margin-top: 1rem; display:none;" alt="MER_ta1.png" src="MER_ta1.png">
   </div>
-
+  <hr>
+  <div class="activity">
+    <p><b>Desafio 8 - Organização avançada (drag-and-drop):</b></p>
+    <p>
+      No sistema de restaurante:<br>
+      Entidades: Cliente, Pedido, Prato, Ingrediente, PedidoPrato (associativa), PratoIngrediente (associativa).<br>
+      Arraste os atributos para os blocos corretos!
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+      <div class="dropzone" id="drop-d8-cliente">Cliente</div>
+      <div class="dropzone" id="drop-d8-pedido">Pedido</div>
+      <div class="dropzone" id="drop-d8-prato">Prato</div>
+      <div class="dropzone" id="drop-d8-ingrediente">Ingrediente</div>
+      <div class="dropzone" id="drop-d8-pedidoprato">PedidoPrato (associativa)</div>
+      <div class="dropzone" id="drop-d8-pratoingrediente">PratoIngrediente (associativa)</div>
+    </div>
+    <div class="drag-container" id="drag-d8">
+      <div class="draggable-item" id="attr-d8-clienteid" draggable="true" ondragstart="drag(event)">id_cliente</div>
+      <div class="draggable-item" id="attr-d8-clientenome" draggable="true" ondragstart="drag(event)">nome_cliente</div>
+      <div class="draggable-item" id="attr-d8-pedidoid" draggable="true" ondragstart="drag(event)">id_pedido</div>
+      <div class="draggable-item" id="attr-d8-pedidodata" draggable="true" ondragstart="drag(event)">data_pedido</div>
+      <div class="draggable-item" id="attr-d8-pratoid" draggable="true" ondragstart="drag(event)">id_prato</div>
+      <div class="draggable-item" id="attr-d8-pratonome" draggable="true" ondragstart="drag(event)">nome_prato</div>
+      <div class="draggable-item" id="attr-d8-ingredienteid" draggable="true" ondragstart="drag(event)">id_ingrediente</div>
+      <div class="draggable-item" id="attr-d8-ingredientenome" draggable="true" ondragstart="drag(event)">nome_ingrediente</div>
+      <div class="draggable-item" id="attr-d8-pedidoprato_pedido" draggable="true" ondragstart="drag(event)">id_pedido (FK)</div>
+      <div class="draggable-item" id="attr-d8-pedidoprato_prato" draggable="true" ondragstart="drag(event)">id_prato (FK)</div>
+      <div class="draggable-item" id="attr-d8-pratoingrediente_prato" draggable="true" ondragstart="drag(event)">id_prato (FK)</div>
+      <div class="draggable-item" id="attr-d8-pratoingrediente_ing" draggable="true" ondragstart="drag(event)">id_ingrediente (FK)</div>
+    </div>
+    <button onclick="checkDesafio8()">Verificar Resposta</button>
+    <div class="feedback" id="feedback-d8"></div>
+    <img id="img-d8" class="diagram" style="margin-top: 1rem; display:none;" alt="MER_ta5.png" src="MER_ta5.png">
+  </div>
+  <hr>
+  <div class="activity">
+    <p><b>Desafio 9 - Verdadeiro/Falso:</b></p>
+    <p>Uma tabela associativa pode conter, além das chaves das entidades relacionadas, outros atributos relevantes (ex: data, quantidade, observação).</p>
+    <label><input type="radio" name="d9" value="correct"> Verdadeiro</label>
+    <label><input type="radio" name="d9" value="incorrect"> Falso</label>
+    <button onclick="checkAnswer('d9', 'feedback-d9')">Responder</button>
+    <div class="feedback" id="feedback-d9"></div>
+  </div>
+  <hr>
+  <div class="activity">
+    <p><b>Desafio 10 - Associação múltipla:</b></p>
+    <p>No modelo de logística: Cliente, Encomenda, Motorista, Veículo, Rota, Entrega.<br>
+    Qual tabela associativa relaciona encomendas, veículos e motoristas para registrar uma entrega?</p>
+    <input type="text" id="d10_nome" placeholder="Nome da tabela associativa" style="width: 200px; padding:0.4rem;">
+    <input type="text" id="d10_keys" placeholder="Chaves primárias" style="width: 240px; padding:0.4rem;">
+    <button onclick="checkDesafio10()">Verificar</button>
+    <div class="feedback" id="feedback-d10"></div>
+    <img id="img-d10" class="diagram" style="margin-top: 1rem; display:none;" alt="MER_ta4.png" src="MER_ta4.png">
+  </div>
 </section>
+
 
 
         <section id="tab7">
@@ -1329,6 +1378,75 @@ function checkContainerAttributes(container, expectedIds) {
   return true;
 }
 
+function checkDesafio7() {
+  const nome = document.getElementById('desafio7_nome').value.trim().toLowerCase();
+  const chaves = document.getElementById('desafio7_keys').value.trim().toLowerCase();
+  const feedback = document.getElementById('feedback-d7');
+  const img = document.getElementById('img-d7');
+  const chavesCorretas = ['id_aluno', 'id_curso', 'id_turma'];
+
+  if(nome === 'matricula' && chavesCorretas.every(c => chaves.includes(c))) {
+    feedback.textContent = "Correto! Matrícula (id_aluno + id_curso + id_turma) é a tabela associativa e sua PK composta.";
+    feedback.className = "feedback correct";
+    if(img) img.style.display = "block";
+  } else {
+    feedback.textContent = "Reveja o nome da tabela associativa escolar e as três chaves de ligação.";
+    feedback.className = "feedback incorrect";
+    if(img) img.style.display = "none";
+  }
+}
+
+function checkDesafio8() {
+  const feedback = document.getElementById('feedback-d8');
+  const img = document.getElementById('img-d8');
+  // Esperado: cada dropzone com ids
+  const esperado = {
+    'drop-d8-cliente': ['attr-d8-clienteid', 'attr-d8-clientenome'],
+    'drop-d8-pedido': ['attr-d8-pedidoid', 'attr-d8-pedidodata'],
+    'drop-d8-prato': ['attr-d8-pratoid', 'attr-d8-pratonome'],
+    'drop-d8-ingrediente': ['attr-d8-ingredienteid', 'attr-d8-ingredientenome'],
+    'drop-d8-pedidoprato': ['attr-d8-pedidoprato_pedido', 'attr-d8-pedidoprato_prato'],
+    'drop-d8-pratoingrediente': ['attr-d8-pratoingrediente_prato', 'attr-d8-pratoingrediente_ing']
+  };
+  for(const dz in esperado) {
+    let box = document.getElementById(dz);
+    if(!box || box.children.length !== esperado[dz].length) {
+      feedback.textContent = "Revise sua distribuição. Deve haver apenas os atributos certos em cada bloco!";
+      feedback.className = "feedback incorrect";
+      if(img) img.style.display = "none";
+      return;
+    }
+    for(const id of esperado[dz]) {
+      if(!box.querySelector(`#${id}`)) {
+        feedback.textContent = "Verifique os atributos, algum está fora do lugar certo!";
+        feedback.className = "feedback incorrect";
+        if(img) img.style.display = "none";
+        return;
+      }
+    }
+  }
+  feedback.textContent = "Tudo certo! Veja o MER do restaurante abaixo.";
+  feedback.className = "feedback correct";
+  if(img) img.style.display = "block";
+}
+
+function checkDesafio10() {
+  const nome = document.getElementById('d10_nome').value.trim().toLowerCase();
+  const chaves = document.getElementById('d10_keys').value.trim().toLowerCase();
+  const feedback = document.getElementById('feedback-d10');
+  const img = document.getElementById('img-d10');
+  const chavesCorretas = ['id_encomenda', 'id_motorista', 'id_veiculo'];
+
+  if((nome === 'entrega' || nome === 'entregas') && chavesCorretas.every(c => chaves.includes(c))) {
+    feedback.textContent = "Muito bem! 'Entrega', PK composta por id_encomenda, id_motorista, id_veiculo.";
+    feedback.className = "feedback correct";
+    if(img) img.style.display = "block";
+  } else {
+    feedback.textContent = "Dica: é o nome da tabela de operação logística e as três chaves associativas.";
+    feedback.className = "feedback incorrect";
+    if(img) img.style.display = "none";
+  }
+}
 
 
 
