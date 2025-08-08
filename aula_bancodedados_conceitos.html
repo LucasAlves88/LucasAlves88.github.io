@@ -591,10 +591,90 @@
         </section>
 
         <!-- Outras abas permanecem vazias ou com seu conteúdo padrão por enquanto -->
-        <section id="tab2">
-            <h2>Chave Primária (PK) e Chave Estrangeira (FK)</h2>
-            <p>Conteúdo a implementar.</p>
-        </section>
+        <!-- Aba 2 - Chave Primária e Chave Estrangeira -->
+<section id="tab2">
+  <h2>Chave Primária e Chave Estrangeira</h2>
+
+  <p><strong>Chave Primária (PK)</strong> é um atributo ou conjunto de atributos que identificam única e exclusivamente um registro em uma tabela.</p>
+
+  <p><strong>Chave Estrangeira (FK)</strong> é um atributo em uma tabela que referencia a chave primária de outra tabela, estabelecendo um vínculo entre as duas.</p>
+
+  <h3>Por que PK e FK são importantes?</h3>
+  <ul>
+    <li>Garantem a unicidade dos dados e a integridade referencial;</li>
+    <li>Permitem modelar relacionamentos entre tabelas de forma precisa;</li>
+    <li>Facilitam consultas e atualizações no banco de dados.</li>
+  </ul>
+
+  <h3>Exemplo prático: Sistema E-commerce</h3>
+  <p>Veja as tabelas principais e seus campos de chave:</p>
+  <ul>
+    <li><strong>Pedido</strong>: id_pedido (PK), data, total</li>
+    <li><strong>Cliente</strong>: id_cliente (PK), nome, email</li>
+    <li><strong>ItemPedido</strong>: id_pedido (FK), id_produto (FK), quantidade</li>
+  </ul>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 1:</b> Qual campo seria uma boa Chave Primária para a tabela "Cliente"?</p>
+    <label><input type="radio" name="pk1" value="correct"> CPF</label>
+    <label><input type="radio" name="pk1" value="incorrect"> Nome</label>
+    <label><input type="radio" name="pk1" value="incorrect"> Endereço</label>
+    <button onclick="checkAnswer('pk1', 'pk1')">Responder</button>
+    <div id="pk1" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 2:</b> Para que serve uma Chave Estrangeira?</p>
+    <label><input type="radio" name="fk1" value="correct"> Relacionar dados entre duas tabelas</label>
+    <label><input type="radio" name="fk1" value="incorrect"> Identificar registros unicamente</label>
+    <label><input type="radio" name="fk1" value="incorrect"> Armazenar dados duplicados</label>
+    <button onclick="checkAnswer('fk1', 'fk1')">Responder</button>
+    <div id="fk1" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 3:</b> Associe os campos aos seus tipos corretos:</p>
+    <div style="display: flex; gap: 20px; margin-bottom: 10px;">
+      <div class="drop-zone" id="drop-pedido" ondragover="allowDrop(event)" ondrop="drop(event)"><strong>Pedido (PK)</strong></div>
+      <div class="drop-zone" id="drop-produto" ondragover="allowDrop(event)" ondrop="drop(event)"><strong>Produto (PK)</strong></div>
+      <div class="drop-zone" id="drop-pedido-fk" ondragover="allowDrop(event)" ondrop="drop(event)"><strong>Pedido (FK)</strong></div>
+    </div>
+    <div class="drag-container">
+      <div class="draggable-item" draggable="true" id="id_pedido" ondragstart="drag(event)">id_pedido</div>
+      <div class="draggable-item" draggable="true" id="nome_produto" ondragstart="drag(event)">nome_produto</div>
+      <div class="draggable-item" draggable="true" id="id_produto" ondragstart="drag(event)">id_produto</div>
+      <div class="draggable-item" draggable="true" id="id_pedido_fk" ondragstart="drag(event)">id_pedido (FK)</div>
+    </div>
+    <button onclick="validateActivity3()">Verificar</button>
+    <div id="activity3_feedback" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 4:</b> Complete a frase:</p>
+    <p>A <input type="text" id="atividade4_text" placeholder="Palavra" /> identifica registros únicos em uma tabela, e a <input type="text" id="atividade4_text2" placeholder="Palavra" /> referencia uma chave em outra tabela.</p>
+    <button onclick="checkActivity4()">Verificar</button>
+    <div id="atividade4_feedback" class="feedback"></div>
+  </div>
+
+  <hr>
+
+  <div class="activity">
+    <p><b>Atividade 5:</b> Verdadeiro ou Falso:</p>
+    <label><input type="radio" name="atividade5" value="correct" /> A chave estrangeira deve sempre apontar para a chave primária da outra tabela.</label><br />
+    <label><input type="radio" name="atividade5" value="incorrect" /> A chave primária pode ser nula e ainda assim ser usada como referência.</label><br />
+    <button onclick="checkAnswer('atividade5', 'atividade5')">Responder</button>
+    <div id="atividade5_feedback" class="feedback"></div>
+  </div>
+</section>
+
         <section id="tab3">
             <h2>Modelo Entidade-Relacionamento (MER)</h2>
             <p>Conteúdo a implementar.</p>
@@ -1070,6 +1150,48 @@ function checkExercicio6() {
         feedback.textContent = 'Resposta incorreta. Verifique o nome da tabela e as chaves primárias.';
         feedback.className = 'feedback incorrect';
     }
+}
+// Reutiliza allowDrop, drag, drop e checkAnswer globais
+
+function validateActivity3() {
+  const pedidoContainer = document.getElementById('drop-pedido');
+  const produtoContainer = document.getElementById('drop-produto');
+  const pedidoFkContainer = document.getElementById('drop-pedido-fk');
+  const feedback = document.getElementById('activity3_feedback');
+
+  const pedidoItems = ['id_pedido'];
+  const produtoItems = ['id_produto', 'nome_produto'];
+  const pedidoFkItems = ['id_pedido_fk'];
+
+  function arrayMatch(container, arr) {
+    if(container.children.length !== arr.length) return false;
+    for(let id of arr) {
+      if(!container.querySelector(`#${id}`)) return false;
+    }
+    return true;
+  }
+
+  if(arrayMatch(pedidoContainer, pedidoItems) && arrayMatch(produtoContainer, produtoItems) && arrayMatch(pedidoFkContainer, pedidoFkItems)) {
+    feedback.textContent = "Parabéns! Você associou os campos corretamente.";
+    feedback.className = "feedback correct";
+  } else {
+    feedback.textContent = "Alguns campos estão no lugar errado. Tente novamente.";
+    feedback.className = "feedback incorrect";
+  }
+}
+
+function checkActivity4() {
+  const input1 = document.getElementById('atividade4_text').value.trim().toLowerCase();
+  const input2 = document.getElementById('atividade4_text2').value.trim().toLowerCase();
+  const feedback = document.getElementById('atividade4_feedback');
+
+  if(input1 === 'chave primária' && input2 === 'chave estrangeira') {
+    feedback.textContent = "Muito bem! Frase completada corretamente.";
+    feedback.className = "feedback correct";
+  } else {
+    feedback.textContent = "Resposta incorreta, tente novamente.";
+    feedback.className = "feedback incorrect";
+  }
 }
 
     </script>
