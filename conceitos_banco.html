@@ -544,26 +544,26 @@
     <p><strong>Chave Primária (PK)</strong> e <strong>Chave Estrangeira (FK)</strong> são fundamentais para garantir integridade e relacionamentos entre tabelas!</p>
 
     <!-- Exercício 1 -->
-    <div class="activity">
-        <p><b>Exercício 1:</b> Qual campo é melhor para Chave Primária da tabela Cliente?</p>
-        <label><input type="radio" name="pk1" value="correct" /> CPF</label>
-        <label><input type="radio" name="pk1" value="incorrect" /> Nome</label>
-        <label><input type="radio" name="pk1" value="incorrect" /> Email</label>
-        <button onclick="checkAnswer('pk1', 'feedback-pk1')">Responder</button>
-        <div id="feedback-pk1" class="feedback"></div>
-    </div>
+  <div class="activity">
+  <p><b>Exercício 1 (PK/FK):</b> Qual campo é melhor como PK em uma tabela Cliente?</p>
+  <label><input type="radio" name="pkfk1" value="correct"> CPF</label>
+  <label><input type="radio" name="pkfk1" value="incorrect"> Nome</label>
+  <label><input type="radio" name="pkfk1" value="incorrect"> Email</label>
+  <button onclick="checkPKFKExercicio1()">Responder</button>
+  <div id="feedback-pkfk1" class="feedback"></div>
+</div>
 
     <hr>
 
     <!-- Exercício 2 -->
-    <div class="activity">
-        <p><b>Exercício 2:</b> Qual a principal função de uma Chave Estrangeira?</p>
-        <label><input type="radio" name="fk1" value="correct" /> Referenciar a Chave Primária de outra tabela</label>
-        <label><input type="radio" name="fk1" value="incorrect" /> Identificar registros únicos</label>
-        <label><input type="radio" name="fk1" value="incorrect" /> Armazenar dados irrelevantes</label>
-        <button onclick="checkAnswer('fk1', 'feedback-fk1')">Responder</button>
-        <div id="feedback-fk1" class="feedback"></div>
-    </div>
+  <div class="activity">
+    <p><b>Exercício 2:</b> Qual a principal função de uma Chave Estrangeira?</p>
+    <label><input type="radio" name="fk1" value="correct" /> Referenciar a Chave Primária de outra tabela</label>
+    <label><input type="radio" name="fk1" value="incorrect" /> Identificar registros únicos</label>
+    <label><input type="radio" name="fk1" value="incorrect" /> Armazenar dados irrelevantes</label>
+    <button onclick="checkPKFKExercicio2()">Responder</button>
+    <div id="feedback-fk1" class="feedback"></div>
+</div>
 
     <hr>
 
@@ -597,13 +597,13 @@
 
     <!-- Exercício 4 -->
     <div class="activity">
-        <p><b>Exercício 4:</b> Qual é o tipo correto para o campo "data_nascimento"?</p>
-        <label><input type="radio" name="pkfk4" value="correct" /> DATE</label>
-        <label><input type="radio" name="pkfk4" value="incorrect" /> VARCHAR</label>
-        <label><input type="radio" name="pkfk4" value="incorrect" /> INTEGER</label>
-        <button onclick="checkAnswer('pkfk4', 'feedback-pkfk4')">Responder</button>
-        <div id="feedback-pkfk4" class="feedback"></div>
-    </div>
+    <p><b>Exercício 4:</b> Qual é o tipo correto para o campo "data_nascimento"?</p>
+    <label><input type="radio" name="pkfk4" value="correct" /> DATE</label>
+    <label><input type="radio" name="pkfk4" value="incorrect" /> VARCHAR</label>
+    <label><input type="radio" name="pkfk4" value="incorrect" /> INTEGER</label>
+    <button onclick="checkPKFKExercicio4()">Responder</button>
+    <div id="feedback-pkfk4" class="feedback"></div>
+</div>
 
     <hr>
 
@@ -619,36 +619,37 @@
 
     <!-- Exercício 6 -->
     <div class="activity">
-        <p><b>Exercício 6:</b> Verdadeiro ou falso? Uma Foreign Key pode aceitar valores nulos.</p>
-        <label><input type="radio" name="pkfk6" value="correct" /> Verdadeiro</label>
-        <label><input type="radio" name="pkfk6" value="incorrect" /> Falso</label>
-        <button onclick="checkAnswer('pkfk6', 'feedback-pkfk6')">Responder</button>
-        <div id="feedback-pkfk6" class="feedback"></div>
-    </div>
+    <p><b>Exercício 6:</b> Verdadeiro ou falso? Uma Foreign Key pode aceitar valores nulos.</p>
+    <label><input type="radio" name="pkfk6" value="correct" /> Verdadeiro</label>
+    <label><input type="radio" name="pkfk6" value="incorrect" /> Falso</label>
+    <button onclick="checkPKFKExercicio6()">Responder</button>
+    <div id="feedback-pkfk6" class="feedback"></div>
+</div>
 
-    <hr>
+<hr>
 
-    <!-- Exercício 7 -->
-    <div class="activity">
-        <p><b>Exercício 7:</b> Qual das opções define melhor a função da Primary Key?</p>
-        <label><input type="radio" name="pkfk7" value="correct" /> Identificar registros unicamente</label>
-        <label><input type="radio" name="pkfk7" value="incorrect" /> Armazenar vários registros repetidos</label>
-        <label><input type="radio" name="pkfk7" value="incorrect" /> Referenciar outras tabelas</label>
-        <button onclick="checkAnswer('pkfk7', 'feedback-pkfk7')">Responder</button>
-        <div id="feedback-pkfk7" class="feedback"></div>
-    </div>
+<!-- Exercício 7 -->
+<div class="activity">
+    <p><b>Exercício 7:</b> Qual das opções define melhor a função da Primary Key?</p>
+    <label><input type="radio" name="pkfk7" value="correct" /> Identificar registros unicamente</label>
+    <label><input type="radio" name="pkfk7" value="incorrect" /> Armazenar vários registros repetidos</label>
+    <label><input type="radio" name="pkfk7" value="incorrect" /> Referenciar outras tabelas</label>
+    <button onclick="checkPKFKExercicio7()">Responder</button>
+    <div id="feedback-pkfk7" class="feedback"></div>
+</div>
 
-    <hr>
+<hr>
 
-    <!-- Exercício 8 -->
-    <div class="activity">
-        <p><b>Exercício 8:</b> Qual das opções representa uma chave composta válida?</p>
-        <label><input type="radio" name="pkfk8" value="correct" /> Composta por id_aluno e id_curso</label>
-        <label><input type="radio" name="pkfk8" value="incorrect" /> Apenas id_curso</label>
-        <label><input type="radio" name="pkfk8" value="incorrect" /> Apenas id_aluno</label>
-        <button onclick="checkAnswer('pkfk8', 'feedback-pkfk8')">Responder</button>
-        <div id="feedback-pkfk8" class="feedback"></div>
-    </div>
+<!-- Exercício 8 -->
+<div class="activity">
+    <p><b>Exercício 8:</b> Qual das opções representa uma chave composta válida?</p>
+    <label><input type="radio" name="pkfk8" value="correct" /> Composta por id_aluno e id_curso</label>
+    <label><input type="radio" name="pkfk8" value="incorrect" /> Apenas id_curso</label>
+    <label><input type="radio" name="pkfk8" value="incorrect" /> Apenas id_aluno</label>
+    <button onclick="checkPKFKExercicio8()">Responder</button>
+    <div id="feedback-pkfk8" class="feedback"></div>
+</div>
+
 
     <hr>
 
@@ -681,14 +682,14 @@
     <hr>
 
     <!-- Exercício 10 -->
-    <div class="activity">
-        <p><b>Exercício 10:</b> Em um sistema de biblioteca, uma FK pode referenciar:</p>
-        <label><input type="radio" name="pkfk10" value="correct" /> A tabela Autor na relação LivroAutor</label>
-        <label><input type="radio" name="pkfk10" value="incorrect" /> A tabela Cliente</label>
-        <label><input type="radio" name="pkfk10" value="incorrect" /> A mesma tabela onde a FK está</label>
-        <button onclick="checkAnswer('pkfk10', 'feedback-pkfk10')">Responder</button>
-        <div id="feedback-pkfk10" class="feedback"></div>
-    </div>
+   <div class="activity">
+    <p><b>Exercício 10:</b> Em um sistema de biblioteca, uma FK pode referenciar:</p>
+    <label><input type="radio" name="pkfk10" value="correct" /> A tabela Autor na relação LivroAutor</label>
+    <label><input type="radio" name="pkfk10" value="incorrect" /> A tabela Cliente</label>
+    <label><input type="radio" name="pkfk10" value="incorrect" /> A mesma tabela onde a FK está</label>
+    <button onclick="checkPKFKExercicio10()">Responder</button>
+    <div id="feedback-pkfk10" class="feedback"></div>
+</div>
 </section>
 
 
@@ -845,14 +846,15 @@
     </p>
 
     <!-- Exercício 1 -->
-    <div class="activity">
-        <p><b>Exercício 1:</b> Qual o propósito principal do dicionário de dados?</p>
-        <label><input type="radio" name="dd1" value="correct"> Documentar e padronizar informações sobre os dados</label>
-        <label><input type="radio" name="dd1" value="incorrect"> Executar consultas SQL</label>
-        <label><input type="radio" name="dd1" value="incorrect"> Armazenar registros temporários</label>
-        <button onclick="checkAnswer('dd1','feedback-dd1')">Responder</button>
-        <div id="feedback-dd1" class="feedback"></div>
-    </div>
+   <div class="activity">
+  <p><b>Exercício 1 (Dicionário de Dados):</b> Qual o propósito principal do dicionário de dados?</p>
+  <label><input type="radio" name="dd1" value="correct"> Documentar e padronizar informações</label>
+  <label><input type="radio" name="dd1" value="incorrect"> Gerar relatórios</label>
+  <label><input type="radio" name="dd1" value="incorrect"> Armazenar backups</label>
+  <button onclick="checkDDExercicio1()">Responder</button>
+  <div id="feedback-dd1" class="feedback"></div>
+</div>
+
 
     <hr>
 
@@ -1056,6 +1058,58 @@ function checkContainerIds(container, ids){
     }
     return true;
 }
+
+
+function checkPKFKExercicio1() {
+  const options = document.getElementsByName('pkfk1');
+  const feedback = document.getElementById('feedback-pkfk1');
+  let selected = false;
+  let correct = false;
+
+  for(const opt of options){
+    if(opt.checked){
+      selected = true;
+      if(opt.value === 'correct') correct = true;
+      break;
+    }
+  }
+  if(!selected){
+    feedback.textContent = 'Por favor, selecione uma opção.';
+    feedback.className = 'feedback incorrect';
+  } else if(correct){
+    feedback.textContent = 'Resposta correta!';
+    feedback.className = 'feedback correct';
+  } else {
+    feedback.textContent = 'Resposta incorreta, tente novamente.';
+    feedback.className = 'feedback incorrect';
+  }
+}
+
+function checkDDExercicio1() {
+  const options = document.getElementsByName('dd1');
+  const feedback = document.getElementById('feedback-dd1');
+  let selected = false;
+  let correct = false;
+
+  for(const opt of options){
+    if(opt.checked){
+      selected = true;
+      if(opt.value === 'correct') correct = true;
+      break;
+    }
+  }
+  if(!selected){
+    feedback.textContent = 'Por favor, selecione uma opção.';
+    feedback.className = 'feedback incorrect';
+  } else if(correct){
+    feedback.textContent = 'Resposta correta!';
+    feedback.className = 'feedback correct';
+  } else {
+    feedback.textContent = 'Resposta incorreta, tente novamente.';
+    feedback.className = 'feedback incorrect';
+  }
+}
+
 
 
  // Função para validar exercícios de alternativa (7,8,11,12)
@@ -1500,6 +1554,65 @@ function checkDD10(){
     const fb = document.getElementById('feedback-dd10');
     if(ok){fb.textContent='Tudo certo!'; fb.className='feedback correct';}
     else {fb.textContent='Algum item está no local errado.'; fb.className='feedback incorrect';}
+}
+
+
+function checkPKFKExercicio2() {
+    const options = document.getElementsByName('fk1');
+    const feedback = document.getElementById('feedback-fk1');
+    validarMultiplaEscolha(options, feedback, 'Resposta correta!', 'Resposta incorreta, tente novamente.');
+}
+
+function checkPKFKExercicio4() {
+    const options = document.getElementsByName('pkfk4');
+    const feedback = document.getElementById('feedback-pkfk4');
+    validarMultiplaEscolha(options, feedback, 'Resposta correta!', 'Resposta incorreta, tente novamente.');
+}
+
+function checkPKFKExercicio6() {
+    const options = document.getElementsByName('pkfk6');
+    const feedback = document.getElementById('feedback-pkfk6');
+    validarMultiplaEscolha(options, feedback, 'Resposta correta!', 'Resposta incorreta, tente novamente.');
+}
+
+function checkPKFKExercicio7() {
+    const options = document.getElementsByName('pkfk7');
+    const feedback = document.getElementById('feedback-pkfk7');
+    validarMultiplaEscolha(options, feedback, 'Resposta correta!', 'Resposta incorreta, tente novamente.');
+}
+
+function checkPKFKExercicio8() {
+    const options = document.getElementsByName('pkfk8');
+    const feedback = document.getElementById('feedback-pkfk8');
+    validarMultiplaEscolha(options, feedback, 'Resposta correta!', 'Resposta incorreta, tente novamente.');
+}
+
+function checkPKFKExercicio10() {
+    const options = document.getElementsByName('pkfk10');
+    const feedback = document.getElementById('feedback-pkfk10');
+    validarMultiplaEscolha(options, feedback, 'Resposta correta!', 'Resposta incorreta, tente novamente.');
+}
+
+function validarMultiplaEscolha(options, feedbackElem, msgAcerto, msgErro) {
+    let selected = false;
+    let correct = false;
+    for(const opt of options){
+        if(opt.checked){
+            selected = true;
+            if(opt.value === 'correct') correct = true;
+            break;
+        }
+    }
+    if(!selected){
+        feedbackElem.textContent = 'Por favor, selecione uma opção.';
+        feedbackElem.className = 'feedback incorrect';
+    } else if(correct){
+        feedbackElem.textContent = msgAcerto;
+        feedbackElem.className = 'feedback correct';
+    } else {
+        feedbackElem.textContent = msgErro;
+        feedbackElem.className = 'feedback incorrect';
+    }
 }
 
 
