@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Explorando Contextos e Entidades – Primeiros Passos em Modelagem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {font-family: Arial, sans-serif; margin: 0; background: #f0f0f0; color: #222;}
+        main {max-width: 900px; margin: 2rem auto; background: #fff; padding: 2rem 2.5rem; border-radius: 8px;}
+        h1 {color: #005BAC;}
+        .contexto {margin-bottom:2.5rem; border:2px solid #005bac22; border-radius:8px; background:#f8fbff; padding:1.2rem;}
+        .contexto h2 {margin-top:0;}
+        .perguntas {margin:1rem 0;}
+        .perguntas p {margin:.6rem 0;}
+        input[type="text"], textarea {width:100%; padding:0.5rem; font-size:1rem; border:1px solid #ccc; border-radius:4px;}
+        textarea {resize:vertical;}
+        button {margin-top: .5rem; padding:0.4rem .8rem; font-size:.98rem; border-radius:4px; border:none; background:#005BAC; color:#fff; cursor:pointer;}
+        button:hover {background:#003766;}
+        .gabarito {display:none; margin:0.8rem 0 0.2rem 0; padding:.9rem; background:#f2ffe5; border-left:3px solid #1A7F34;}
+        .gabarito em {color:#005BAC;}
+        @media(max-width:600px){
+          main{padding:.7rem;}
+        }
+    </style>
+    <script>
+      function mostrarGabarito(id) {
+          var gab = document.getElementById(id);
+          gab.style.display = (gab.style.display==="block") ? "none" : "block";
+      }
+    </script>
+</head>
+<body>
+    <main>
+        <h1>Desafio: Extraindo Entidades a partir de um Contexto</h1>
+        <p>Leia cada cenário proposto abaixo, reflita, escreva as possíveis <b>regras de negócio</b> e liste as entidades relevantes (não precisa detalhar os campos agora). Quando quiser, clique em "Ver sugestão de resposta" para comparar seu raciocínio!</p>
+
+        <!-- Cenário 1: Escola -->
+        <div class="contexto">
+            <h2>Cenário 1 – Escola de Cursos Livres</h2>
+            <p>
+                Uma escola oferece diversos cursos e recebe muitos alunos. Cada aluno pode se matricular em vários cursos ao longo do ano. Os professores são contratados para lecionar em cursos específicos. Cada curso acontece em uma sala de aula diferente, com horários definidos. Ao final de cada curso, os alunos recebem um certificado.
+            </p>
+            <div class="perguntas">
+                <p><b>1.1</b> Quais são as principais regras de negócio desse contexto?</p>
+                <textarea rows="2" placeholder="Descreva em tópicos..."></textarea>
+                <p><b>1.2</b> Quais seriam as ENTIDADES necessárias para mapear esse sistema (apenas nomes)?</p>
+                <input type="text" placeholder="Exemplo: Aluno, Curso, Matrícula, ..." />
+            </div>
+           <!-- <button onclick="mostrarGabarito('gabarito1')">Ver sugestão de resposta</button> -->
+            <div class="gabarito" id="gabarito1">
+                <b>Possíveis regras de negócio:</b><br>
+                - Um aluno pode se matricular em vários cursos.<br>
+                - Um curso pode ter vários alunos (relação N:N).<br>
+                - Professores lecionam cursos.<br>
+                - Cada curso ocorre numa sala e horário.<br>
+                - Alunos recebem certificado ao concluir.<br>
+                <b>Entidades:</b> <em>Aluno, Curso, Professor, Matrícula, Sala, Certificado</em>
+            </div>
+        </div>
+
+        <!-- Cenário 2: Clínica -->
+        <div class="contexto">
+            <h2>Cenário 2 – Clínica Médica</h2>
+            <p>
+                Pacientes agendam consultas com diferentes médicos. Cada consulta possui data e hora marcadas. Médicos têm especialidades diferentes. Após o atendimento, o médico pode adicionar observações ao prontuário do paciente e pode solicitar exames.
+            </p>
+            <div class="perguntas">
+                <p><b>2.1</b> Quais regras de negócio aparecem aqui?</p>
+                <textarea rows="2"></textarea>
+                <p><b>2.2</b> Quais entidades você identificaria?</p>
+                <input type="text" />
+            </div>
+            <!-- <button onclick="mostrarGabarito('gabarito2')">Ver sugestão de resposta</button> -->
+            <div class="gabarito" id="gabarito2">
+                <b>Regras de negócio:</b>
+                <ul>
+                  <li>Paciente pode marcar várias consultas, cada consulta para um médico, data/hora.</li>
+                  <li>Médico pode atender vários pacientes; tem especialidade.</li>
+                  <li>Após consulta, podem ser feitos registros no prontuário e pedidos de exames.</li>
+                </ul>
+                <b>Entidades:</b> <em>Paciente, Médico, Consulta, Prontuário, Exame</em>
+            </div>
+        </div>
+
+        <!-- Cenário 3: Biblioteca -->
+        <div class="contexto">
+            <h2>Cenário 3 – Biblioteca Comunitária</h2>
+            <p>
+                Usuários fazem empréstimos de livros. Um mesmo livro pode ser emprestado diversas vezes. Cada empréstimo fica registrado com data de saída e data prevista de devolução. A biblioteca também mantém registros dos autores e das editoras dos livros.
+            </p>
+            <div class="perguntas">
+                <p><b>3.1</b> Que regras de negócio você encontra?</p>
+                <textarea rows="2"></textarea>
+                <p><b>3.2</b> Liste as entidades mapeadas:</p>
+                <input type="text" />
+            </div>
+            <!-- <button onclick="mostrarGabarito('gabarito3')">Ver sugestão de resposta</button> -->
+            <div class="gabarito" id="gabarito3">
+                <b>Regras:</b> <br>
+                - Livro pode ser emprestado várias vezes.<br>
+                - Todo empréstimo tem data saída e devolução.<br>
+                - Livro tem autor e editora.<br>
+                <b>Entidades:</b> <em>Livro, Usuário, Empréstimo, Autor, Editora</em>
+            </div>
+        </div>
+        
+        <!-- Cenário 4: Restaurante Delivery -->
+        <div class="contexto">
+            <h2>Cenário 4 – Restaurante Delivery</h2>
+            <p>
+                Clientes podem fazer pedidos online, escolhendo entre diferentes pratos. Para cada pedido, o restaurante registra hora, itens escolhidos e endereço de entrega. Entregadores são responsáveis pela entrega de alguns pedidos.
+            </p>
+            <div class="perguntas">
+                <p><b>4.1</b> Que regras de negócio envolvem esse sistema?</p>
+                <textarea rows="2"></textarea>
+                <p><b>4.2</b> Quais entidades você incluiria?</p>
+                <input type="text" />
+            </div>
+            <!-- <button onclick="mostrarGabarito('gabarito4')">Ver sugestão de resposta</button> -->
+            <div class="gabarito" id="gabarito4">
+                <b>Regras:</b><br>
+                - Cliente pode fazer vários pedidos.<br>
+                - Pedido tem itens, horário e endereço de entrega.<br>
+                - Entregador pode entregar vários pedidos.<br>
+                <b>Entidades:</b> <em>Cliente, Pedido, Prato, ItemPedido, Entregador, Endereço</em>
+            </div>
+        </div>
+
+        <!-- Cenário 5: Evento Cultural -->
+        <div class="contexto">
+            <h2>Cenário 5 – Evento Cultural</h2>
+            <p>
+                Organizadores vendem ingressos para diferentes eventos. Cada evento pode funcionar em vários dias e horários. Participantes compram ingressos e acessam o evento apresentando-os na entrada.
+            </p>
+            <div class="perguntas">
+                <p><b>5.1</b> Quais as regras de negócio?</p>
+                <textarea rows="2"></textarea>
+                <p><b>5.2</b> Entidades identificadas:</p>
+                <input type="text" />
+            </div>
+            <!-- <button onclick="mostrarGabarito('gabarito5')">Ver sugestão de resposta</button> -->
+            <div class="gabarito" id="gabarito5">
+                <b>Regras:</b><br>
+                - Evento pode ocupar vários dias e horários.<br>
+                - Participantes compram ingressos para eventos.<br>
+                <b>Entidades:</b> <em>Evento, Participante, Ingresso, Organizador</em>
+            </div>
+        </div>
+
+        <!-- Você pode duplicar o bloco acima para quantos cenários quiser! -->
+    </main>
+</body>
+</html>
