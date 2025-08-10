@@ -174,6 +174,147 @@
       Aluno, Plano, Modalidade, Turma, Professor, PausaPlano, Pagamento/Reembolso, MatriculaModalidade, PresençaTurma
     </div>
   </div>
+
+  <!-- Exercício 5 -->
+<div class="bloco">
+  <h2>5. Plataforma de Assinatura de Revistas Digitais</h2>
+  <p>
+    A empresa oferece acesso a revistas digitais de diversas categorias. Um assinante pode ter várias assinaturas ativas. Assinaturas têm início, duração e status. Algumas revistas têm edições especiais vendidas separadamente. Edições podem ser avaliadas pelos usuários. Uma revista pode ter vários editores. 
+  </p>
+  <div class="perguntas">
+    <p><b>5.1</b> Enumere as regras de negócio explícitas e inferidas:</p>
+    <textarea rows="2" id="resp-rn-5"></textarea>
+    <p><b>5.2</b> Quais ENTIDADES você criaria?</p>
+    <input type="text" id="resp-ent-5" />
+  </div>
+  <button onclick="toggleGabarito('gab5')">Mostrar Resposta</button>
+  <div class="gabarito gabarito-hidden" id="gab5">
+    <strong>Regras Explícitas:</strong>
+    <ul>
+      <li>Uma revista pertence a uma categoria.</li>
+      <li>Um assinante pode ter várias assinaturas ativas.</li>
+      <li>Assinaturas possuem data de início, duração e status.</li>
+      <li>Algumas revistas têm edições especiais vendidas separadamente.</li>
+      <li>Edições podem ser avaliadas (nota + comentário).</li>
+      <li>Uma revista pode ter vários editores.</li>
+    </ul>
+    <strong>Regras Inferidas:</strong>
+    <ul>
+      <li>Um assinante não pode ter duas assinaturas ativas da mesma revista com a mesma data de início.</li>
+      <li>Uma edição pertence a uma única revista.</li>
+      <li>Só pode avaliar uma edição se tiver acesso a ela (por compra ou assinatura).</li>
+      <li>Um editor pode trabalhar em várias revistas.</li>
+    </ul>
+    <strong>Narrativa Didática:</strong><br>
+    O texto já traz várias relações explícitas, como “revista pertence a categoria” ou “assinante pode ter várias assinaturas”. Outras precisam de dedução, como impedir duplicidade de assinaturas ativas do mesmo tipo. Esse exercício de interpretação é central para uma modelagem de dados robusta e realista.
+    <br><strong>Entidades sugeridas:</strong> Revista, Assinante, Assinatura, Categoria, Edição, Avaliação, Editor
+  </div>
+</div>
+
+<!-- Exercício 6 -->
+<div class="bloco">
+  <h2>6. Rede de Franquias de Restaurantes</h2>
+  <p>
+    Cada franquia pertence a um franqueado e a uma cidade. Um prato pode estar em várias franquias, possuindo preços diferentes em cada local. Cada prato pertence a uma categoria. Clientes fazem pedidos que podem conter múltiplos pratos. Franquias registram fornecedores e os ingredientes recebidos.
+  </p>
+  <div class="perguntas">
+    <p><b>6.1</b> Enumere as regras de negócio explícitas e inferidas:</p>
+    <textarea rows="2" id="resp-rn-6"></textarea>
+    <p><b>6.2</b> Quais ENTIDADES você criaria?</p>
+    <input type="text" id="resp-ent-6" />
+  </div>
+  <button onclick="toggleGabarito('gab6')">Mostrar Resposta</button>
+  <div class="gabarito gabarito-hidden" id="gab6">
+    <strong>Regras Explícitas:</strong>
+    <ul>
+      <li>Cada franquia pertence a um franqueado e cidade.</li>
+      <li>Pratos podem estar em várias franquias, com preços diferentes.</li>
+      <li>Cada prato pertence a uma categoria.</li>
+      <li>Clientes fazem pedidos contendo múltiplos pratos.</li>
+      <li>Franquias registram fornecedores e ingredientes.</li>
+    </ul>
+    <strong>Regras Inferidas:</strong>
+    <ul>
+      <li>Relação prato-franquia é N:N — precisa tabela associativa com atributo (preço).</li>
+      <li>Franquia não existe sem franqueado e cidade.</li>
+      <li>Pedido pertence a uma franquia específica.</li>
+      <li>Ingredientes podem ser fornecidos por vários fornecedores e usados em vários pratos.</li>
+    </ul>
+    <strong>Narrativa Didática:</strong><br>
+    Este cenário ressalta relações associativas e dependências não tão óbvias. A observação sobre o preço do prato variar por franquia, ou sobre a associação dos ingredientes, mostra a importância do modelador enxergar além do texto – mapeando cada peculiaridade do negócio.
+    <br><strong>Entidades sugeridas:</strong> Franquia, Franqueado, Cidade, Prato, CategoriaPrato, Cliente, Pedido, Fornecedor, Ingrediente, PratoFranquia, PedidoPrato, FornecedorIngrediente
+  </div>
+</div>
+
+<!-- Exercício 7 -->
+<div class="bloco">
+  <h2>7. Plataforma de Cursos Online</h2>
+  <p>
+    Instrutores podem ministrar vários cursos, e cursos podem ter mais de um instrutor. Alunos se matriculam em cursos. Cada curso possui módulos e aulas. Algumas aulas têm materiais para download. Alunos avaliam cursos.
+  </p>
+  <div class="perguntas">
+    <p><b>7.1</b> Enumere as regras de negócio explícitas e inferidas:</p>
+    <textarea rows="2" id="resp-rn-7"></textarea>
+    <p><b>7.2</b> Quais ENTIDADES você criaria?</p>
+    <input type="text" id="resp-ent-7" />
+  </div>
+  <button onclick="toggleGabarito('gab7')">Mostrar Resposta</button>
+  <div class="gabarito gabarito-hidden" id="gab7">
+    <strong>Regras Explícitas:</strong>
+    <ul>
+      <li>Instrutores podem ministrar vários cursos e cursos ter vários instrutores.</li>
+      <li>Alunos se matriculam em cursos.</li>
+      <li>Cursos possuem módulos e aulas.</li>
+      <li>Algumas aulas possuem materiais para download.</li>
+      <li>Alunos avaliam cursos.</li>
+    </ul>
+    <strong>Regras Inferidas:</strong>
+    <ul>
+      <li>Certificados só são emitidos se atingir média mínima.</li>
+      <li>Aula pertence sempre a um módulo, que pertence a um curso.</li>
+      <li>Matrícula é vínculo aluno-curso e deve ter controle de status (ativa, trancada...)</li>
+      <li>Somente quem é aluno de um curso pode avaliá-lo.</li>
+    </ul>
+    <strong>Narrativa Didática:</strong><br>
+    Neste cenário, as relações N:N ficam evidentes (curso-instrutor, curso-aluno via matrícula). Também vemos a importância de registrar condicionais reais: certificado, avaliação, controle de status etc.
+    <br><strong>Entidades sugeridas:</strong> Curso, Instrutor, Aluno, Matrícula, Módulo, Aula, Material, Avaliação, Certificado
+  </div>
+</div>
+
+<!-- Exercício 8 -->
+<div class="bloco">
+  <h2>8. Sistema de Hospedagem de Imóveis</h2>
+  <p>
+    Anfitriões podem cadastrar vários imóveis, que possuem endereço e tipo. Hóspedes podem reservar imóveis para um período e pagar o valor correspondente. Um imóvel pode ter várias fotos. Hóspedes podem avaliar a hospedagem.
+  </p>
+  <div class="perguntas">
+    <p><b>8.1</b> Enumere as regras de negócio explícitas e inferidas:</p>
+    <textarea rows="2" id="resp-rn-8"></textarea>
+    <p><b>8.2</b> Quais ENTIDADES você criaria?</p>
+    <input type="text" id="resp-ent-8" />
+  </div>
+  <button onclick="toggleGabarito('gab8')">Mostrar Resposta</button>
+  <div class="gabarito gabarito-hidden" id="gab8">
+    <strong>Regras Explícitas:</strong>
+    <ul>
+      <li>Anfitrião pode cadastrar vários imóveis, que possuem endereço e tipo.</li>
+      <li>Hóspedes podem reservar imóveis para um período e pagar um valor.</li>
+      <li>Imóveis podem ter várias fotos.</li>
+      <li>Hóspedes podem avaliar a estadia.</li>
+    </ul>
+    <strong>Regras Inferidas:</strong>
+    <ul>
+      <li>Reserva pertence a um único imóvel e um único hóspede.</li>
+      <li>A taxa da plataforma é calculada por reserva.</li>
+      <li>Só pode avaliar depois da estadia (aval vinculado à reserva).</li>
+      <li>Imóvel só existe com anfitrião vinculado.</li>
+    </ul>
+    <strong>Narrativa Didática:</strong><br>
+    A modelagem correta depende de distinguir o que é entidade, o que é relacionamento e o que é restrição/condição. Esse exemplo força o raciocínio: uma avaliação, por exemplo, só existe se houve uma reserva, o que não está explícito no texto, mas é fundamental no banco de dados.
+    <br><strong>Entidades sugeridas:</strong> Anfitrião, Imóvel, Endereço, TipoImovel, Hóspede, Reserva, FotoImovel, Avaliação, TaxaReserva
+  </div>
+</div>
+
 </main>
 <script>
   function toggleGabarito(id) {
