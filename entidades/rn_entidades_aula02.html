@@ -26,14 +26,45 @@
 </head>
 <body>
 <main>
-  <h1>Exercícios Avançados de Regras de Negócio e Entidades</h1>
+
+  <h1>Testes Didáticos para Identificar Entidades no Banco de Dados</h1>
+    <p>Ao modelar um banco de dados, é comum surgir a dúvida: <strong>essa regra de negócio deve virar uma entidade?</strong> Para ajudar os alunos a entender esse processo, usamos três testes didáticos que correspondem às perguntas clássicas da modelagem de dados.</p>
+
+    <h2>Testes Didáticos</h2>
+    <ul>
+        <li><strong>Teste dos Atributos:</strong> Verifica se a regra possui dados próprios que precisam ser armazenados.</li>
+        <li><strong>Teste da Persistência:</strong> Avalia se a regra representa algo que precisa ser guardado no banco por um tempo.</li>
+        <li><strong>Teste da Identificação:</strong> Checa se é possível identificar a regra com uma chave primária (PK) ou composta.</li>
+    </ul>
+
+    <h2>Equivalência com as Perguntas Clássicas</h2>
+    <table>
+        <tr>
+            <th>Teste Didático</th>
+            <th>Pergunta Clássica Correspondente</th>
+        </tr>
+        <tr class="highlight">
+            <td>Teste dos Atributos</td>
+            <td>A regra possui atributos próprios que precisam ser armazenados?</td>
+        </tr>
+        <tr>
+            <td>Teste da Persistência</td>
+            <td>A regra representa uma instância que precisa ser armazenada no banco por um tempo?</td>
+        </tr>
+        <tr class="highlight">
+            <td>Teste da Identificação</td>
+            <td>A regra pode ser identificada de forma única (PK ou chave composta)?</td>
+        </tr>
+    </table>
+
+  <h1>Exercícios - Regras de Negócio e Entidades</h1>
   <p>
     Leia atentamente cada contexto empresarial abaixo. Após tentar responder:
     <ul>
       <li><b>1.</b> Liste as REGRAS DE NEGÓCIO explícitas e inferidas do enunciado.</li>
       <li><b>2.</b> Enumere quais ENTIDADES (ou relacionamento especial) você criaria para modelar o sistema descrito.</li>
     </ul>
-    <p>Depois, clique em <b>“Mostrar Resposta”</b> para visualizar o gabarito narrativo do professor.</p>
+    <p>Depois, clique em <b>“Mostrar Resposta”</b> para visualizar o gabarito. As questões sem gabarito vamos trabalhar em sala.</p>
   </p>
 
   <!-- Exercício 1 -->
@@ -121,7 +152,7 @@
       <p><b>3.2</b> Quais ENTIDADES você criaria para este sistema?</p>
       <input type="text" id="resp-ent-3" />
     </div>
-    <button onclick="toggleGabarito('gab3')">Mostrar Resposta</button>
+    <!--button onclick="toggleGabarito('gab3')">Mostrar Resposta</button>
     <div class="gabarito gabarito-hidden" id="gab3">
       <strong>Regras explícitas</strong>
       <ul>
@@ -138,7 +169,7 @@
       <strong>Entidades sugeridas:</strong><br>
       Cliente, Contrato, Equipamento, CertificadoOperador, Aluguel/Disposição, RegistroUso, Multa
     </div>
-  </div>
+  </div-->
 
   <!-- Exercício 4 -->
   <div class="bloco">
@@ -155,7 +186,7 @@
       <p><b>4.2</b> Quais ENTIDADES você criaria para este sistema?</p>
       <input type="text" id="resp-ent-4" />
     </div>
-    <button onclick="toggleGabarito('gab4')">Mostrar Resposta</button>
+    <!--button onclick="toggleGabarito('gab4')">Mostrar Resposta</button>
     <div class="gabarito gabarito-hidden" id="gab4">
       <strong>Regras explícitas</strong>
       <ul>
@@ -173,7 +204,7 @@
       <strong>Entidades sugeridas:</strong><br>
       Aluno, Plano, Modalidade, Turma, Professor, PausaPlano, Pagamento/Reembolso, MatriculaModalidade, PresençaTurma
     </div>
-  </div>
+  </div-->
 
   <!-- Exercício 5 -->
 <div class="bloco">
@@ -187,7 +218,7 @@
     <p><b>5.2</b> Quais ENTIDADES você criaria?</p>
     <input type="text" id="resp-ent-5" />
   </div>
-  <button onclick="toggleGabarito('gab5')">Mostrar Resposta</button>
+  <!--button onclick="toggleGabarito('gab5')">Mostrar Resposta</button>
   <div class="gabarito gabarito-hidden" id="gab5">
     <strong>Regras Explícitas:</strong>
     <ul>
@@ -209,7 +240,7 @@
     O texto já traz várias relações explícitas, como “revista pertence a categoria” ou “assinante pode ter várias assinaturas”. Outras precisam de dedução, como impedir duplicidade de assinaturas ativas do mesmo tipo. Esse exercício de interpretação é central para uma modelagem de dados robusta e realista.
     <br><strong>Entidades sugeridas:</strong> Revista, Assinante, Assinatura, Categoria, Edição, Avaliação, Editor
   </div>
-</div>
+</div-->
 
 <!-- Exercício 6 -->
 <div class="bloco">
@@ -223,7 +254,7 @@
     <p><b>6.2</b> Quais ENTIDADES você criaria?</p>
     <input type="text" id="resp-ent-6" />
   </div>
-  <button onclick="toggleGabarito('gab6')">Mostrar Resposta</button>
+  <!--button onclick="toggleGabarito('gab6')">Mostrar Resposta</button>
   <div class="gabarito gabarito-hidden" id="gab6">
     <strong>Regras Explícitas:</strong>
     <ul>
@@ -244,7 +275,7 @@
     Este cenário ressalta relações associativas e dependências não tão óbvias. A observação sobre o preço do prato variar por franquia, ou sobre a associação dos ingredientes, mostra a importância do modelador enxergar além do texto – mapeando cada peculiaridade do negócio.
     <br><strong>Entidades sugeridas:</strong> Franquia, Franqueado, Cidade, Prato, CategoriaPrato, Cliente, Pedido, Fornecedor, Ingrediente, PratoFranquia, PedidoPrato, FornecedorIngrediente
   </div>
-</div>
+</div-->
 
 <!-- Exercício 7 -->
 <div class="bloco">
@@ -258,7 +289,7 @@
     <p><b>7.2</b> Quais ENTIDADES você criaria?</p>
     <input type="text" id="resp-ent-7" />
   </div>
-  <button onclick="toggleGabarito('gab7')">Mostrar Resposta</button>
+  <!--button onclick="toggleGabarito('gab7')">Mostrar Resposta</button>
   <div class="gabarito gabarito-hidden" id="gab7">
     <strong>Regras Explícitas:</strong>
     <ul>
@@ -279,7 +310,7 @@
     Neste cenário, as relações N:N ficam evidentes (curso-instrutor, curso-aluno via matrícula). Também vemos a importância de registrar condicionais reais: certificado, avaliação, controle de status etc.
     <br><strong>Entidades sugeridas:</strong> Curso, Instrutor, Aluno, Matrícula, Módulo, Aula, Material, Avaliação, Certificado
   </div>
-</div>
+</div-->
 
 <!-- Exercício 8 -->
 <div class="bloco">
@@ -293,7 +324,7 @@
     <p><b>8.2</b> Quais ENTIDADES você criaria?</p>
     <input type="text" id="resp-ent-8" />
   </div>
-  <button onclick="toggleGabarito('gab8')">Mostrar Resposta</button>
+  <!--button onclick="toggleGabarito('gab8')">Mostrar Resposta</button>
   <div class="gabarito gabarito-hidden" id="gab8">
     <strong>Regras Explícitas:</strong>
     <ul>
@@ -313,7 +344,7 @@
     A modelagem correta depende de distinguir o que é entidade, o que é relacionamento e o que é restrição/condição. Esse exemplo força o raciocínio: uma avaliação, por exemplo, só existe se houve uma reserva, o que não está explícito no texto, mas é fundamental no banco de dados.
     <br><strong>Entidades sugeridas:</strong> Anfitrião, Imóvel, Endereço, TipoImovel, Hóspede, Reserva, FotoImovel, Avaliação, TaxaReserva
   </div>
-</div>
+</div-->
 
 </main>
 <script>
